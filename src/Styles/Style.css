@@ -1,0 +1,9 @@
+.navbar-title,.sidebar-button{
+    cursor: pointer;
+}
+.sidebar-button{
+    margin-left:10px;
+}
+.navbar-logout{
+    margin-right:10px;
+}
