@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from "./Components/App";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Styles/Style.css"
+import 'react-calendar/dist/Calendar.css';
 
 ReactDOM.render(
   <React.StrictMode>

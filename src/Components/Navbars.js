@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { useAuth } from '../Contexts/AuthContext'
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { FiLogOut } from 'react-icons/fi';
-import { FaChartBar,FaRegCalendarAlt,FaUsers,FaUser } from 'react-icons/fa';
+import { FaChartBar,FaRegCalendarAlt,FaUsers,FaUser,FaPhone } from 'react-icons/fa';
 import { IoMdPaw } from 'react-icons/io';
 
 
@@ -15,11 +15,26 @@ export default function Navbars({title=""}) {
     const { logout } = useAuth()
     const history = useHistory()
 
+
     useEffect(()=>{
         var element = document.getElementById(title)
         element.className += element.classList.contains("active") ? "" : " active"
+        if(!toggleSidenav){
+            document.querySelectorAll('[role="navigation"]').forEach(function (el){
+                setTimeout(function(){
+                    el.style.zIndex = -1
+                },500)
+            });
+        }
     })
 
+    function sidebarOpen(){
+        setToggleSidenav(true)
+        document.querySelectorAll('[role="navigation"]').forEach(function (el){
+            el.style.zIndex = 1
+        });
+    }
+    
     async function handleLogout() {
 
         try{
@@ -34,7 +49,7 @@ export default function Navbars({title=""}) {
     }
     return (
         <>
-            <Sidebar
+            <Sidebar style={{zIndex:"1"}}
                 children=""
                 sidebar=
                 {
@@ -57,29 +72,28 @@ export default function Navbars({title=""}) {
                     </>
                 }
                 open={toggleSidenav}
-                onSetOpen={() => setToggleSidenav(false)}
+                onSetOpen={()=>{setToggleSidenav(false)}}
                 styles={{ sidebar: { background: "white" } }}
             ></Sidebar>
 
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-                <Navbar.Brand className="sidebar-button" onClick={() => setToggleSidenav(true)}><GiHamburgerMenu/></Navbar.Brand>
+                <Navbar.Brand className="sidebar-button" onClick={sidebarOpen}><GiHamburgerMenu/></Navbar.Brand>
                 <Navbar.Brand className="navbar-title" onClick={()=>{handleSidedbarClick(title==="Dashboard"? "/" : title.toLowerCase() )}}>{title}</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                    <Nav.Link href="#features">Features</Nav.Link>
-                    <Nav.Link href="#pricing">Pricing</Nav.Link>
-                    <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-                        <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                    </NavDropdown>
+                        <Nav.Link href="#features">Features</Nav.Link>
+                        <Nav.Link href="#pricing">Pricing</Nav.Link>
+                        <NavDropdown title="Others" id="collasible-nav-dropdown">
+                            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item onClick={()=>{handleSidedbarClick("/contacts")}}><FaPhone/> Contact Us</NavDropdown.Item>
+                        </NavDropdown>
                     </Nav>
                     <Nav>
-                    <Nav.Link className="navbar-logout" onClick={handleLogout}><FiLogOut/> Logout</Nav.Link>
-                    
+                        <Nav.Link className="navbar-logout" onClick={handleLogout}><FiLogOut/> Logout</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

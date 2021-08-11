@@ -7,3 +7,6 @@
 .navbar-logout{
     margin-right:10px;
 }
+.row {
+    --bs-gutter-x: 0rem;
+}

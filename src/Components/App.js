@@ -9,6 +9,7 @@ import Dashboard from "../Pages/Dashboard"
 import Profile from "../Pages/Profile"
 import Employees from "../Pages/Employees"
 import Appointments from "../Pages/Appointments"
+import Contacts from "../Pages/Contacts";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <PrivateRoute exact path="/profile" component={Profile}/>
           <PrivateRoute exact path="/appointments" component={Appointments}/>
           <PrivateRoute exact path="/employees" component={Employees}/>
+          <PrivateRoute exact path="/contacts" component={Contacts}/>
           <Route path="/signup" component={Signup}></Route>
           <Route path="/login" component={Login}></Route>
           <Route path="/forgot-password" component={ForgotPassword}></Route>
