@@ -10,3 +10,6 @@
 .row {
     --bs-gutter-x: 0rem;
 }
+.profile-container,.chart-container{
+    padding: 5px;
+}

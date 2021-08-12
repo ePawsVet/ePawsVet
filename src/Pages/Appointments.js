@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbars from "../Components/Navbars";
 import Calendar from 'react-calendar';
+import { Row,Col } from 'react-bootstrap'
 
 export default function Appointments() {
   const [date, setDate] = useState(new Date());
@@ -11,18 +12,24 @@ export default function Appointments() {
   }
   const getAppointmentsPerDay = () => {
     
-    setDateRange([new Date("08/01/2021"),new Date("08/02/2021"),new Date("08/03/2021")])
+    setDateRange([new Date(2017, 0, 1), new Date(2017, 0, 4)])
     console.log(date)
   }
   return (
     <>
     <Navbars title="Appointments"></Navbars>
-    <Calendar
-        onChange={onChange}
-        value={[new Date(2017, 0, 1), new Date(2017, 0, 4)]}
-        setDateRange={dateRange}
-        onClickDay={getAppointmentsPerDay}
-      />
+    <Row>
+      <Col sm={4} className="profile-container">
+        <Calendar
+          style={{width:"100%"}}
+          onChange={onChange}
+          value={date}
+          setDateRange={dateRange}
+          onClickDay={getAppointmentsPerDay}
+        />
+      </Col>
+      <Col sm={8} className="profile-container"></Col>
+    </Row>
     </>
   )
 }
