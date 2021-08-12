@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { useAuth } from '../Contexts/AuthContext'
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { FiLogOut } from 'react-icons/fi';
-import { FaChartBar,FaRegCalendarAlt,FaUsers,FaUser,FaPhone } from 'react-icons/fa';
+import { FaChartBar,FaRegCalendarAlt,FaUsers,FaUser,FaPhone,FaHome } from 'react-icons/fa';
 import { IoMdPaw } from 'react-icons/io';
 
 
@@ -20,6 +20,7 @@ export default function Navbars({title=""}) {
         var element = document.getElementById(title)
         element.className += element.classList.contains("active") ? "" : " active"
         if(!toggleSidenav){
+            document.getElementsByTagName("body")[0].style = "overflow:auto"
             document.querySelectorAll('[role="navigation"]').forEach(function (el){
                 setTimeout(function(){
                     el.style.zIndex = -1
@@ -30,8 +31,9 @@ export default function Navbars({title=""}) {
 
     function sidebarOpen(){
         setToggleSidenav(true)
+        document.getElementsByTagName("body")[0].style = "overflow:hidden"
         document.querySelectorAll('[role="navigation"]').forEach(function (el){
-            el.style.zIndex = 1
+            el.style.zIndex = 2
         });
     }
     
@@ -49,14 +51,17 @@ export default function Navbars({title=""}) {
     }
     return (
         <>
-            <Sidebar style={{zIndex:"1"}}
+            <Sidebar style={{zIndex:"2"}}
                 children=""
                 sidebar=
                 {
                     <>
                     <h1 style={{padding:"10px"}}><IoMdPaw/> E-Paws Veterinary</h1>
                     <ListGroup>
-                        <ListGroup.Item action id="Dashboard" onClick={()=>{handleSidedbarClick("/")}}>
+                        <ListGroup.Item action id="Home" onClick={()=>{handleSidedbarClick("/")}}>
+                            <FaHome/> Home  
+                        </ListGroup.Item>
+                        <ListGroup.Item action id="Dashboard" onClick={()=>{handleSidedbarClick("/dashboard")}}>
                             <FaChartBar/> Dashboard
                         </ListGroup.Item>
                         <ListGroup.Item action id="Appointments" onClick={()=>{handleSidedbarClick("/appointments")}}>
@@ -78,7 +83,7 @@ export default function Navbars({title=""}) {
 
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Navbar.Brand className="sidebar-button" onClick={sidebarOpen}><GiHamburgerMenu/></Navbar.Brand>
-                <Navbar.Brand className="navbar-title" onClick={()=>{handleSidedbarClick(title==="Dashboard"? "/" : title.toLowerCase() )}}>{title}</Navbar.Brand>
+                <Navbar.Brand className="navbar-title" onClick={()=>{handleSidedbarClick(title==="Home"? "/" : title.toLowerCase() )}}>{title}</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">

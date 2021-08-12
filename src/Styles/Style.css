@@ -10,6 +10,13 @@
 .row {
     --bs-gutter-x: 0rem;
 }
-.profile-container,.chart-container{
+.profile-container,.chart-container,
+.calendar-container,.time-container{
     padding: 5px;
+}
+.react-calendar {
+    width: 100% !important;
+}
+.react-calendar__tile{
+    height: 120px;
 }

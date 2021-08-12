@@ -10,13 +10,15 @@ import Profile from "../Pages/Profile"
 import Employees from "../Pages/Employees"
 import Appointments from "../Pages/Appointments"
 import Contacts from "../Pages/Contacts";
+import Home from "../Pages/Home";
 
 function App() {
   return (
     <Router>
       <AuthProvider>
         <Switch>
-          <PrivateRoute exact path="/" component={Dashboard}/>
+          <PrivateRoute exact path="/" component={Home}/>
+          <PrivateRoute exact path="/dashboard" component={Dashboard}/>
           <PrivateRoute exact path="/profile" component={Profile}/>
           <PrivateRoute exact path="/appointments" component={Appointments}/>
           <PrivateRoute exact path="/employees" component={Employees}/>
