@@ -11,12 +11,12 @@ export default function Dashboard() {
     <>
     <Navbars title="Dashboard"></Navbars>
     <Row>
-    <Col className="chart-container" sm={8}><BarChart></BarChart></Col>
-    <Col className="chart-container" sm={4}><PieChart></PieChart></Col>
+      <Col className="chart-container" sm={8}><BarChart></BarChart></Col>
+      <Col className="chart-container" sm={4}><PieChart></PieChart></Col>
     </Row>
     <Row>
-    <Col className="chart-container" sm={4}><TableChart></TableChart></Col>
-    <Col className="chart-container" sm={8}><LineChart></LineChart></Col>
+      <Col className="chart-container" sm={4}><TableChart></TableChart></Col>
+      <Col className="chart-container" sm={8}><LineChart></LineChart></Col>
     </Row>
     
     

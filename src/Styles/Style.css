@@ -14,9 +14,18 @@
 .calendar-container,.time-container{
     padding: 5px;
 }
+.chart-container,canvas{
+    height: 50vh;
+}
 .react-calendar {
     width: 100% !important;
 }
 .react-calendar__tile{
     height: 120px;
+}
+
+.table-chart{
+    overflow: auto;
+    max-height: 50vh;
+    min-height: 50vh;
 }

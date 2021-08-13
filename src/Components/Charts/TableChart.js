@@ -5,7 +5,7 @@ export default function TableChart() {
   return (
     <>
         <h2 className="text-center">Most Visits</h2>
-        <div style={{overflow:"auto", maxHeight:"450px"}}>
+        <div className="table-chart">
             <Table striped bordered hover>
                 <thead>
                     <tr>
