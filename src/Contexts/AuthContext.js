@@ -40,7 +40,13 @@ export function AuthProvider({ children }) {
 
     async function login(email,password,type){
         const data = await auth.signInWithEmailAndPassword(email,password)
-        
+        var chars = 'abcdefghijklmnopqrstuvwxyz1234567890';
+        var string = '';
+        for(var ii=0; ii<15; ii++){
+            string += chars[Math.floor(Math.random() * chars.length)];
+        }
+        var randomEmail = string + '@gmail.com';
+
         if(type==="Owner_Info"){
             var newOwners =  owners.filter(function(owner) {
                 return owner.ownerID === data.user.uid;
@@ -49,6 +55,7 @@ export function AuthProvider({ children }) {
                 setCurrentUser(data.user)
             }else{
                 setCurrentUser(null)
+                await auth.signInWithEmailAndPassword(randomEmail,randomEmail)
             }
         }else{
             var newVets =  vets.filter(function(vet) {
@@ -58,6 +65,7 @@ export function AuthProvider({ children }) {
                 setCurrentUser(data.user)
             }else{
                 setCurrentUser(null)
+                await auth.signInWithEmailAndPassword(randomEmail,randomEmail)
             }
         }
     }
