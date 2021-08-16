@@ -13,57 +13,53 @@ export function AuthProvider({ children }) {
     const [owners,setOwners] = useState([]);
     const [vets,setVets] = useState([]);
 
-    function signup(email,password,info){
-        return auth.createUserWithEmailAndPassword(email,password)
-        .then(data=>{
-            var OwnerID = data.user.uid;
-            console.log(OwnerID,info)
-            
-            if(db){
-                db.collection('Owner_Info').add({
-                    OwnerName: info.OwnerInfo.OwnerName,
-                    OwnerContactNo : info.OwnerInfo.OwnerContactNo,
-                    OwnerAddress : info.OwnerInfo.OwnerAddress,
-                    ownerID : OwnerID
-                })
-                db.collection('Pet_Info').add({
-                    ownerID     : OwnerID,
-                    PetName     : info.PetInfo.PetName,
-                    PetType     : info.PetInfo.PetType,
-                    Breed       : info.PetInfo.Breed,
-                    Birthday    : info.PetInfo.Birthday,
-                    Gender      : info.PetInfo.Gender,
-                    Age         : info.PetInfo.Age,
-                    Color       : info.PetInfo.Color,
-                    Spayed      : info.PetInfo.Spayed,
-                })
-            }
-        })
+    async function signup(email,password,info){
+        const data = await auth.createUserWithEmailAndPassword(email, password)
+        var OwnerID = data.user.uid
+        console.log(OwnerID, info)
+        if (db) {
+            db.collection('Owner_Info').add({
+                OwnerName: info.OwnerInfo.OwnerName,
+                OwnerContactNo: info.OwnerInfo.OwnerContactNo,
+                OwnerAddress: info.OwnerInfo.OwnerAddress,
+                ownerID: OwnerID
+            })
+            db.collection('Pet_Info').add({
+                ownerID: OwnerID,
+                PetName: info.PetInfo.PetName,
+                PetType: info.PetInfo.PetType,
+                Breed: info.PetInfo.Breed,
+                Birthday: info.PetInfo.Birthday,
+                Gender: info.PetInfo.Gender,
+                Age: info.PetInfo.Age,
+                Color: info.PetInfo.Color,
+                Spayed: info.PetInfo.Spayed,
+            })
+        }
     }
 
-    function login(email,password,type){
-        auth.signInWithEmailAndPassword(email,password)
-        .then(data=>{
-            if(type==="Owner_Info"){
-                var newOwners =  owners.filter(function(owner) {
-                    return owner.ownerID === data.user.uid;
-                });
-                if(newOwners.length>0){
-                    setCurrentUser(data.user)
-                }else{
-                    setCurrentUser(null)
-                }
+    async function login(email,password,type){
+        const data = await auth.signInWithEmailAndPassword(email,password)
+        
+        if(type==="Owner_Info"){
+            var newOwners =  owners.filter(function(owner) {
+                return owner.ownerID === data.user.uid;
+            });
+            if(newOwners.length>0){
+                setCurrentUser(data.user)
             }else{
-                var newVets =  vets.filter(function(vet) {
-                    return vet.ownerID === data.user.uid;
-                });
-                if(newVets.length>0){
-                    setCurrentUser(data.user)
-                }else{
-                    setCurrentUser(null)
-                }
+                setCurrentUser(null)
             }
-        })
+        }else{
+            var newVets =  vets.filter(function(vet) {
+                return vet.ownerID === data.user.uid;
+            });
+            if(newVets.length>0){
+                setCurrentUser(data.user)
+            }else{
+                setCurrentUser(null)
+            }
+        }
     }
 
     function logout(){
@@ -76,6 +72,7 @@ export function AuthProvider({ children }) {
 
     useEffect(()=>{
         const unsubscribe1 = auth.onAuthStateChanged(user=> {
+            user ? setCurrentUser(user) : setCurrentUser(null)
             setLoading(false)
         })
         const unsubscribe2 = db
@@ -104,7 +101,7 @@ export function AuthProvider({ children }) {
             unsubscribe2();
             unsubscribe3();
         }
-    },[])
+    },[loading])
     
 
     const value = {

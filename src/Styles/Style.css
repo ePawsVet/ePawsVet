@@ -68,3 +68,7 @@
     content:"*";
     color:red;
   }
+
+  #usertype-owner{
+      border: 1px solid #0000FF;
+  }

@@ -64,7 +64,7 @@ export default function Login() {
                                     <div>Veterinarian</div>
                                 </label>
                                 <label id="usertype-owner" className="usertype-container">
-                                    <Form.Check ref={userTypeRef2} value="Owner_Info" required onClick={()=>userTypeHandler("usertype-owner")} name="userType" type="radio" aria-label="Pet Owner" />
+                                    <Form.Check ref={userTypeRef2} value="Owner_Info" defaultChecked required onClick={()=>userTypeHandler("usertype-owner")} name="userType" type="radio" aria-label="Pet Owner" />
                                     <img className="usertype-img" alt="I am a Pet Owner" src="https://i.pinimg.com/originals/1d/86/de/1d86de1fd9ec27ea3693255f77333ad1.png"></img>
                                     <div>Pet Owner</div>
                                 </label>
