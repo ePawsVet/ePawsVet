@@ -3,6 +3,7 @@ import { Form,Button,Card,Alert,Container } from"react-bootstrap"
 import { useAuth } from '../Contexts/AuthContext'
 import { Link,useHistory } from 'react-router-dom'
 import moment from 'moment'
+import Loader from "react-loader-spinner";
 
 export default function Signup() {
     //OWNER INFO
@@ -121,7 +122,14 @@ export default function Signup() {
         <Container className="d-flex align-items-center justify-content-center"
       style={{minHeight:"100vh"}}
     >
-      <div className="w-100" style={{maxWidth:"1000px",padding:"10px"}}>
+        {loading ?
+            <Loader className="loading-spinner"
+                type="Grid"
+                color="#00BFFF"
+                height={100}
+                width={100}
+        /> : null}
+        <div className="w-100 signup-container">
             <Card>
                 <Card.Body>
                     <h2 className="text-center mb-4">Registration Form</h2>

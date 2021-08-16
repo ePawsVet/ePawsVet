@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { Form,Button,Card,Alert, Container } from"react-bootstrap"
 import { useAuth } from '../Contexts/AuthContext'
 import { Link } from 'react-router-dom'
+import Loader from "react-loader-spinner";
 
 export default function ForgotPassword() {
     const emailRef = useRef()
@@ -30,7 +31,14 @@ export default function ForgotPassword() {
         <Container className="d-flex align-items-center justify-content-center"
             style={{minHeight:"100vh"}}
         >
-            <div className="w-100" style={{maxWidth:"400px"}}>
+            {loading ?
+            <Loader className="loading-spinner"
+                type="Grid"
+                color="#00BFFF"
+                height={100}
+                width={100}
+            /> : null}
+            <div className="w-100 reset-password-container">
                 <Card>
                     <Card.Body>
                         <h2 className="text-center mb-4">Password Reset</h2>
