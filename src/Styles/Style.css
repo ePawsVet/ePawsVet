@@ -26,3 +26,45 @@
     max-height: 450px;
     min-height: 450px;
 }
+/* HIDE RADIO */
+[name="userType"] { 
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* IMAGE STYLES */
+  [name="userType"] + img {
+    cursor: pointer;
+  }
+  
+  /* CHECKED STYLES */
+  [name="userType"]:checked + img {
+    outline: 2px solid #f00;
+  }
+
+  .usertype-img{
+      width: 150px;
+      height: 150px;
+  }
+
+  .usertype-container{
+    margin: 10px;
+    border-radius: 10px;
+  }
+
+  .signup-info-container{
+      padding: 10px;
+  }
+
+  .signup-owner{
+      border-left: 1px solid black;
+  }
+  #signup-admin-info,#other-type{
+      display: none;
+  }
+  .form-group.required .form-label:after {
+    content:"*";
+    color:red;
+  }

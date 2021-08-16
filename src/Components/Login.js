@@ -4,6 +4,8 @@ import { useAuth } from '../Contexts/AuthContext'
 import { Link,useHistory } from 'react-router-dom'
 
 export default function Login() {
+    const userTypeRef1 = useRef()
+    const userTypeRef2 = useRef()
     const emailRef = useRef()
     const passwordRef = useRef()
     const {login} = useAuth()
@@ -11,20 +13,38 @@ export default function Login() {
     const [loading,setLoading] = useState(false)
     const history = useHistory();
     
-    async function SignupHandler(e) {
+    async function LoginHandler(e) {
         e.preventDefault()
-
-       
-
         try{
             setError("")
             setLoading(true)
-            await login(emailRef.current.value,passwordRef.current.value)
+            await login(emailRef.current.value,passwordRef.current.value,userTypeRef1.current.checked ? userTypeRef1.current.value : userTypeRef2.current.value)
             history.push("/")
-        }catch{
-            setError("Failed to sign in")
+        }catch(err){
+            setError("Failed to sign in. "+err.message)
         }
         setLoading(false)
+    }
+
+    function userTypeHandler(id){
+        var elem = document.getElementsByName('userType');
+        
+        document.getElementById("usertype-vet").style.border = "none";
+        document.getElementById("usertype-owner").style.border = "none";
+        document.getElementById(id).style.border = "1px solid #0000FF";
+
+        elem.forEach(ele => {
+            if(ele.checked){
+                if(ele.value==="Vet"){
+                    document.getElementById("signup-link").style.display = "none"
+                    document.getElementById("signup-admin-info").style.display = "block"
+                }else{
+                    document.getElementById("signup-admin-info").style.display = "none"
+                    document.getElementById("signup-link").style.display = "block"
+                }
+            }
+        })
+
     }
     return (
         <Container className="d-flex align-items-center justify-content-center"
@@ -35,7 +55,20 @@ export default function Login() {
                     <Card.Body>
                         <h2 className="text-center mb-4">Log In</h2>
                         {error && <Alert variant="danger">{error}</Alert>}
-                        <Form onSubmit={SignupHandler}>
+                        <Form onSubmit={LoginHandler}>
+                            <span>I'm Logging in as a : </span>
+                            <Form.Group  className="text-center mb-4" id="userType" >
+                                 <label id="usertype-vet" className="usertype-container">
+                                    <Form.Check ref={userTypeRef1} value="Vet_Info" required onClick={()=>userTypeHandler("usertype-vet")} name="userType" type="radio" aria-label="Veterinarian" />
+                                    <img className="usertype-img" alt="I am a Veterinarian" src="https://cdn2.iconfinder.com/data/icons/professions-vivid-vol-2/256/Veterinarian_Male-512.png"></img>
+                                    <div>Veterinarian</div>
+                                </label>
+                                <label id="usertype-owner" className="usertype-container">
+                                    <Form.Check ref={userTypeRef2} value="Owner_Info" required onClick={()=>userTypeHandler("usertype-owner")} name="userType" type="radio" aria-label="Pet Owner" />
+                                    <img className="usertype-img" alt="I am a Pet Owner" src="https://i.pinimg.com/originals/1d/86/de/1d86de1fd9ec27ea3693255f77333ad1.png"></img>
+                                    <div>Pet Owner</div>
+                                </label>
+                            </Form.Group>
                             <Form.Group id="email">
                                 <Form.Label>Email</Form.Label>
                                 <Form.Control type="email" ref={emailRef} required />
@@ -53,8 +86,11 @@ export default function Login() {
                         </div>
                     </Card.Body>
                 </Card>
-                <div className="w-100 text-center mt-2">
-                    Need an account? <Link to="/signup">Sign Up</Link>
+                <div className="w-100 text-center mt-2" id="signup-link">
+                    <Alert variant="light ">Need an account? <Link to="/signup">Sign Up</Link></Alert>
+                </div>
+                <div className="w-100 text-center mt-2" id="signup-admin-info">
+                    <Alert variant="danger">Ask an admin for an account.</Alert>
                 </div>
             </div>
         </Container>
