@@ -35,7 +35,7 @@ export default function Login() {
 
         elem.forEach(ele => {
             if(ele.checked){
-                if(ele.value==="Vet"){
+                if(ele.value==="Vet_Info"){
                     document.getElementById("signup-link").style.display = "none"
                     document.getElementById("signup-admin-info").style.display = "block"
                 }else{
