@@ -13,9 +13,6 @@ export default function ForgotPassword() {
     
     async function SignupHandler(e) {
         e.preventDefault()
-
-       
-
         try{
             setMessage("")
             setError("")

@@ -14,9 +14,10 @@ export function AuthProvider({ children }) {
     const [vets,setVets] = useState([]);
 
     async function signup(email,password,info){
+
         const data = await auth.createUserWithEmailAndPassword(email, password)
         var OwnerID = data.user.uid
-        console.log(OwnerID, info)
+        var info = await info
         if (db) {
             db.collection('Owner_Info').add({
                 OwnerName: info.OwnerInfo.OwnerName,
