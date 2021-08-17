@@ -50,7 +50,7 @@ export default function Profile() {
             {userInfo ?
               <>
               <Image src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=1200:*" fluid />
-              <div>
+              <div className="account-profile-name" >
                   <Table striped bordered hover>
                   <thead>
                     <tr>
@@ -85,7 +85,7 @@ export default function Profile() {
             {petInfo ?
               <>
               <Image src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=1200:*" fluid />
-              <div>
+              <div className="account-profile-name" >
                 <Table striped bordered hover>
                   <thead>
                     <tr>
