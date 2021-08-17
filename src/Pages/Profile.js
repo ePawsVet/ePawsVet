@@ -44,13 +44,13 @@ export default function Profile() {
   return (
     <>
       <Navbars title="Profile"></Navbars>
-        <Row>
-          <Col sm={6} className="profile-container">
+      <div className="row">
+        <div className="profile-container col-lg-6 col-md-12">
             <h2 className="text-center">Owner Info</h2>
             {userInfo ?
               <>
               <Image src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=1200:*" fluid />
-              <div className="navbar-profile-name" >
+              <div>
                   <Table striped bordered hover>
                   <thead>
                     <tr>
@@ -79,13 +79,13 @@ export default function Profile() {
               </> : 
               <Alert variant="danger">No user found.</Alert>
             }
-          </Col>
-          <Col sm={6} className="profile-container">
+          </div>
+          <div className="profile-container col-lg-6 col-md-12">
             <h2 className="text-center">Pet/s Info</h2>
             {petInfo ?
               <>
               <Image src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=1200:*" fluid />
-              <div className="navbar-profile-name" >
+              <div>
                 <Table striped bordered hover>
                   <thead>
                     <tr>
@@ -135,8 +135,8 @@ export default function Profile() {
               </> : 
               <Alert variant="danger">No pet found.</Alert>
             }
-          </Col>
-        </Row>
+          </div>
+        </div>
     </>
   )
 }

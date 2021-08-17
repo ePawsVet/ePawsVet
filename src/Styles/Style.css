@@ -12,7 +12,7 @@
 }
 .profile-container,.chart-container,
 .calendar-container,.time-container{
-    padding: 5px;
+    padding: 10px;
 }
 .react-calendar {
     width: 100% !important;
