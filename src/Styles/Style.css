@@ -84,3 +84,46 @@
 .loading-spinner{
     z-index: 9999;
 }
+
+.message-send-btn{
+    float: right;
+}
+
+.contact-info-icon {
+    font-size: 40px;
+    background-color: #7c7cff;
+    width: 70px;
+    height: 70px;
+    border-radius: 51px;
+    padding-left: 15px;
+}
+.contact-info-align {
+    display: inline-block;
+}
+.contact-info-details{
+    margin-left:10px;
+}
+.contact-title {
+    font-size: 50px;
+    color: black;
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+}
+.contact-container .bg-dark{
+    border: 5px solid #f9f9f9;
+}
+.contact-container{
+    border-radius: 20px;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+}
+.contact-info-container{
+    padding: 20px;
+}
+.contact-info-details-container{
+    margin-bottom: 25px;
+}
+.contact-message-header{
+    border-bottom: 1px solid black;
+}

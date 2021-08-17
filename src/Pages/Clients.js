@@ -2,10 +2,10 @@ import React from 'react'
 import Navbars from "../Components/Navbars";
 import { Table } from 'react-bootstrap'
 
-export default function Employees() {
+export default function Clients() {
   return (
     <>
-    <Navbars title="Employees"></Navbars>
+    <Navbars title="Clients"></Navbars>
     <Table striped bordered hover>
   <thead>
     <tr>

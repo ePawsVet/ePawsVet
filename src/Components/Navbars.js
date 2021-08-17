@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { Navbar,Nav,NavDropdown,ListGroup } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 import { useAuth } from '../Contexts/AuthContext'
-import { GiHamburgerMenu } from 'react-icons/gi';
+import { GiHamburgerMenu,GiMedicinePills } from 'react-icons/gi';
 import { FiLogOut } from 'react-icons/fi';
-import { FaChartBar,FaRegCalendarAlt,FaUsers,FaUser,FaPhone,FaHome } from 'react-icons/fa';
+import { FaChartBar,FaRegCalendarAlt,FaUsers,FaUser,FaEnvelope,FaHome,FaBoxes } from 'react-icons/fa';
 import { IoMdPaw } from 'react-icons/io';
+import { SiMicrosoftpowerpoint } from 'react-icons/si';
 
 
 import Sidebar from "react-sidebar";
@@ -14,7 +15,6 @@ export default function Navbars({title=""}) {
     const [toggleSidenav,setToggleSidenav] = useState(false)
     const { logout } = useAuth()
     const history = useHistory()
-
 
     useEffect(()=>{
         var element = document.getElementById(title)
@@ -64,14 +64,26 @@ export default function Navbars({title=""}) {
                         <ListGroup.Item action id="Dashboard" onClick={()=>{handleSidedbarClick("/dashboard")}}>
                             <FaChartBar/> Dashboard
                         </ListGroup.Item>
+                        <ListGroup.Item action id="Clients" onClick={()=>{handleSidedbarClick("/clients")}}>
+                            <FaUsers/> Clients
+                        </ListGroup.Item>
+                        <ListGroup.Item action id="Medicines" onClick={()=>{handleSidedbarClick("/medicines")}}>
+                            <GiMedicinePills/> Medicines
+                        </ListGroup.Item>
+                        <ListGroup.Item action id="Inventory" onClick={()=>{handleSidedbarClick("/inventory")}}>
+                            <FaBoxes/> Inventory
+                        </ListGroup.Item>
+                        <ListGroup.Item action id="Reports" onClick={()=>{handleSidedbarClick("/reports")}}>
+                            <SiMicrosoftpowerpoint/> Reports
+                        </ListGroup.Item>
                         <ListGroup.Item action id="Appointments" onClick={()=>{handleSidedbarClick("/appointments")}}>
                             <FaRegCalendarAlt/> Appointments
                         </ListGroup.Item>
-                        <ListGroup.Item action id="Employees" onClick={()=>{handleSidedbarClick("/employees")}}>
-                            <FaUsers/> Employees
-                        </ListGroup.Item>
-                        <ListGroup.Item action id="Profile" onClick={()=>{handleSidedbarClick("profile")}}>
+                        <ListGroup.Item action id="Profile" onClick={()=>{handleSidedbarClick("/profile")}}>
                             <FaUser/> Profile
+                        </ListGroup.Item>
+                        <ListGroup.Item action id="Message" onClick={()=>{handleSidedbarClick("/message")}}>
+                            <FaEnvelope/> Message
                         </ListGroup.Item>
                     </ListGroup>
                     </>
@@ -94,7 +106,7 @@ export default function Navbars({title=""}) {
                             <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item onClick={()=>{handleSidedbarClick("/contacts")}}><FaPhone/> Contact Us</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                     <Nav>

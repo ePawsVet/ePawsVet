@@ -17,7 +17,7 @@ export function AuthProvider({ children }) {
 
         const data = await auth.createUserWithEmailAndPassword(email, password)
         var OwnerID = data.user.uid
-        var info = await info
+        info = await info
         if (db) {
             db.collection('Owner_Info').add({
                 OwnerName: info.OwnerInfo.OwnerName,
@@ -110,7 +110,7 @@ export function AuthProvider({ children }) {
             unsubscribe2();
             unsubscribe3();
         }
-    },[loading])
+    },[])
     
 
     const value = {
