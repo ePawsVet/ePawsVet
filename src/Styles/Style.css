@@ -127,3 +127,15 @@
 .contact-message-header{
     border-bottom: 1px solid black;
 }
+.navbar-profile-img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.navbar-profile-name{
+    font-size: 30px;
+    text-align: center;
+}
+.navbar-profile-container{
+    align-items: center;
+}

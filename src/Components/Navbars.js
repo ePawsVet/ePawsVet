@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Navbar,Nav,NavDropdown,ListGroup } from 'react-bootstrap'
+import { Navbar,Nav,ListGroup,Image } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 import { useAuth } from '../Contexts/AuthContext'
 import { GiHamburgerMenu,GiMedicinePills } from 'react-icons/gi';
@@ -7,15 +7,17 @@ import { FiLogOut } from 'react-icons/fi';
 import { FaChartBar,FaRegCalendarAlt,FaUsers,FaUser,FaEnvelope,FaHome,FaBoxes } from 'react-icons/fa';
 import { IoMdPaw } from 'react-icons/io';
 import { SiMicrosoftpowerpoint } from 'react-icons/si';
+import {db} from "../firebase"
+
 
 
 import Sidebar from "react-sidebar";
 
 export default function Navbars({title=""}) {
     const [toggleSidenav,setToggleSidenav] = useState(false)
-    const { logout } = useAuth()
+    const { logout,currentUser } = useAuth()
     const history = useHistory()
-
+    const [userInfo,setUserInfo] = useState(null)
     useEffect(()=>{
         var element = document.getElementById(title)
         element.className += element.classList.contains("active") ? "" : " active"
@@ -28,6 +30,23 @@ export default function Navbars({title=""}) {
             });
         }
     })
+    
+    useEffect(()=>{
+        db.collection("Owner_Info").where("ownerID", "==", currentUser.uid)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                setUserInfo(doc.data());
+            });
+        })
+        .catch((error) => {
+            console.log("Error getting documents: ", error);
+        });
+    },[currentUser])
+
+    
+
+    
 
     function sidebarOpen(){
         setToggleSidenav(true)
@@ -57,6 +76,19 @@ export default function Navbars({title=""}) {
                 {
                     <>
                     <h1 style={{padding:"10px"}}><IoMdPaw/> E-Paws Veterinary</h1>
+                    <div className="navbar-profile-container"> 
+                        <div className="navbar-profile-img-container" >
+                            <Image
+                                className="navbar-profile-img"
+                                src="https://image.flaticon.com/icons/png/512/149/149071.png" 
+                                roundedCircle
+                                width="200"
+                            />
+                        </div>
+                        <div className="navbar-profile-name" >
+                            {userInfo ? userInfo.OwnerName: "User"}
+                        </div>
+                    </div>
                     <ListGroup>
                         <ListGroup.Item action id="Home" onClick={()=>{handleSidedbarClick("/")}}>
                             <FaHome/> Home  
@@ -99,15 +131,9 @@ export default function Navbars({title=""}) {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="#features">Features</Nav.Link>
-                        <Nav.Link href="#pricing">Pricing</Nav.Link>
-                        <NavDropdown title="Others" id="collasible-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                        </NavDropdown>
+                    </Nav>
+                    <Nav className="me-auto">
+                    <Navbar.Brand>E-Paws Veterinary</Navbar.Brand>
                     </Nav>
                     <Nav>
                         <Nav.Link className="navbar-logout" onClick={handleLogout}><FiLogOut/> Logout</Nav.Link>
