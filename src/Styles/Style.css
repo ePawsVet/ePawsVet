@@ -145,3 +145,15 @@
 .client-card-buttons{
     margin-right:10px;
 }
+.profile-pet-info-container{
+    overflow: auto;
+    max-height: 970px;
+    min-height: 970px;
+}
+.profile-pet-info-title{
+    position:sticky;
+    top:0;
+}
+.profile-title {
+    background-color: gray;
+}
