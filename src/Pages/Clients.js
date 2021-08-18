@@ -67,7 +67,7 @@ export default function Clients() {
         { petInfo && petInfo.length > 0 ?
          petInfo.map((info)=>
           <Card key={info.id} style={{ width: '20rem',display:"inline-block",margin:"10px" }}>
-            <Card.Img variant="top" src="https://image.flaticon.com/icons/png/512/149/149071.png" />
+            <Card.Img variant="top" src="https://www.purina.com/sites/g/files/auxxlc196/files/dogBreedPlaceholder.png" />
             <Card.Body>
               <Card.Title><b>Name</b>: {info.PetName}</Card.Title>
             </Card.Body>
