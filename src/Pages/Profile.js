@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Navbars from "../Components/Navbars";
-import { Image,Alert,Table } from 'react-bootstrap'
+import { Image,Alert,Table,Button } from 'react-bootstrap'
 import {db} from "../firebase"
 import { useAuth } from '../Contexts/AuthContext'
 import moment from 'moment';
@@ -135,6 +135,7 @@ export default function Profile() {
               </> : 
               <Alert variant="danger">No pet found.</Alert>
             }
+            <Button className="client-card-buttons" variant="success">Add Pet</Button>
           </div>
         </div>
     </>
