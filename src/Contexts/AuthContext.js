@@ -25,6 +25,7 @@ export function AuthProvider({ children }) {
                 OwnerName: info.OwnerInfo.OwnerName,
                 OwnerContactNo: info.OwnerInfo.OwnerContactNo,
                 OwnerAddress: info.OwnerInfo.OwnerAddress,
+                OwnerEmail: email,
                 ownerID: OwnerID
             })
             db.collection('Pet_Info').add({
