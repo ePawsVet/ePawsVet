@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Navbars from "../Components/Navbars";
-import { Row, Col,Image,Alert,Table } from 'react-bootstrap'
+import { Image,Alert,Table } from 'react-bootstrap'
 import {db} from "../firebase"
 import { useAuth } from '../Contexts/AuthContext'
 import moment from 'moment';

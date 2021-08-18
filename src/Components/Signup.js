@@ -15,16 +15,15 @@ export default function Signup() {
     const passwordConfirmRef = useRef()
     //PET INFO
     const petRef = useRef()
-    const petTypeRef = useRef()
     const petTypeOthersRef = useRef()
     const breedRef = useRef()
     const dobRef = useRef()
-    const genderRef = useRef()
     const ageRef = useRef()
     const colorRef = useRef()
-    const spayedRef = useRef()
 
-
+    const [pettype,setPetType] = useState("")
+    const [gender,setGender] = useState("")
+    const [neutered,setNeutered] = useState("")
     const {signup} = useAuth()
     const [error,setError] = useState("")
     const [petError,setPetError] = useState("")
@@ -53,16 +52,28 @@ export default function Signup() {
         setLoading(false)
     }
 
-    function petTypeHandler(){
-        var elem = document.getElementsByName('pettype');
-        
-        elem.forEach(ele => {
+    function radioButtonHandler(){
+        var PetType = document.getElementsByName('pettype');
+        var Gender = document.getElementsByName('gender');
+        var Neutered = document.getElementsByName('neutered');
+        PetType.forEach(ele => {
             if(ele.checked){
                 if(ele.value==="Others"){
                     document.getElementById("other-type").style.display = "block"
                 }else{
                     document.getElementById("other-type").style.display = "none"
                 }
+                setPetType(ele.value)
+            }
+        })
+        Gender.forEach(ele => {
+            if(ele.checked){
+                setGender(ele.value)
+            }
+        })
+        Neutered.forEach(ele => {
+            if(ele.checked){
+                setNeutered(ele.value)
             }
         })
     }
@@ -77,13 +88,13 @@ export default function Signup() {
             },
             PetInfo : {
                 "PetName"   : petRef.current.value,
-                "PetType"   : petTypeRef.current.value === "Others" ? petTypeOthersRef.current.value : petTypeRef.current.value,
+                "PetType"   : pettype === "Others" ? petTypeOthersRef.current.value : pettype,
                 "Breed"     : breedRef.current.value,
                 "Birthday"  : dobRef.current.value,
-                "Gender"    : genderRef.current.value,
+                "Gender"    : gender,
                 "Age"       : ageRef.current.value,
                 "Color"     : colorRef.current.value,
-                "Spayed"    : spayedRef.current.value
+                "Spayed"    : neutered
             }
         }
         return dt
@@ -145,9 +156,9 @@ export default function Signup() {
                                 </Form.Group>
                                 <Form.Group id="pet-type" className="required">
                                     <Form.Label>Pet Type</Form.Label><br/>
-                                    <Form.Check ref={petTypeRef} required onClick={petTypeHandler} value="Cat" inline name="pettype" type="radio" label="Cat" />
-                                    <Form.Check ref={petTypeRef} required onClick={petTypeHandler} value="Dog" inline name="pettype" type="radio" label="Dog" />
-                                    <Form.Check ref={petTypeRef} required onClick={petTypeHandler} value="Others" inline name="pettype" type="radio" label="Others" />
+                                    <Form.Check value="Cat" required onClick={radioButtonHandler} inline name="pettype" type="radio" label="Cat" />
+                                    <Form.Check value="Dog" required onClick={radioButtonHandler} inline name="pettype" type="radio" label="Dog" />
+                                    <Form.Check value="Others" required onClick={radioButtonHandler} inline name="pettype" type="radio" label="Others" />
                                     <Form.Control ref={petTypeOthersRef} id="other-type" type="text"/>
                                 </Form.Group>
 
@@ -163,8 +174,8 @@ export default function Signup() {
 
                                 <Form.Group id="pet-gender" className="required">
                                     <Form.Label>Gender</Form.Label><br/>
-                                    <Form.Check ref={genderRef} value="Male" inline required  type="radio" label="Male" name="gender" />
-                                    <Form.Check ref={genderRef} value="Female"  inline required  type="radio" label="Female" name="gender" />
+                                    <Form.Check onClick={radioButtonHandler} value="Male" inline required  type="radio" label="Male" name="gender" />
+                                    <Form.Check onClick={radioButtonHandler} value="Female"  inline required  type="radio" label="Female" name="gender" />
                                 </Form.Group>
 
                                 <Form.Group id="pet-age" className="required">
@@ -179,8 +190,8 @@ export default function Signup() {
 
                                 <Form.Group id="pet-neutered" className="required">
                                     <Form.Label>Spayed/Neutered</Form.Label><br/>
-                                    <Form.Check ref={spayedRef} value="Neutered" required inline type="radio" label="Yes" name="neutered" />
-                                    <Form.Check ref={spayedRef} value="Not neutered" required inline type="radio" label="No" name="neutered" />
+                                    <Form.Check onClick={radioButtonHandler} value="Neutered" required inline type="radio" label="Yes" name="neutered" />
+                                    <Form.Check onClick={radioButtonHandler} value="Not neutered" required inline type="radio" label="No" name="neutered" />
                                 </Form.Group>
                             </div>
                             <div className="signup-info-container signup-owner col-lg-6 col-md-12">
