@@ -170,5 +170,15 @@
 }
 .webpage-holder-container{
     background-color: #fef8fa;
-    height: 90vh;
+    height: 95vh;
+}
+.clients-search-container{
+    padding: 10px;
+}
+.client-search-buttons{
+    margin-top: 5px;
+}
+.client-profile-pets{
+    max-height: 50vh;
+    overflow: auto;
 }

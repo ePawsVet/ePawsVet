@@ -42,7 +42,7 @@ export default function Profile() {
         setPetInfo(data);
     })
   },[currentUser])
-
+console.log(petInfo)
   return (
     <>
       <Navbars title="Profile"></Navbars>
@@ -91,44 +91,44 @@ export default function Profile() {
                 <Table striped bordered hover>
                   <thead>
                     <tr>
-                      <th colSpan="3">{petInfo.PetName}</th>
+                      <th colSpan="3">{info.PetName}</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td><IoMdPaw/></td>
                       <td>Pet Type</td>
-                      <td>{petInfo.PetType}</td>
+                      <td>{info.PetType}</td>
                     </tr>
                     <tr>
                       <td><FaDna/></td>
                       <td>Breed</td>
-                      <td>{petInfo.Breed}</td>
+                      <td>{info.Breed}</td>
                     </tr>
                     <tr>
                       <td><FaBirthdayCake/></td>
                       <td>Birthday</td>
-                      <td>{moment(petInfo.Birthday).format("MMMM D, YYYY")}</td>
+                      <td>{moment(info.Birthday).format("MMMM D, YYYY")}</td>
                     </tr>
                     <tr>
                       <td><FaTransgender/></td>
                       <td>Gender</td>
-                      <td>{petInfo.Gender}</td>
+                      <td>{info.Gender}</td>
                     </tr>
                     <tr>
                       <td><SiGooglecalendar/></td>
                       <td>Age</td>
-                      <td>{petInfo.Age}</td>
+                      <td>{info.Age}</td>
                     </tr>
                     <tr>
                       <td><MdColorLens/></td>
                       <td>Color/Markings</td>
-                      <td>{petInfo.Color}</td>
+                      <td>{info.Color}</td>
                     </tr>
                     <tr>
                       <td><RiScissorsCutFill/></td>
                       <td>Spayed/Nuetered</td>
-                      <td>{petInfo.Spayed}</td>
+                      <td>{info.Spayed}</td>
                     </tr>
                   </tbody>
                 </Table>
