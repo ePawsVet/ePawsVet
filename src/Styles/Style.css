@@ -157,3 +157,7 @@
 .profile-title {
     background-color: gray;
 }
+.modal-body {
+    max-height: 725px;
+    overflow: auto;
+}
