@@ -51,9 +51,9 @@ export default function Profile() {
             <h2 className="profile-owner-info-title profile-title text-center">Owner Info</h2>
             {userInfo ?
               <>
-              <Image src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=1200:*" fluid />
               <div className="account-profile-name" >
-                  <Table striped bordered hover>
+                <Image src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=1200:*" fluid />
+                <Table striped bordered hover>
                   <thead>
                     <tr>
                       <th colSpan="3">{userInfo.OwnerName}</th>
@@ -86,9 +86,8 @@ export default function Profile() {
             <h2 className="profile-pet-info-title profile-title text-center">Pet/s Info</h2>
             { petInfo && petInfo.length > 0 ?
               petInfo.map((info)=>
-              <>
-              <Image src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=1200:*" fluid />
-              <div className="account-profile-name" >
+              <div key={info.id} className="account-profile-name" >
+                <Image src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=1200:*" fluid />
                 <Table striped bordered hover>
                   <thead>
                     <tr>
@@ -134,7 +133,6 @@ export default function Profile() {
                   </tbody>
                 </Table>
               </div>
-              </>
               ) : 
               <Alert variant="danger">No pet found.</Alert>
             }
