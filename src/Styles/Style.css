@@ -168,3 +168,8 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+.webpage-holder-container{
+    background-color: #fef8fa;
+    height: 100vh;
+    z-index: -1;
+}

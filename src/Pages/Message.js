@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import emailjs from 'emailjs-com';
 import Navbars from "../Components/Navbars";
 import { Form,Button, Container, Alert, Card } from 'react-bootstrap'
 import { useAuth } from '../Contexts/AuthContext'
 import { FaPhoneAlt,FaEnvelope,FaMapMarked } from 'react-icons/fa';
+import {db} from "../firebase"
 
 
 export default function Message() {
     const [error,setError] = useState("")
     const [message,setMessage] = useState("")
     const { currentUser } = useAuth()
+    const [userInfo,setUserInfo] = useState(null)
     function sendEmail(e) {
         e.preventDefault();
         setError("")
@@ -23,7 +25,19 @@ export default function Message() {
         });
         e.target.reset()
     }
-
+    useEffect(()=>{
+        db.collection("Owner_Info").where("ownerID", "==", currentUser.uid)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                setUserInfo(doc.data());
+            });
+        })
+        .catch((error) => {
+            console.log("Error getting documents: ", error);
+        });
+    },[currentUser])
+    console.log(userInfo)
     return (
         <>
         <Navbars title="Message"></Navbars>
@@ -66,11 +80,11 @@ export default function Message() {
                     {message && <Alert variant="success">{message}</Alert>}
                     <Form.Group className="mb-3" controlId="UserName">
                         <Form.Label>Name</Form.Label>
-                        <Form.Control required name="user_name" type="text" placeholder="Your Name" />
+                        <Form.Control required name="user_name" type="text" placeholder="Your Name" defaultValue={userInfo ? userInfo.OwnerName : "" } />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="ContactNumber">
                         <Form.Label>Contact #</Form.Label>
-                        <Form.Control required name="contact_number" type="number" placeholder="Contact Number" />
+                        <Form.Control required name="contact_number" type="number" placeholder="Contact Number" defaultValue={userInfo ? userInfo.OwnerContactNo:""} />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="EmailAddress">
                         <Form.Label>Email address</Form.Label>
