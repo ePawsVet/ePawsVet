@@ -210,7 +210,7 @@ export default function CreateNew({click,petInfo=[],userInfo=[]}) {
                     </Form.Group>
                 </div>
                 <Button disabled={loading} className="w-100 text-center mt-2" type="submit">
-                    {petInfo.length !== 0 ? "Edit Pet" : "Enroll Pet"}
+                    {petInfo.length !== 0 ? "Update Pet" : "Enroll Pet"}
                 </Button>
             </Form>
         </>

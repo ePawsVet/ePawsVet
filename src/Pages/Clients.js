@@ -98,7 +98,7 @@ export default function Clients() {
     setUsers([])
   }
   const editOwner =(info)=>{
-    setModalShow(true)
+    //setModalShow(true)
   }
   const deleteOwner =(info)=>{
     setOwnerMessage("")
