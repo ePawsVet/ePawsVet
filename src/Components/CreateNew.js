@@ -43,7 +43,7 @@ export default function CreateNew({click,petInfo=[],userInfo=[]}) {
             breedRef.current.value = petInfo.Breed
             dobRef.current.value = petInfo.Birthday
             ageRef.current.value = petInfo.Age
-            colorRef.current.value = petInfo.PetName
+            colorRef.current.value = petInfo.Color
 
             var PetType = document.getElementsByName('pettype');
             var Gender = document.getElementsByName('gender');
@@ -71,7 +71,7 @@ export default function CreateNew({click,petInfo=[],userInfo=[]}) {
             Neutered.forEach(ele => {
                 if(
                     (ele.value === "Neutered" && petInfo.Spayed === "Neutered") ||
-                    (ele.value === "Not Neutered" && petInfo.Spayed === "Not Neutered")
+                    (ele.value === "Not neutered" && petInfo.Spayed === "Not neutered")
                  ){
                     ele.checked = true
                     setNeutered(ele.value)
