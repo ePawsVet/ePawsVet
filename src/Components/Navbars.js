@@ -129,7 +129,7 @@ export default function Navbars({title=""}) {
                 }
                 open={toggleSidenav}
                 onSetOpen={()=>{setToggleSidenav(false)}}
-                styles={{ sidebar: { backgroundImage: "url('')" } }}
+                styles={{ sidebar: { background: "white" } }}
             ></Sidebar>
 
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
