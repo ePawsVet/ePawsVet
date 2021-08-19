@@ -665,3 +665,29 @@ a:hover{
   .form-control.shadow-0:focus {
     box-shadow: none;
   }
+
+  /*sidebar*/
+.list-group-item {
+    border-top-width: 0;
+    padding: 20px;
+    font-size: 20px;
+    padding-left: 40px;
+    background: #7cc1ac;
+    color:#fff
+}
+.list-group-item:hover {
+    color:#545454;
+}
+.list-group-item-primary {
+    color: #fff;
+    background-color: #7cc1ac;
+}
+.list-group-item-primary:hover {
+    background-color: #e8a87c;
+}
+
+.list-group-item-primary.list-group-item-action.active {
+    color: #fff;
+    background-color: #e27d60;
+    border-color: #e27d60;
+}

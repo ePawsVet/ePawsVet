@@ -32,7 +32,7 @@ export default function Login() {
         
         document.getElementById("usertype-vet").style.border = "none";
         document.getElementById("usertype-owner").style.border = "none";
-        document.getElementById(id).style.border = "1px solid #0000FF";
+        document.getElementById(id).style.border = "1px solid #7cc1ac";
 
         elem.forEach(ele => {
             if(ele.checked){
