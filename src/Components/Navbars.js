@@ -83,7 +83,7 @@ export default function Navbars({title=""}) {
                 sidebar=
                 {
                     <>
-                    <div className="navbar-profile-container"> 
+                    <div className="navbar-profile-container pt-2"> 
                         <div className="navbar-profile-img-container" >
                             <Image
                                 className="navbar-profile-img"
@@ -92,7 +92,7 @@ export default function Navbars({title=""}) {
                                 width="200"
                             />
                         </div>
-                        <div className="navbar-profile-name" >
+                        <div className="navbar-profile-name p-2" >
                             {userInfo ? userInfo.Name: vetInfo ? vetInfo.Name : "User"}
                         </div>
                     </div>
@@ -129,7 +129,7 @@ export default function Navbars({title=""}) {
                 }
                 open={toggleSidenav}
                 onSetOpen={()=>{setToggleSidenav(false)}}
-                styles={{ sidebar: { backgroundColor: "#7cc1ac" } }}
+                styles={{ sidebar: { backgroundColor: "#7cc1ac" , width: 300} }}
             ></Sidebar>
         </div>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
