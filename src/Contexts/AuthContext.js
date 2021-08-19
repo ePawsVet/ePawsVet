@@ -27,7 +27,7 @@ export function AuthProvider({ children }) {
     }
     async function createUser(id,email,info) {
         info = await info
-        db.collection('User_Info').add({
+        db.collection('Owner_Info').add({
             Name: info.OwnerInfo.Name,
             ContactNo: info.OwnerInfo.ContactNo,
             Address: info.OwnerInfo.Address,

@@ -114,7 +114,16 @@ export default function Clients() {
     }).catch((error) => {
       setOwnerError("Error removing document: ", error);
     });
+
+    var pets_query = db.collection('Pet_Info').where("ownerID", "==", info.userID);
+    pets_query.get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        doc.ref.delete();
+      });
+    });
+
   }
+
   const createPet =(info)=>{
     setModalTitle("Enroll New Pet")
     setModalShow(true)
