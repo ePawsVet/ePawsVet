@@ -88,7 +88,7 @@ export default function Message() {
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="EmailAddress">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control required name="user_email" type="email" placeholder="sample.email@gmail.com" defaultValue={currentUser.Email}/>
+                        <Form.Control required name="user_email" type="email" placeholder="sample.email@gmail.com" defaultValue={currentUser.email}/>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="EmailMessage">
                         <Form.Label>Message</Form.Label>
