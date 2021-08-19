@@ -77,12 +77,12 @@ export default function Navbars({title=""}) {
     }
     return (
         <>
+        <div class="sidebar">
             <Sidebar style={{zIndex:"2"}}
                 children=""
                 sidebar=
                 {
                     <>
-                    <h1 style={{padding:"10px"}}><IoMdPaw/> E-Paws Veterinary</h1>
                     <div className="navbar-profile-container"> 
                         <div className="navbar-profile-img-container" >
                             <Image
@@ -129,9 +129,9 @@ export default function Navbars({title=""}) {
                 }
                 open={toggleSidenav}
                 onSetOpen={()=>{setToggleSidenav(false)}}
-                styles={{ sidebar: { backgroundImage: "url('')" } }}
+                styles={{ sidebar: { backgroundColor: "#7cc1ac" } }}
             ></Sidebar>
-
+        </div>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Navbar.Brand className="sidebar-button" onClick={sidebarOpen}><GiHamburgerMenu/></Navbar.Brand>
                 <Navbar.Brand className="navbar-title" onClick={()=>{handleSidedbarClick(title==="Home"? "/" : title.toLowerCase() )}}>{title}</Navbar.Brand>

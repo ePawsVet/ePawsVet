@@ -8,7 +8,7 @@ import Navbars from '../Components/Navbars';
 export default function Home() {
   return (
     <>
-    <Navbars title="Home"></Navbars>
+    
    {/* <Navbar bg="light" expand="lg">
   <Container>
     <Navbar.Brand href="#home">ePaws</Navbar.Brand>
