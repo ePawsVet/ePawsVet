@@ -166,6 +166,7 @@ export default function Clients() {
       </Modal>
     );
   }
+  console.log("owners",owners)
   return (
       <>
         <Navbars title="Clients"></Navbars>
@@ -192,7 +193,7 @@ export default function Clients() {
                   <ListGroup.Item action onClick={()=>getUser(user)} key={user.id}>
                     {user.Name}
                   </ListGroup.Item>
-                )
+                ) 
               }
               {
                 filteredUsers.length > 0 ? 
@@ -202,12 +203,12 @@ export default function Clients() {
                   <>
                   <Alert variant="danger">{keywordRef.current.value +" not found."}</Alert><Button className="client-search-buttons" onClick={clearSearch}>Clear Search</Button>
                   </>
-                  : 
+                  : owners.length !== 0 ?
                     owners.map((user)=>
                     <ListGroup.Item action onClick={()=>getUser(user)} key={user.id}>
                       {user.Name}
                     </ListGroup.Item>
-                )
+                ) : <Alert variant="danger">No Active Users</Alert>
                   
               }
               
