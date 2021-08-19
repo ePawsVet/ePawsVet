@@ -77,13 +77,13 @@ export default function Navbars({title=""}) {
     }
     return (
         <>
-            <Sidebar style={{zIndex:"2"}}
+            <Sidebar style={{zIndex:"999"}}
                 children=""
                 sidebar=
                 {
                     <>
-                    <h1 style={{padding:"10px"}}><IoMdPaw/> E-Paws Veterinary</h1>
-                    <div className="navbar-profile-container"> 
+                    {/* <h1 style={{padding:"10px"}}><IoMdPaw/> E-Paws Veterinary</h1> */}
+                    <div className="navbar-profile-container pt-5"> 
                         <div className="navbar-profile-img-container" >
                             <Image
                                 className="navbar-profile-img"
@@ -97,39 +97,39 @@ export default function Navbars({title=""}) {
                         </div>
                     </div>
                     <ListGroup>
-                        <ListGroup.Item action id="Home" onClick={()=>{handleSidedbarClick("/")}}>
+                        {/* <ListGroup.Item action id="Home" onClick={()=>{handleSidedbarClick("/")}}>
                             <FaHome/> Home  
-                        </ListGroup.Item>
-                        <ListGroup.Item action id="Dashboard" onClick={()=>{handleSidedbarClick("/dashboard")}}>
-                            <FaChartBar/> Dashboard
+                        </ListGroup.Item> */}
+                        <ListGroup.Item variant='primary' action id="Dashboard" onClick={()=>{handleSidedbarClick("/dashboard")}}>
+                            <FaChartBar size={30}/> Dashboard
                         </ListGroup.Item>
                         <ListGroup.Item action id="Clients" onClick={()=>{handleSidedbarClick("/clients")}}>
-                            <FaUsers/> Clients
+                            <FaUsers size={30}/> Clients
                         </ListGroup.Item>
                         <ListGroup.Item action id="Medicines" onClick={()=>{handleSidedbarClick("/medicines")}}>
-                            <GiMedicinePills/> Medicines
+                            <GiMedicinePills size={30}/> Medicines
                         </ListGroup.Item>
                         <ListGroup.Item action id="Inventory" onClick={()=>{handleSidedbarClick("/inventory")}}>
-                            <FaBoxes/> Inventory
+                            <FaBoxes size={30}/> Inventory
                         </ListGroup.Item>
                         <ListGroup.Item action id="Reports" onClick={()=>{handleSidedbarClick("/reports")}}>
-                            <SiMicrosoftpowerpoint/> Reports
+                            <SiMicrosoftpowerpoint size={30}/> Reports
                         </ListGroup.Item>
                         <ListGroup.Item action id="Appointments" onClick={()=>{handleSidedbarClick("/appointments")}}>
-                            <FaRegCalendarAlt/> Appointments
+                            <FaRegCalendarAlt size={30}/> Appointments
                         </ListGroup.Item>
                         <ListGroup.Item action id="Profile" onClick={()=>{handleSidedbarClick("/profile")}}>
-                            <FaUser/> Profile
+                            <FaUser size={30}/> Profile
                         </ListGroup.Item>
                         <ListGroup.Item action id="Message" onClick={()=>{handleSidedbarClick("/message")}}>
-                            <FaEnvelope/> Message
+                            <FaEnvelope size={30}/> Message
                         </ListGroup.Item>
                     </ListGroup>
                     </>
                 }
                 open={toggleSidenav}
                 onSetOpen={()=>{setToggleSidenav(false)}}
-                styles={{ sidebar: { background: "white" } }}
+                styles={{ sidebar: { background: "#7cc1ac" } }}
             ></Sidebar>
 
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
