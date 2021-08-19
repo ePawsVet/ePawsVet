@@ -18,6 +18,7 @@ export default function Navbars({title=""}) {
     const { logout,currentUser } = useAuth()
     const history = useHistory()
     const [userInfo,setUserInfo] = useState(null)
+    const [vetInfo,setVetInfo] = useState(null)
     useEffect(()=>{
         var element = document.getElementById(title)
         element.className += element.classList.contains("active") ? "" : " active"
@@ -30,9 +31,8 @@ export default function Navbars({title=""}) {
             });
         }
     })
-    
     useEffect(()=>{
-        db.collection("Owner_Info").where("ownerID", "==", currentUser.uid)
+        db.collection("Owner_Info").where("userID", "==", currentUser.uid)
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
@@ -42,11 +42,18 @@ export default function Navbars({title=""}) {
         .catch((error) => {
             console.log("Error getting documents: ", error);
         });
+
+        db.collection("Vet_Info").where("userID", "==", currentUser.uid)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                setVetInfo(doc.data());
+            });
+        })
+        .catch((error) => {
+            console.log("Error getting documents: ", error);
+        });
     },[currentUser])
-
-    
-
-    
 
     function sidebarOpen(){
         setToggleSidenav(true)
@@ -86,7 +93,7 @@ export default function Navbars({title=""}) {
                             />
                         </div>
                         <div className="navbar-profile-name" >
-                            {userInfo ? userInfo.OwnerName: "User"}
+                            {userInfo ? userInfo.Name: vetInfo ? vetInfo.Name : "User"}
                         </div>
                     </div>
                     <ListGroup>

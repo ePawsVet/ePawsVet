@@ -1,6 +1,6 @@
 import React, { useState,useEffect,useRef } from 'react'
 import Navbars from "../Components/Navbars";
-import { Table,InputGroup,FormControl,Alert,Card,ListGroup,Button } from 'react-bootstrap'
+import { Modal,Table,InputGroup,FormControl,Alert,Card,ListGroup,Button } from 'react-bootstrap'
 import {db} from "../firebase"
 import { TiContacts } from 'react-icons/ti';
 import { FaEnvelope,FaMapMarked,FaTransgender,FaBirthdayCake,FaDna,FaTrashAlt } from 'react-icons/fa';
@@ -9,19 +9,30 @@ import { MdColorLens,MdPets }from 'react-icons/md';
 import { SiGooglecalendar }from 'react-icons/si';
 import { RiScissorsCutFill,RiPencilFill }from 'react-icons/ri';
 import moment from 'moment';
+import CreateNew from '../Components/CreateNew';
 
 export default function Clients() {
   const keywordRef = useRef()
   const [users,setUsers] = useState([]);
   const [filteredUsers,setFilteredUsers] = useState([]);
   const [petInfo,setPetInfo] = useState([])
+  const [currentPet,setCurrentPet] = useState([])
   const [petError,setPetError] = useState("")
   const [petMessage,setPetMessage] = useState("")
   const [ownerError,setOwnerError] = useState("")
   const [ownerMessage,setOwnerMessage] = useState("")
+  const [modalTitle,setModalTitle] = useState("")
   const [owners,setOwners] = useState([]);
+  const [modalShow, setModalShow] = useState(false);
 
-  
+  const refreshPets =()=>{
+    setModalShow(false)
+    getPetsPerUser(users.userID)
+  }
+  const closeModal = () => {
+    setModalShow(false)
+    setCurrentPet([])
+  }
   useEffect(()=>{
     
     const unsubscribe = db
@@ -38,11 +49,11 @@ export default function Clients() {
   },[])
   
 
-  const getPetsPerUser = async (user) =>{
+  const getPetsPerUser = async (userID) =>{
     setPetInfo(null);
     await db
     .collection("Pet_Info")
-    .where("ownerID", "==", user.ownerID)
+    .where("ownerID", "==", userID)
     .get()
     .then((querySnapshot) => {
         const data = querySnapshot.docs.map(doc =>({
@@ -62,7 +73,7 @@ export default function Clients() {
     var keyword = keywordRef.current.value;
     await db
     .collection("Owner_Info")
-    .where("OwnerName", "==", keyword)
+    .where("Name", "==", keyword)
     .get()
     .then((querySnapshot) => {
         const data = querySnapshot.docs.map(doc =>({
@@ -74,7 +85,7 @@ export default function Clients() {
   }
   const getUser = (info) =>{
     setUsers(info)
-    getPetsPerUser(info)
+    getPetsPerUser(info.userID)
     
     setOwnerMessage("")
     setOwnerError("")
@@ -86,11 +97,8 @@ export default function Clients() {
     setFilteredUsers([])
     setUsers([])
   }
-  const createOwner =(info)=>{
-    alert(info)
-  }
   const editOwner =(info)=>{
-    alert(info)
+    setModalShow(true)
   }
   const deleteOwner =(info)=>{
     setOwnerMessage("")
@@ -102,16 +110,19 @@ export default function Clients() {
     .then(() => {
       setOwnerMessage("Document successfully deleted!");
       setUsers([])
-      searchHandler()
+      //searchHandler()
     }).catch((error) => {
       setOwnerError("Error removing document: ", error);
     });
   }
   const createPet =(info)=>{
-    alert(info)
+    setModalTitle("Enroll New Pet")
+    setModalShow(true)
   }
   const editPet =(info)=>{
-    alert(info)
+    setModalTitle("Edit Pet")
+    setCurrentPet(info)
+    setModalShow(true)
   }
   const deletePet =(info)=>{
     setPetMessage("")
@@ -122,10 +133,29 @@ export default function Clients() {
     .delete()
     .then(() => {
       setPetMessage("Document successfully deleted!");
-      getUser(info)
+      getPetsPerUser(info.ownerID)
     }).catch((error) => {
       setPetError("Error removing document: ", error);
     });
+  }
+  function MyVerticallyCenteredModal(props) {
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            {modalTitle}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="create-new-container">
+          <CreateNew userInfo={users} petInfo={currentPet} click={refreshPets}></CreateNew>
+        </Modal.Body>
+      </Modal>
+    );
   }
   return (
       <>
@@ -142,7 +172,6 @@ export default function Clients() {
                 />
                 <Button 
                   onClick={searchHandler} 
-                  variant="outline-secondary" 
                   id="search-client-btn">
                   Search
                 </Button>
@@ -152,7 +181,7 @@ export default function Clients() {
               { 
                 filteredUsers.map((user)=>
                   <ListGroup.Item action onClick={()=>getUser(user)} key={user.id}>
-                    {user.OwnerName}
+                    {user.Name}
                   </ListGroup.Item>
                 )
               }
@@ -162,14 +191,12 @@ export default function Clients() {
                 : 
                 keywordRef.current && keywordRef.current.value ? 
                   <>
-                  <Alert variant="danger">{keywordRef.current.value +" not found."}</Alert>
-                  <Button className="client-search-buttons" variant="success">Create account for "{keywordRef.current.value}"</Button>
-                  <Button className="client-search-buttons" onClick={clearSearch}>Clear Search</Button>
+                  <Alert variant="danger">{keywordRef.current.value +" not found."}</Alert><Button className="client-search-buttons" onClick={clearSearch}>Clear Search</Button>
                   </>
                   : 
                     owners.map((user)=>
                     <ListGroup.Item action onClick={()=>getUser(user)} key={user.id}>
-                      {user.OwnerName}
+                      {user.Name}
                     </ListGroup.Item>
                 )
                   
@@ -192,24 +219,24 @@ export default function Clients() {
                         <Button className="client-card-buttons w-40" onClick={()=>editOwner(users)} variant="warning"><RiPencilFill/> Edit Client</Button>
                         <Button className="client-card-buttons w-40" onClick={()=>deleteOwner(users)} variant="danger"><FaTrashAlt/> Delete Client</Button>
                       </th>
-                      <th colSpan="2">{users.OwnerName}</th>
+                      <th colSpan="2">{users.Name}</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td><TiContacts/></td>
                       <td>Contact No.</td>
-                      <td>{users.OwnerContactNo}</td>
+                      <td>{users.ContactNo}</td>
                     </tr>
                     <tr>
                       <td><FaMapMarked/></td>
                       <td>Address</td>
-                      <td>{users.OwnerAddress}</td>
+                      <td>{users.Address}</td>
                     </tr>
                     <tr>
                       <td><FaEnvelope/></td>
                       <td>Email</td>
-                      <td>{users.email}</td>
+                      <td>{users.Email}</td>
                     </tr>
                   </tbody>
                 </Table>
@@ -275,12 +302,16 @@ export default function Clients() {
                 }
                 </div>
                 <br/>
-                <Button className="client-card-buttons w-100" onClick={()=>getPetsPerUser(users)} variant="primary"><MdPets/> Add Pet/s</Button>
+                <Button className="client-card-buttons w-100" onClick={()=>createPet(users)} variant="primary"><MdPets/> Add Pet/s</Button>
               </div>
             )
           }
         </div>
       </div>
+      <MyVerticallyCenteredModal
+        show={modalShow}
+        onHide={closeModal}
+      />
     </>
   )
 }

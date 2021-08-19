@@ -26,7 +26,7 @@ export default function Message() {
         e.target.reset()
     }
     useEffect(()=>{
-        db.collection("Owner_Info").where("ownerID", "==", currentUser.uid)
+        db.collection("Owner_Info").where("userID", "==", currentUser.uid)
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
@@ -80,15 +80,15 @@ export default function Message() {
                     {message && <Alert variant="success">{message}</Alert>}
                     <Form.Group className="mb-3" controlId="UserName">
                         <Form.Label>Name</Form.Label>
-                        <Form.Control required name="user_name" type="text" placeholder="Your Name" defaultValue={userInfo ? userInfo.OwnerName : "" } />
+                        <Form.Control required name="user_name" type="text" placeholder="Your Name" defaultValue={userInfo ? userInfo.Name : "" } />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="ContactNumber">
                         <Form.Label>Contact #</Form.Label>
-                        <Form.Control required name="contact_number" type="number" placeholder="Contact Number" defaultValue={userInfo ? userInfo.OwnerContactNo:""} />
+                        <Form.Control required name="contact_number" type="number" placeholder="Contact Number" defaultValue={userInfo ? userInfo.ContactNo:""} />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="EmailAddress">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control required name="user_email" type="email" placeholder="sample.email@gmail.com" defaultValue={currentUser.email}/>
+                        <Form.Control required name="user_email" type="email" placeholder="sample.email@gmail.com" defaultValue={currentUser.Email}/>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="EmailMessage">
                         <Form.Label>Message</Form.Label>

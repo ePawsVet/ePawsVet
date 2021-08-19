@@ -18,28 +18,53 @@ export function AuthProvider({ children }) {
     async function signup(email,password,info){
 
         const data = await auth.createUserWithEmailAndPassword(email, password)
-        var OwnerID = data.user.uid
+        var id = data.user.uid
         info = await info
         if (db) {
-            db.collection('Owner_Info').add({
-                OwnerName: info.OwnerInfo.OwnerName,
-                OwnerContactNo: info.OwnerInfo.OwnerContactNo,
-                OwnerAddress: info.OwnerInfo.OwnerAddress,
-                OwnerEmail: email,
-                ownerID: OwnerID
-            })
-            db.collection('Pet_Info').add({
-                ownerID: OwnerID,
-                PetName: info.PetInfo.PetName,
-                PetType: info.PetInfo.PetType,
-                Breed: info.PetInfo.Breed,
-                Birthday: info.PetInfo.Birthday,
-                Gender: info.PetInfo.Gender,
-                Age: info.PetInfo.Age,
-                Color: info.PetInfo.Color,
-                Spayed: info.PetInfo.Spayed,
-            })
+            createUser(id,email,info);
+            createPet(id,info);
         }
+    }
+    async function createUser(id,email,info) {
+        info = await info
+        db.collection('User_Info').add({
+            Name: info.OwnerInfo.Name,
+            ContactNo: info.OwnerInfo.ContactNo,
+            Address: info.OwnerInfo.Address,
+            Email: email,
+            userID: id
+        })
+    }
+    
+    async function createPet(id,info) {
+        info = await info
+        console.log(info)
+        db.collection('Pet_Info').add({
+            ownerID: id,
+            PetName: info.PetInfo.PetName,
+            PetType: info.PetInfo.PetType,
+            Breed: info.PetInfo.Breed,
+            Birthday: info.PetInfo.Birthday,
+            Gender: info.PetInfo.Gender,
+            Age: info.PetInfo.Age,
+            Color: info.PetInfo.Color,
+            Spayed: info.PetInfo.Spayed,
+        })
+    }
+    async function updatePet(id,info,ownerID) {
+        info = await info
+        console.log(info)
+        db.collection('Pet_Info').doc(id).set({
+            Age : info.PetInfo.Age,
+            Birthday : info.PetInfo.Birthday,
+            Breed : info.PetInfo.Breed,
+            Color : info.PetInfo.Color,
+            Gender : info.PetInfo.Gender,
+            PetName : info.PetInfo.PetName,
+            PetType : info.PetInfo.PetType,
+            Spayed : info.PetInfo.Spayed,
+            ownerID : ownerID
+        })
     }
 
     async function login(email,password,type){
@@ -53,7 +78,7 @@ export function AuthProvider({ children }) {
 
         if(type==="Owner_Info"){
             var newOwners =  owners.filter(function(owner) {
-                return owner.ownerID === data.user.uid;
+                return owner.userID === data.user.uid;
             });
             if(newOwners.length>0){
                 setCurrentUser(data.user)
@@ -63,7 +88,7 @@ export function AuthProvider({ children }) {
             }
         }else{
             var newVets =  vets.filter(function(vet) {
-                return vet.ownerID === data.user.uid;
+                return vet.userID === data.user.uid;
             });
             if(newVets.length>0){
                 setCurrentUser(data.user)
@@ -121,7 +146,10 @@ export function AuthProvider({ children }) {
         signup,
         login,
         logout,
-        resetPassword
+        resetPassword,
+        createPet,
+        createUser,
+        updatePet
     }
 
     return (

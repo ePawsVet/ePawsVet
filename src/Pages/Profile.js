@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Navbars from "../Components/Navbars";
-import { Image,Alert,Table,Button } from 'react-bootstrap'
+import { Image,Alert,Table } from 'react-bootstrap'
 import {db} from "../firebase"
 import { useAuth } from '../Contexts/AuthContext'
 import moment from 'moment';
@@ -22,7 +22,7 @@ export default function Profile() {
   useEffect(()=>{
     db
     .collection("Owner_Info")
-    .where("ownerID", "==", currentUser.uid)
+    .where("userID", "==", currentUser.uid)
     .get()
     .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -56,24 +56,24 @@ console.log(petInfo)
                 <Table striped bordered hover>
                   <thead>
                     <tr>
-                      <th colSpan="3">{userInfo.OwnerName}</th>
+                      <th colSpan="3">{userInfo.Name}</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td><TiContacts/></td>
                       <td>Contact No.</td>
-                      <td>{userInfo.OwnerContactNo}</td>
+                      <td>{userInfo.ContactNo}</td>
                     </tr>
                     <tr>
                       <td><FaMapMarked/></td>
                       <td>Address</td>
-                      <td>{userInfo.OwnerAddress}</td>
+                      <td>{userInfo.Address}</td>
                     </tr>
                     <tr>
                       <td><FaEnvelope/></td>
                       <td>Email</td>
-                      <td>{currentUser.email}</td>
+                      <td>{currentUser.Email}</td>
                     </tr>
                   </tbody>
                 </Table>
@@ -136,7 +136,7 @@ console.log(petInfo)
               ) : 
               <Alert variant="danger">No pet found.</Alert>
             }
-            <Button className="client-card-buttons" variant="success">Add Pet</Button>
+            
           </div>
         </div>
     </>

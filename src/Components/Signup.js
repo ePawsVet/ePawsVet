@@ -82,9 +82,9 @@ export default function Signup() {
         var dt =
         {
             OwnerInfo : {
-                "OwnerName"         : ownerRef.current.value,
-                "OwnerAddress"      : addressRef.current.value,
-                "OwnerContactNo"    : contactRef.current.value
+                "Name"         : ownerRef.current.value,
+                "Address"      : addressRef.current.value,
+                "ContactNo"    : contactRef.current.value
             },
             PetInfo : {
                 "PetName"   : petRef.current.value,
