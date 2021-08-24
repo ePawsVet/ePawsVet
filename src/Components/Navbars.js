@@ -77,7 +77,7 @@ export default function Navbars({title=""}) {
     }
     return (
         <>
-        <div class="sidebar">
+        <div className="sidebar">
             <Sidebar style={{zIndex:"2"}}
                 children=""
                 sidebar=

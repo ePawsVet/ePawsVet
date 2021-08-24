@@ -66,6 +66,15 @@ export function AuthProvider({ children }) {
             ownerID : ownerID
         })
     }
+    async function createAppointment(clientID,Date,timeFrom,timeTo,reason) {
+        db.collection('Appointments').add({
+            Date : Date,
+            clientID : clientID,
+            timeFrom : timeFrom,
+            timeTo : timeTo,
+            reason : reason
+        })
+    }
 
     async function login(email,password,type){
         const data = await auth.signInWithEmailAndPassword(email,password)
@@ -149,7 +158,8 @@ export function AuthProvider({ children }) {
         resetPassword,
         createPet,
         createUser,
-        updatePet
+        updatePet,
+        createAppointment
     }
 
     return (
