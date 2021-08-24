@@ -73,7 +73,7 @@ console.log(petInfo)
                     <tr>
                       <td><FaEnvelope/></td>
                       <td>Email</td>
-                      <td>{currentUser.Email}</td>
+                      <td>{currentUser.email}</td>
                     </tr>
                   </tbody>
                 </Table>
