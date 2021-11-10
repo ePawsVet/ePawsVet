@@ -33,7 +33,12 @@
     width: 0;
     height: 0;
 }
-
+/*.fc-media-screen{
+  width: 50% !important;
+  height: 50% !important;
+  float: right !important;
+  margin: 1% !important;
+}*/
 /* IMAGE STYLES */
 [name="userType"] + img {
     cursor: pointer;

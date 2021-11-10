@@ -42,7 +42,6 @@ export default function Profile() {
         setPetInfo(data);
     })
   },[currentUser])
-console.log(petInfo)
   return (
     <>
       <Navbars title="Profile"></Navbars>

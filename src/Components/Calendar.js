@@ -7,8 +7,9 @@ import moment from 'moment'
 
 export default function Calendars({click=null}){
     const [evts,setEvents] = useState([])
-    useEffect(()=>{
     
+    useEffect(()=>{
+      
       const unsubscribe = 
           db
           .collection('Appointments')
@@ -23,7 +24,8 @@ export default function Calendars({click=null}){
           var eventData=[]
           data.forEach(dt=>{
             eventData.push({
-              title : new Date(dt.timeFrom.seconds * 1000).toLocaleTimeString() + " - " + new Date(dt.timeTo.seconds * 1000).toLocaleTimeString() + " : " + dt.reason,
+              title : new Date(dt.timeFrom.seconds * 1000).toLocaleTimeString() + " - " +
+               new Date(dt.timeTo.seconds * 1000).toLocaleTimeString() + " : " + dt.reason,
               date : moment(new Date(dt.Date).toUTCString()).format("YYYY-MM-DD")
             })
           })

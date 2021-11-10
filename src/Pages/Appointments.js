@@ -1,10 +1,11 @@
-import React, { useState,useRef } from 'react';
+import React, { useState,useRef,useEffect } from 'react';
 import Navbars from "../Components/Navbars";
 import Calendar from 'react-calendar';
 import Calendars from '../Components/Calendar';
 import { Alert,Modal,Button,Form,Col,Row } from 'react-bootstrap'
 import moment from 'moment';
 import { useAuth } from '../Contexts/AuthContext'
+import {db} from "../firebase"
 
 
 
@@ -17,6 +18,19 @@ export default function Appointments() {
   const timeToRef = useRef()
   const reasonRef = useRef()
   const {createAppointment,currentUser} = useAuth()
+  const [userInfo,setUserInfo] = useState(null)
+
+  useEffect(()=>{
+    db
+    .collection("Owner_Info")
+    .where("userID", "==", currentUser.uid)
+    .get()
+    .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            setUserInfo(doc.data());
+        });
+    })
+  },[currentUser])
 
   const onChange = (newDate) => {
     setDate(newDate)
@@ -27,13 +41,12 @@ export default function Appointments() {
     console.log(date)
   }
   const addSchedule = async () =>{
-    
     try{
       setModalShow(false)
       await createAppointment(currentUser.uid,dateRef.current.value,
         new Date( dateRef.current.value + " " + timeFromRef.current.value),
         new Date( dateRef.current.value + " " + timeToRef.current.value),
-        reasonRef.current.value)
+        reasonRef.current.value, currentUser.email,userInfo.Name)
     }catch(err){
         setError("Failed to create an account. " +err.message)
     }

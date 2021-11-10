@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react'
 import {auth,db} from "../firebase"
-
-
+import moment from 'moment'
+import schedule from 'node-schedule'
+import emailjs from 'emailjs-com';
 
 const AuthContext = React.createContext()
 
@@ -10,10 +11,11 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-    const [currentUser,setCurrentUser] = useState(null)
+    const [currentUser,setCurrentUser] = useState()
     const [loading,setLoading] = useState(true)
     const [owners,setOwners] = useState([]);
     const [vets,setVets] = useState([]);
+    const [evts,setEvents] = useState([])
 
     async function signup(email,password,info){
 
@@ -66,13 +68,15 @@ export function AuthProvider({ children }) {
             ownerID : ownerID
         })
     }
-    async function createAppointment(clientID,Date,timeFrom,timeTo,reason) {
+    async function createAppointment(clientID,Date,timeFrom,timeTo,reason,email,clientName) {
         db.collection('Appointments').add({
             Date : Date,
-            clientID : clientID,
             timeFrom : timeFrom,
             timeTo : timeTo,
-            reason : reason
+            reason : reason,
+            clientID : clientID,
+            email: email,
+            clientName : clientName
         })
     }
 
@@ -141,13 +145,59 @@ export function AuthProvider({ children }) {
             }));
             setVets(data);
         })
-
-        return ()=>{
+        const unsubscribe4 = 
+          db
+          .collection('Appointments')
+          .limit(100)
+          .onSnapshot(querySnapshot =>{
+          const data = querySnapshot.docs.map(doc =>({
+              ...doc.data(),
+              id:doc.id,
+          }));
+          console.log(data)
+          var eventData=[]
+          data.forEach(dt=>{
+            eventData.push({
+              title : new Date(dt.timeFrom.seconds * 1000).toLocaleTimeString() + " - " +
+               new Date(dt.timeTo.seconds * 1000).toLocaleTimeString() + " : " + dt.reason,
+              date : moment(new Date(dt.Date).toUTCString()).format("YYYY-MM-DD"),
+              clientID : dt.clientID,
+              email : dt.email,
+              reason : dt.reason,
+              clientName : dt.clientName,
+              dateFrom : dt.timeFrom
+            })
+          })
+          setEvents(eventData)
+        })
+        return ()=>{    
             unsubscribe1();
             unsubscribe2();
             unsubscribe3();
+            unsubscribe4();
         }
     },[])
+    useEffect(()=>{
+        schedule.scheduleJob('0 0 * * *', () => { 
+            console.log("EVENTS",evts)
+            evts.forEach(schedule=>{
+                var templateParams = {
+                    to_email: schedule.email,
+                    to_name: schedule.clientName,
+                    reason: schedule.reason,
+                    sched: schedule.date + " at 10:00AM"
+                };
+                
+                emailjs.send('scheduleEmail', 'schedule_template', templateParams,'user_q4V9lFfLOBoJCZa2j8NVZ')
+                    .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    }, function(error) {
+                    console.log('FAILED...', error);
+                    });
+            })
+        }) 
+        
+    },[evts])
     
 
     const value = {
