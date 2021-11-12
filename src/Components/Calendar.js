@@ -40,6 +40,17 @@ export default function Calendars({click=null}){
     const handleEventClick = (e) => {
         alert(e.event._def)
     }
+    const getAddedDays = () =>{
+      var someDate = new Date();
+      var numberOfDaysToAdd = 2;
+      someDate.setDate(someDate.getDate() + numberOfDaysToAdd)
+      var dd = someDate.getDate();
+      var mm = someDate.getMonth() + 1;
+      var y = someDate.getFullYear();
+
+      var someFormattedDate = y + '-' + mm + '-' + dd;
+      return someFormattedDate
+    }
     return (
       <FullCalendar
         plugins={[ dayGridPlugin,interactionPlugin ]}

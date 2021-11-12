@@ -32,9 +32,28 @@ export default function Appointments() {
     })
   },[currentUser])
 
+  const getAddedDays = () =>{
+    var someDate = new Date();
+    var numberOfDaysToAdd = 2;
+    someDate.setDate(someDate.getDate() + numberOfDaysToAdd)
+    var dd = someDate.getDate();
+    var mm = someDate.getMonth() + 1;
+    var y = someDate.getFullYear();
+
+    var someFormattedDate = y + '-' + mm + '-' + dd;
+    return someFormattedDate
+  }
+
   const onChange = (newDate) => {
-    setDate(newDate)
-    setModalShow(true)
+    var d1 = new Date(getAddedDays())
+    var d2 = new Date(newDate);
+    if(d2 >= d1){
+      
+      setDate(newDate)
+      setModalShow(true)
+    }else{
+      alert("You can only request an appointment Two(2) Days from now.")
+    }
   }
   const getAppointmentsPerDay = () => {
     setModalShow(true)
@@ -91,6 +110,11 @@ export default function Appointments() {
               <option value="">-- Select Reason --</option>
               <option value="checkup">Pet Checkup</option>
               <option value="grooming">Pet Grooming</option>
+              <option value="wound">Injury/wound </option>     
+              <option value="infection">infection/viruses</option>
+              <option value="fever">Fever/cough</option>
+              <option value="vaccination">Vaccination</option>
+              <option value="surgery">Surgery</option>
             </select>
           </Form.Group>
 
