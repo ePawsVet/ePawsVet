@@ -37,6 +37,7 @@ export default function Clients() {
     
     const unsubscribe = db
         .collection('Owner_Info')
+        .where("userType","==","Client")
         .limit(100)
         .onSnapshot(querySnapshot =>{
         const data = querySnapshot.docs.map(doc =>({

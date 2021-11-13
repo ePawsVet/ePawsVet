@@ -4,15 +4,18 @@ import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import interactionPlugin from "@fullcalendar/interaction" // needed for dayClick
 import { db } from '../firebase'
 import moment from 'moment'
+import { useAuth } from '../Contexts/AuthContext'
 
 export default function Calendars({click=null}){
     const [evts,setEvents] = useState([])
+    const {currentUser} = useAuth()
     
     useEffect(()=>{
       
       const unsubscribe = 
           db
           .collection('Appointments')
+          .where("clientID", "==", currentUser.uid)
           .orderBy("timeFrom")
           .limit(100)
           .onSnapshot(querySnapshot =>{
@@ -21,6 +24,7 @@ export default function Calendars({click=null}){
               id:doc.id,
           }));
           console.log(data)
+          console.log(currentUser.uid)
           var eventData=[]
           data.forEach(dt=>{
             eventData.push({

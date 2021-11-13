@@ -84,7 +84,8 @@ export default function Signup() {
             OwnerInfo : {
                 "Name"         : ownerRef.current.value,
                 "Address"      : addressRef.current.value,
-                "ContactNo"    : contactRef.current.value
+                "ContactNo"    : contactRef.current.value,
+                "Type"         : "Client"
             },
             PetInfo : {
                 "PetName"   : petRef.current.value,

@@ -27,6 +27,16 @@ export function AuthProvider({ children }) {
             createPet(id,info);
         }
     }
+    async function signupVet(email,password,info){
+
+        const data = await auth.createUserWithEmailAndPassword(email, password)
+        var id = data.user.uid
+        info = await info
+        if (db) {
+            createUser(id,email,info);
+        }
+    }
+
     async function createUser(id,email,info) {
         info = await info
         db.collection('Owner_Info').add({
@@ -34,7 +44,8 @@ export function AuthProvider({ children }) {
             ContactNo: info.OwnerInfo.ContactNo,
             Address: info.OwnerInfo.Address,
             Email: email,
-            userID: id
+            userID: id,
+            userType: info.OwnerInfo.Type
         })
     }
     
@@ -88,7 +99,7 @@ export function AuthProvider({ children }) {
             string += chars[Math.floor(Math.random() * chars.length)];
         }
         var randomEmail = string + '@gmail.com';
-
+        console.log(vets)
         if(type==="Owner_Info"){
             var newOwners =  owners.filter(function(owner) {
                 return owner.userID === data.user.uid;
@@ -127,6 +138,7 @@ export function AuthProvider({ children }) {
         })
         const unsubscribe2 = db
             .collection('Owner_Info')
+            .where("userType","==","Client")
             .limit(100)
             .onSnapshot(querySnapshot =>{
             const data = querySnapshot.docs.map(doc =>({
@@ -136,7 +148,8 @@ export function AuthProvider({ children }) {
             setOwners(data);
         })
         const unsubscribe3 = db
-            .collection('Vet_Info')
+            .collection('Owner_Info')
+            .where("userType","==","Admin")
             .limit(100)
             .onSnapshot(querySnapshot =>{
             const data = querySnapshot.docs.map(doc =>({
@@ -203,6 +216,7 @@ export function AuthProvider({ children }) {
     const value = {
         currentUser,
         signup,
+        signupVet,
         login,
         logout,
         resetPassword,

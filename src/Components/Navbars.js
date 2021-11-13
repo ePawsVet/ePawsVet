@@ -43,7 +43,7 @@ export default function Navbars({title=""}) {
             console.log("Error getting documents: ", error);
         });
 
-        db.collection("Vet_Info").where("userID", "==", currentUser.uid)
+        db.collection("Owner_Info").where("userID", "==", currentUser.uid)
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
@@ -100,30 +100,40 @@ export default function Navbars({title=""}) {
                         <ListGroup.Item action id="Home" onClick={()=>{handleSidedbarClick("/")}}>
                             <FaHome/> Home  
                         </ListGroup.Item>
-                        <ListGroup.Item action id="Dashboard" onClick={()=>{handleSidedbarClick("/dashboard")}}>
-                            <FaChartBar/> Dashboard
-                        </ListGroup.Item>
-                        <ListGroup.Item action id="Clients" onClick={()=>{handleSidedbarClick("/clients")}}>
-                            <FaUsers/> Clients
-                        </ListGroup.Item>
-                        <ListGroup.Item action id="Medicines" onClick={()=>{handleSidedbarClick("/medicines")}}>
-                            <GiMedicinePills/> Medicines
-                        </ListGroup.Item>
-                        <ListGroup.Item action id="Inventory" onClick={()=>{handleSidedbarClick("/inventory")}}>
-                            <FaBoxes/> Inventory
-                        </ListGroup.Item>
-                        <ListGroup.Item action id="Reports" onClick={()=>{handleSidedbarClick("/reports")}}>
-                            <SiMicrosoftpowerpoint/> Reports
-                        </ListGroup.Item>
+                        {
+                        userInfo && userInfo.userType === "Client" ? "" :
+                        <>
+                            <ListGroup.Item action id="Dashboard" onClick={()=>{handleSidedbarClick("/dashboard")}}>
+                                <FaChartBar/> Dashboard
+                            </ListGroup.Item> 
+                            <ListGroup.Item action id="Clients" onClick={()=>{handleSidedbarClick("/clients")}}>
+                                <FaUsers/> Clients
+                            </ListGroup.Item>
+                            <ListGroup.Item action id="Medicines" onClick={()=>{handleSidedbarClick("/medicines")}}>
+                                <GiMedicinePills/> Medicines
+                            </ListGroup.Item>
+                            <ListGroup.Item action id="Inventory" onClick={()=>{handleSidedbarClick("/inventory")}}>
+                                <FaBoxes/> Inventory
+                            </ListGroup.Item>
+                            <ListGroup.Item action id="Reports" onClick={()=>{handleSidedbarClick("/reports")}}>
+                                <SiMicrosoftpowerpoint/> Reports
+                            </ListGroup.Item> 
+                        </>
+                        }
                         <ListGroup.Item action id="Appointments" onClick={()=>{handleSidedbarClick("/appointments")}}>
                             <FaRegCalendarAlt/> Appointments
                         </ListGroup.Item>
-                        <ListGroup.Item action id="Profile" onClick={()=>{handleSidedbarClick("/profile")}}>
-                            <FaUser/> Profile
-                        </ListGroup.Item>
-                        <ListGroup.Item action id="Message" onClick={()=>{handleSidedbarClick("/message")}}>
-                            <FaEnvelope/> Message
-                        </ListGroup.Item>
+                        {
+                        userInfo && userInfo.userType === "Admin" ? "" :
+                        <>
+                            <ListGroup.Item action id="Profile" onClick={()=>{handleSidedbarClick("/profile")}}>
+                                <FaUser/> Profile
+                            </ListGroup.Item>
+                            <ListGroup.Item action id="Message" onClick={()=>{handleSidedbarClick("/message")}}>
+                                <FaEnvelope/> Message
+                            </ListGroup.Item>
+                        </>
+                        }
                     </ListGroup>
                     </>
                 }
