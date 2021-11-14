@@ -190,7 +190,7 @@ export function AuthProvider({ children }) {
             unsubscribe4();
         }
     },[])
-
+/*
     useEffect(()=>{
         schedule.scheduleJob('0 0 * * *', () => { 
             console.log("EVENTS",evts)
@@ -211,7 +211,7 @@ export function AuthProvider({ children }) {
             })
         }) 
         
-    },[evts])
+    },[evts])*/
     
 
     const value = {
