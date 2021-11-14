@@ -108,7 +108,7 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
         Purpose: info.purpose,
         Quantity: info.qty,
         Type: info.type,
-        Status: "In-Stock"
+        Status: info.qty > 0 ? "In-Stock" : "Out of Stock"
       })
     }
     else{
@@ -119,7 +119,7 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
         Purpose: info.purpose,
         Quantity: info.qty,
         Type: info.type,
-        Status: "In-Stock"
+        Status: info.qty > 0 ? "In-Stock" : "Out of Stock"
       })
     }
     setIsModalVisible(false);
@@ -228,14 +228,14 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
               </Form.Group>
               <Form.Group id="Type">
                   <Form.Label>Type</Form.Label>
-                  <select ref={typeRef} id="type">
+                  <select className="form-select" ref={typeRef} id="type" >
                     <option selected={editData && editData.type==="Medicine" ? true : false } value="Medicine">Medicine</option>
                     <option selected={editData && editData.type==="Essentials" ? true : false } value="Essentials">Essentials</option>
                   </select>
               </Form.Group>
               <Form.Group id="Quantity">
                   <Form.Label>Quantity</Form.Label>
-                  <Form.Control min={1} type="number" ref={quantityRef} required defaultValue={editData? editData.quantity : 1}/>
+                  <Form.Control min={0} type="number" ref={quantityRef} required defaultValue={editData? editData.quantity : 0}/>
               </Form.Group>
           </Form>
         </Modal>
