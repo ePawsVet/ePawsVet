@@ -201,7 +201,7 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
         </Button>
 
         <Modal 
-          title="Add Item" 
+          title={editData ? "Update Item" : "Add Item" }
           visible={isModalVisible} 
           onCancel ={handleCancel}
           footer={[
@@ -235,7 +235,7 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
               </Form.Group>
               <Form.Group id="Quantity">
                   <Form.Label>Quantity</Form.Label>
-                  <Form.Control type="number" ref={quantityRef} required defaultValue={editData? editData.quantity : ""}/>
+                  <Form.Control min={1} type="number" ref={quantityRef} required defaultValue={editData? editData.quantity : 1}/>
               </Form.Group>
           </Form>
         </Modal>
