@@ -196,7 +196,7 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
         <Navbars title="Medicines"></Navbars>
         
         {/* ADD ITEM */}
-        <Button type="primary" onClick={showModal}>
+        <Button className="inventory-add-item" type="primary" onClick={showModal}>
           Add Item
         </Button>
 

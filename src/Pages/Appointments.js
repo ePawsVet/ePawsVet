@@ -73,7 +73,7 @@ export default function Appointments() {
     
     var d1 = new Date(getAddedDays())
     var d2 = new Date(newDate);
-    if(d2 >= d1){
+    if(d2 >= d1 || userInfo.userType === "Admin"){
       if(tot < 480){
         setDate(newDate)
         userInfo.userType === "Client" ? setModalShow(true) : setAdminModalShow(true)
