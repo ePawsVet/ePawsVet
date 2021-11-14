@@ -8,12 +8,9 @@ import "antd/dist/antd.css";
 import { DeleteFilled, EditFilled} from '@ant-design/icons';
 import { db } from '../firebase';
 import { Form } from"react-bootstrap"
-import Loader from "react-loader-spinner";
 
 export default function Medicines() {
 
-  const [loading,setLoading] = useState(false)
-  
 const columns = [
   {
     title: 'Item Name',
@@ -99,7 +96,6 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
   const handleOk = (type) => {
     console.log(type)
     var info = getData()
-    setLoading(true)
     if(type==="Add"){
       db.collection('Meds').add({
         Item_Code: info.code,
@@ -123,7 +119,6 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
       })
     }
     setIsModalVisible(false);
-    setLoading(false)
     document.getElementById("Med-form").reset();
   };
   const editHandler = (record) =>{
@@ -131,16 +126,13 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
     setIsModalVisible(true);
   }
   const deleteHandler = (record) =>{
-    setLoading(true)
     db
     .collection("Meds")
     .doc(record.key)
     .delete()
     .then(() => {
-      setLoading(false)
       alert("Record successfully deleted!");
     }).catch((error) => {
-      setLoading(false)
       alert("Error removing document: ", error);
     });
   }
@@ -242,13 +234,7 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
 
         {/* TABLE */}
         <Table {...expandable} columns={columns} dataSource={meds} />
-        {loading ?
-            <Loader className="loading-spinner"
-                type="Grid"
-                color="#00BFFF"
-                height={"100"}
-                width={"100"}
-        /> : null}
+       
     </>
   )
 }
