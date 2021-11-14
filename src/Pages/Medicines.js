@@ -224,11 +224,11 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
               </Form.Group>
               <Form.Group id="Description">
                   <Form.Label>Description</Form.Label>
-                  <Form.Control type="text" ref={descRef} required defaultValue={editData? editData.description : ""}/>
+                  <Form.Control as="textarea" rows={3}  ref={descRef} required defaultValue={editData? editData.description : ""}/>
               </Form.Group>
               <Form.Group id="Type">
                   <Form.Label>Type</Form.Label>
-                  <select className="form-select" ref={typeRef} id="type" >
+                  <select ref={typeRef} id="type" className="form-select">
                     <option selected={editData && editData.type==="Medicine" ? true : false } value="Medicine">Medicine</option>
                     <option selected={editData && editData.type==="Essentials" ? true : false } value="Essentials">Essentials</option>
                   </select>

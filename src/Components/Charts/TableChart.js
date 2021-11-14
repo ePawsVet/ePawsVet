@@ -27,8 +27,8 @@ export default function TableChart() {
         <Table striped bordered hover>
             <thead>
                 <tr>
-                    <th>Name</th>
                     <th>Date</th>
+                    <th>Name</th>
                     <th>Reason for Visiting</th>
                 </tr>
             </thead>
@@ -37,8 +37,8 @@ export default function TableChart() {
                 evts && evts.length > 0 ?
                 evts.map((evt)=>
                     <tr key={evt.id}>
-                        <td>{evt.clientName}</td>
                         <td>{evt.Date}</td>
+                        <td>{evt.clientName}</td>
                         <td>{evt.reason}</td>
                     </tr>
                 ) : ""

@@ -62,9 +62,9 @@ export default function Login() {
             <div className="w-100 login-container" style={{maxWidth:"400px"}}>
                 <Card>
                     <Card.Body>
-                        <h2 className="text-center mb-4">Log In</h2>
+                        <h2 className="text-center login-header mb-1">Log In</h2>
                         {error && <Alert variant="danger">{error}</Alert>}
-                        <Form onSubmit={LoginHandler}>
+                        <Form onSubmit={LoginHandler} className="login-form">
                             <span>I'm Logging in as a : </span>
                             <Form.Group  className="text-center mb-4" id="userType" >
                                  <label id="usertype-vet" className="usertype-container">

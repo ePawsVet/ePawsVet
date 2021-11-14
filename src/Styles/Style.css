@@ -63,7 +63,7 @@
 }
 
 .signup-info-container{
-    padding: 10px;
+    padding: 20px;
 }
 
 .signup-owner{
@@ -750,6 +750,10 @@ button.inventory-add-item {
   background-color: #e27d60;
   border: #e27d60;
 }
+button.ant-btn.ant-btn-primary {
+  background-color: #e27d60;
+  border: #e27d60;
+}
 button.ant-btn.ant-btn-primary.ant-btn-round.ant-btn-sm {
   background-color: #E8A87C;
   border: #e27d60;
@@ -760,6 +764,9 @@ span.anticon {
 }
 .ant-table-wrapper{
   margin:30px;
+}
+.ant-table-expanded-row td p {
+  font-size: inherit;
 }
 
 /*Modal*/
@@ -775,6 +782,9 @@ button.fc-button {
   background-color: #e27d60 !important;
   border-color: #d04c26 !important;
 }
+.form-label {
+  padding-top: 5px;
+}
 
 /*Appointment Modal*/
 .modal-header{
@@ -788,4 +798,31 @@ button.fc-button {
 /*Calendar*/
 .fc.fc-media-screen.fc-direction-ltr.fc-theme-standard {
   margin: 30px;
+}
+
+.registration-header, .login-header {
+  background-color: #7cc1ac;
+  padding: 15px;
+  color: #fff;
+  margin-bottom: 0px;
+}
+
+button.w-90.text-center.mt-2.btn.btn-primary {
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.pet-icon, .owner-icon {
+  margin-right: 5px;
+  margin-bottom: 5px;
+  font-size: 25px;
+}
+
+.card-body {
+    padding: 0px;
+    padding-bottom: 1em
+}
+form.login-form {
+  padding: 15px;
 }

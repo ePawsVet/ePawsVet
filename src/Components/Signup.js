@@ -4,6 +4,7 @@ import { useAuth } from '../Contexts/AuthContext'
 import { Link,useHistory } from 'react-router-dom'
 import moment from 'moment'
 import Loader from "react-loader-spinner";
+import { FaPaw, FaUser } from 'react-icons/fa';
 
 export default function Signup() {
     //OWNER INFO
@@ -144,12 +145,12 @@ export default function Signup() {
         <div className="w-100 signup-container">
             <Card>
                 <Card.Body>
-                    <h2 className="text-center mb-4">Registration Form</h2>
+                    <h2 className="text-center registration-header">Registration Form</h2>
                     {error && <Alert variant="danger">{error}</Alert>}
                     <Form onSubmit={SignupHandler}>
                         <div className="row">
                             <div className="signup-info-container signup-pet col-lg-6 col-md-12">
-                                <h2 className="text-center mb-4">Pet Info</h2>
+                                <h3 className="text-center mb-4"><FaPaw className="pet-icon"/>Pet Info</h3>
                                 {petError && <Alert variant="danger">{petError}</Alert>}
                                 <Form.Group id="pet-name" className="required">
                                     <Form.Label>Name of Pet</Form.Label>
@@ -159,7 +160,10 @@ export default function Signup() {
                                     <Form.Label>Pet Type</Form.Label><br/>
                                     <Form.Check value="Cat" required onClick={radioButtonHandler} inline name="pettype" type="radio" label="Cat" />
                                     <Form.Check value="Dog" required onClick={radioButtonHandler} inline name="pettype" type="radio" label="Dog" />
-                                    <Form.Check value="Others" required onClick={radioButtonHandler} inline name="pettype" type="radio" label="Others" />
+                                    <Form.Check value="Bird" required onClick={radioButtonHandler} inline name="pettype" type="radio" label="Bird" />
+                                    <Form.Check value="Rabbit" required onClick={radioButtonHandler} inline name="pettype" type="radio" label="Rabbit" />
+                                    <Form.Check value="Guinea Pig" required onClick={radioButtonHandler} inline name="pettype" type="radio" label="Guinea Pig" />
+                                    {/* <Form.Check value="Others" required onClick={radioButtonHandler} inline name="pettype" type="radio" label="Others" /> */}
                                     <Form.Control ref={petTypeOthersRef} id="other-type" type="text"/>
                                 </Form.Group>
 
@@ -196,7 +200,7 @@ export default function Signup() {
                                 </Form.Group>
                             </div>
                             <div className="signup-info-container signup-owner col-lg-6 col-md-12">
-                                <h2 className="text-center mb-4">Owner Info</h2>
+                                <h3 className="text-center mb-4"><FaUser className="owner-icon"/>Owner Info</h3>
                                 {ownerError && <Alert variant="danger">{ownerError}</Alert>}
                                 <Form.Group id="owner-name" className="required">
                                     <Form.Label>Name of Owner</Form.Label>
@@ -224,7 +228,7 @@ export default function Signup() {
                                 </Form.Group>
                             </div>
                         </div>
-                        <Button disabled={loading} className="w-100 text-center mt-2" type="submit">
+                        <Button disabled={loading} className="w-90 text-center mt-2" type="submit">
                             Sign Up
                         </Button>
                     </Form>
