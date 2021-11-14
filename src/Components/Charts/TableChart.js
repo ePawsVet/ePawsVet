@@ -1,83 +1,50 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Table } from 'react-bootstrap'
+import { db } from '../../firebase'
 
 export default function TableChart() {
+    const [evts,setEvents] = useState(null)
+
+    useEffect(()=>{
+        const unsubscribe = 
+            db
+            .collection('Appointments')
+            .orderBy("Date","desc")
+            .limit(10)
+            .onSnapshot(querySnapshot =>{
+            const data = querySnapshot.docs.map(doc =>({
+                ...doc.data(),
+                id:doc.id,
+            }));
+            setEvents(data)
+        })
+        return unsubscribe
+      },[])
   return (
     <>
-        <h2 className="text-center">Most Visits</h2>
+        <h2 className="text-center">Recent Visits</h2>
         <div className="table-chart">
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                    <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Pet Name</th>
+        <Table striped bordered hover>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Reason for Visiting</th>
+                </tr>
+            </thead>
+            <tbody>
+            {
+                evts && evts.length > 0 ?
+                evts.map((evt)=>
+                    <tr key={evt.id}>
+                        <td>{evt.clientName}</td>
+                        <td>{evt.Date}</td>
+                        <td>{evt.reason}</td>
                     </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    </tr>
-                    <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    </tr>
-                </tbody>
-            </Table>
+                ) : ""
+            }
+            </tbody>
+        </Table>
         </div>
     </>
     )
