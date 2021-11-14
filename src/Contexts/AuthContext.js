@@ -79,12 +79,13 @@ export function AuthProvider({ children }) {
             ownerID : ownerID
         })
     }
-    async function createAppointment(clientID,Date,timeFrom,timeTo,reason,email,clientName) {
+    async function createAppointment(clientID,Date,reason,span,priority,email,clientName) {
         db.collection('Appointments').add({
             Date : Date,
-            timeFrom : timeFrom,
-            timeTo : timeTo,
+            time : moment().format("hh:mm a"),
             reason : reason,
+            span : span,
+            priority : priority,
             clientID : clientID,
             email: email,
             clientName : clientName
@@ -171,8 +172,7 @@ export function AuthProvider({ children }) {
           var eventData=[]
           data.forEach(dt=>{
             eventData.push({
-              title : new Date(dt.timeFrom.seconds * 1000).toLocaleTimeString() + " - " +
-               new Date(dt.timeTo.seconds * 1000).toLocaleTimeString() + " : " + dt.reason,
+              title : dt.clientName +" - " + dt.time +" - #" + dt.priority + " prio :: " + dt.reason,
               date : moment(new Date(dt.Date).toUTCString()).format("YYYY-MM-DD"),
               clientID : dt.clientID,
               email : dt.email,
@@ -190,6 +190,7 @@ export function AuthProvider({ children }) {
             unsubscribe4();
         }
     },[])
+
     useEffect(()=>{
         schedule.scheduleJob('0 0 * * *', () => { 
             console.log("EVENTS",evts)

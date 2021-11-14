@@ -62,10 +62,15 @@ export default function Appointments() {
   const addSchedule = async () =>{
     try{
       setModalShow(false)
-      await createAppointment(currentUser.uid,dateRef.current.value,
-        new Date( dateRef.current.value + " " + timeFromRef.current.value),
-        new Date( dateRef.current.value + " " + timeToRef.current.value),
-        reasonRef.current.value, currentUser.email,userInfo.Name)
+      var variables = JSON.parse(reasonRef.current.value)
+      await createAppointment(
+        currentUser.uid,
+        dateRef.current.value,
+        variables.rsn,
+        variables.span,
+        variables.priority,
+        currentUser.email,
+        userInfo.Name)
     }catch(err){
         setError("Failed to create an account. " +err.message)
     }
@@ -90,31 +95,17 @@ export default function Appointments() {
             <Form.Label>Date</Form.Label>
             <Form.Control ref={dateRef} type="text" disabled defaultValue={moment(date.toString()).format('L')} />
           </Form.Group>
-          <Row>
-              <Col sm={6} className="time-container">
-                <Form.Group controlId="TimeFrom">
-                  <Form.Label>From</Form.Label>
-                  <Form.Control ref={timeFromRef} step="3600" type="time" step="3600000"/>
-                </Form.Group>
-              </Col>
-              <Col sm={6} className="time-container">
-                <Form.Group controlId="TimeTo">
-                  <Form.Label>To</Form.Label>
-                  <Form.Control ref={timeToRef} step="3600" type="time"/>
-                </Form.Group>
-              </Col>
-          </Row>
           <Form.Group controlId="ReasonOfVisiting">
             <Form.Label>Reason of visiting</Form.Label>
             <select ref={reasonRef} className="form-control" name="cars" id="cars" form="carform">
               <option value="">-- Select Reason --</option>
-              <option value="checkup">Pet Checkup</option>
-              <option value="grooming">Pet Grooming</option>
-              <option value="wound">Injury/wound </option>     
-              <option value="infection">infection/viruses</option>
-              <option value="fever">Fever/cough</option>
-              <option value="vaccination">Vaccination</option>
-              <option value="surgery">Surgery</option>
+              <option value='{"rsn":"checkup","span":"30","priority":7}'>Pet Checkup</option>
+              <option value='{"rsn":"grooming","span":"60","priority":6}'>Pet Grooming</option>
+              <option value='{"rsn":"injury","span":"90","priority":2}'>Injury/wound </option>     
+              <option value='{"rsn":"infection","span":"60","priority":3}'>Infection/viruses</option>
+              <option value='{"rsn":"fever","span":"30","priority":4}'>Fever/cough</option>
+              <option value='{"rsn":"vaccination","span":"30","priority":5}'>Vaccination</option>
+              <option value='{"rsn":"surgery","span":"120","priority":1}'>Surgery</option>
             </select>
           </Form.Group>
 

@@ -14,6 +14,9 @@
 .calendar-container,.time-container{
     padding: 10px;
 }
+.time-container{
+  display:none;
+}
 .react-calendar {
     width: 100% !important;
 }

@@ -11,25 +11,21 @@ export default function Calendars({click=null}){
     const {currentUser} = useAuth()
     
     useEffect(()=>{
-      
       const unsubscribe = 
           db
           .collection('Appointments')
-          .where("clientID", "==", currentUser.uid)
-          .orderBy("timeFrom")
-          .limit(100)
+          .orderBy("priority")
+          .orderBy("time")
           .onSnapshot(querySnapshot =>{
           const data = querySnapshot.docs.map(doc =>({
               ...doc.data(),
               id:doc.id,
           }));
-          console.log(data)
-          console.log(currentUser.uid)
           var eventData=[]
+          console.log(data)
           data.forEach(dt=>{
             eventData.push({
-              title : new Date(dt.timeFrom.seconds * 1000).toLocaleTimeString() + " - " +
-               new Date(dt.timeTo.seconds * 1000).toLocaleTimeString() + " : " + dt.reason,
+              title : dt.clientName +" - " + dt.time +" - #" + dt.priority + " prio :: " + dt.reason,
               date : moment(new Date(dt.Date).toUTCString()).format("YYYY-MM-DD")
             })
           })
