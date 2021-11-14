@@ -750,6 +750,10 @@ button.inventory-add-item {
   background-color: #e27d60;
   border: #e27d60;
 }
+button.ant-btn.ant-btn-primary {
+  background-color: #e27d60;
+  border: #e27d60;
+}
 button.ant-btn.ant-btn-primary.ant-btn-round.ant-btn-sm {
   background-color: #E8A87C;
   border: #e27d60;
@@ -760,6 +764,9 @@ span.anticon {
 }
 .ant-table-wrapper{
   margin:30px;
+}
+.ant-table-expanded-row td p {
+  font-size: inherit;
 }
 
 /*Modal*/
@@ -774,6 +781,9 @@ span.anticon {
 button.fc-button {
   background-color: #e27d60 !important;
   border-color: #d04c26 !important;
+}
+.form-label {
+  padding-top: 5px;
 }
 
 /*Appointment Modal*/

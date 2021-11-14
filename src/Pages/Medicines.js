@@ -108,7 +108,7 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
         Purpose: info.purpose,
         Quantity: info.qty,
         Type: info.type,
-        Status: "In-Stock"
+        Status: info.qty > 0 ? "In-Stock" : "Out of Stock"
       })
     }
     else{
@@ -119,7 +119,7 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
         Purpose: info.purpose,
         Quantity: info.qty,
         Type: info.type,
-        Status: "In-Stock"
+        Status: info.qty > 0 ? "In-Stock" : "Out of Stock"
       })
     }
     setIsModalVisible(false);
@@ -224,18 +224,18 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
               </Form.Group>
               <Form.Group id="Description">
                   <Form.Label>Description</Form.Label>
-                  <Form.Control type="text" ref={descRef} required defaultValue={editData? editData.description : ""}/>
+                  <Form.Control as="textarea" rows={3}  ref={descRef} required defaultValue={editData? editData.description : ""}/>
               </Form.Group>
               <Form.Group id="Type">
                   <Form.Label>Type</Form.Label>
-                  <select ref={typeRef} id="type">
+                  <select ref={typeRef} id="type" className="form-select">
                     <option selected={editData && editData.type==="Medicine" ? true : false } value="Medicine">Medicine</option>
                     <option selected={editData && editData.type==="Essentials" ? true : false } value="Essentials">Essentials</option>
                   </select>
               </Form.Group>
               <Form.Group id="Quantity">
                   <Form.Label>Quantity</Form.Label>
-                  <Form.Control min={1} type="number" ref={quantityRef} required defaultValue={editData? editData.quantity : 1}/>
+                  <Form.Control min={0} type="number" ref={quantityRef} required defaultValue={editData? editData.quantity : 0}/>
               </Form.Group>
           </Form>
         </Modal>
