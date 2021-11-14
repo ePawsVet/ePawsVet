@@ -7,7 +7,6 @@ import { Button, InputNumber, Form, Input, Select, Modal, Table, Tag, Space } fr
 import "antd/dist/antd.css";
 import { DeleteFilled, EditFilled} from '@ant-design/icons';
 
-
 const columns = [
   {
     title: 'Item Name',
@@ -61,8 +60,28 @@ const columns = [
     key: 'action',
     render: (text, record) => (
       <Space size="middle">        
-        <Button type="primary" shape="round" icon={<EditFilled />} size="small">Edit</Button>
-        <Button type="primary" shape="round" icon={<DeleteFilled />} size="small">Delete</Button>
+        <Button 
+          type="primary" 
+          shape="round" icon={<EditFilled />} 
+          size="small" 
+          onClick={()=> 
+            console.log(record)
+            
+          }
+        >
+          Edit
+        </Button>
+        <Button 
+          type="primary" 
+          shape="round" 
+          icon={<DeleteFilled />} 
+          size="small" 
+          onClick={()=> 
+            console.log(record)
+          }
+          >
+            Delete
+          </Button>
       </Space>
     ),
   },
@@ -130,12 +149,8 @@ export default function Medicines() {
   };
 
 
-
-
-
   return (
     <>
-    
         <Navbars title="Medicines"></Navbars>
 
         {/* ADD ITEM */}
@@ -170,8 +185,6 @@ export default function Medicines() {
             onValuesChange={onFormLayoutChange}
             size={componentSize}
           >
-            
-          
             <Form.Item 
               label="Code" 
             >
