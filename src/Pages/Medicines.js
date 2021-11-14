@@ -188,7 +188,7 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
       setMeds(Medicines)
     })
     return subscribe
-  })
+  },[])
 
   return (
     <>
