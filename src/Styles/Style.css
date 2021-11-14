@@ -14,8 +14,8 @@
 .calendar-container,.time-container{
     padding: 10px;
 }
-.time-container{
-  display:none;
+.fc-event-title{
+  font-size: 10px;
 }
 .react-calendar {
     width: 100% !important;

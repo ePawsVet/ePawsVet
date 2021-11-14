@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react'
 import {auth,db} from "../firebase"
 import moment from 'moment'
-import schedule from 'node-schedule'
-import emailjs from 'emailjs-com';
+// import schedule from 'node-schedule'
+// import emailjs from 'emailjs-com';
 
 const AuthContext = React.createContext()
 
@@ -82,13 +82,15 @@ export function AuthProvider({ children }) {
     async function createAppointment(clientID,Date,reason,span,priority,email,clientName) {
         db.collection('Appointments').add({
             Date : Date,
-            time : moment().format("hh:mm a"),
+            time : moment().format("hh:mm A"),
             reason : reason,
             span : span,
             priority : priority,
             clientID : clientID,
             email: email,
-            clientName : clientName
+            clientName : clientName,
+            status: "Pending",
+            sched: "Time will be emailed"
         })
     }
 
@@ -172,7 +174,7 @@ export function AuthProvider({ children }) {
           var eventData=[]
           data.forEach(dt=>{
             eventData.push({
-              title : dt.clientName +" - " + dt.time +" - #" + dt.priority + " prio :: " + dt.reason,
+              title : dt.status + " : " + dt.reason + " - " + dt.sched,
               date : moment(new Date(dt.Date).toUTCString()).format("YYYY-MM-DD"),
               clientID : dt.clientID,
               email : dt.email,
