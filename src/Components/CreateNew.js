@@ -173,7 +173,10 @@ export default function CreateNew({click,petInfo=[],userInfo=[]}) {
                         <Form.Label>Pet Type</Form.Label><br/>
                         <Form.Check value="Cat" required onClick={radioButtonHandler} inline name="pettype" type="radio" label="Cat" />
                         <Form.Check value="Dog" required onClick={radioButtonHandler} inline name="pettype" type="radio" label="Dog" />
-                        <Form.Check value="Others" required onClick={radioButtonHandler} inline name="pettype" type="radio" label="Others" />
+                        <Form.Check value="Bird" required onClick={radioButtonHandler} inline name="pettype" type="radio" label="Bird" />
+                        <Form.Check value="Rabbit" required onClick={radioButtonHandler} inline name="pettype" type="radio" label="Rabbit" />
+                        <Form.Check value="Guinea Pig" required onClick={radioButtonHandler} inline name="pettype" type="radio" label="Guinea Pig" />
+                        {/* <Form.Check value="Others" required onClick={radioButtonHandler} inline name="pettype" type="radio" label="Others" /> */}
                         <Form.Control ref={petTypeOthersRef} id="other-type" type="text"/>
                     </Form.Group>
 

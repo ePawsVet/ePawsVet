@@ -63,7 +63,7 @@
 }
 
 .signup-info-container{
-    padding: 10px;
+    padding: 20px;
 }
 
 .signup-owner{
@@ -798,4 +798,31 @@ button.fc-button {
 /*Calendar*/
 .fc.fc-media-screen.fc-direction-ltr.fc-theme-standard {
   margin: 30px;
+}
+
+.registration-header, .login-header {
+  background-color: #7cc1ac;
+  padding: 15px;
+  color: #fff;
+  margin-bottom: 0px;
+}
+
+button.w-90.text-center.mt-2.btn.btn-primary {
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.pet-icon, .owner-icon {
+  margin-right: 5px;
+  margin-bottom: 5px;
+  font-size: 25px;
+}
+
+.card-body {
+    padding: 0px;
+    padding-bottom: 1em
+}
+form.login-form {
+  padding: 15px;
 }
