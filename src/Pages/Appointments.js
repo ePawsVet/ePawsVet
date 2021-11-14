@@ -105,7 +105,7 @@ export default function Appointments() {
     }
     
   }
-  const generateSchedule = async () =>{
+  const generateSchedule = () =>{
     var minsToAdd = 480; //8hrs from 12AM
     evts.forEach(evt=>{
       if(evt.Date === moment(date.toString()).format('L')){
@@ -121,7 +121,7 @@ export default function Appointments() {
           to_email: evt.email,
           to_name: evt.clientName,
           reason: evt.reason,
-          sched: evt.Date + " at " + evt.sched
+          sched: evt.Date + " at " + dtTime.format('hh:mm A') + " to "+moment(dtTime).add(evt.span, 'minutes').format('hh:mm A')
         };
         
         emailjs.send('scheduleEmail', 'schedule_template', templateParams,'user_q4V9lFfLOBoJCZa2j8NVZ')
