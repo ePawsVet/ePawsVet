@@ -734,3 +734,58 @@ a:hover{
   background: url('https://wallpaperaccess.com/full/434957.jpg');
   color: #fff;
 }
+
+/*Inventory*/
+.ant-pagination a {
+  display: initial;
+}
+thead.ant-table-thead th, th{
+  background-color: #d1e7dd;
+  color: #0f5132;
+  font-weight: 700;
+}
+button.inventory-add-item {
+  float:right;
+  margin:30px;
+  background-color: #e27d60;
+  border: #e27d60;
+}
+button.ant-btn.ant-btn-primary.ant-btn-round.ant-btn-sm {
+  background-color: #E8A87C;
+  border: #e27d60;
+  color: #fff;
+}
+span.anticon {
+  vertical-align: text-top;
+}
+.ant-table-wrapper{
+  margin:30px;
+}
+
+/*Modal*/
+.ant-modal-content .ant-modal-header {
+  color: #fff;
+  background: rgb(124, 193, 172);
+}
+.ant-modal-content .ant-modal-title {
+  color: #fff;
+  font-size: 18px;
+}
+button.fc-button {
+  background-color: #e27d60 !important;
+  border-color: #d04c26 !important;
+}
+
+/*Appointment Modal*/
+.modal-header{
+  background-color: #7cc1ac;
+  color: #fff;
+}
+.modal-content {
+  border-color: #fff;
+}
+
+/*Calendar*/
+.fc.fc-media-screen.fc-direction-ltr.fc-theme-standard {
+  margin: 30px;
+}

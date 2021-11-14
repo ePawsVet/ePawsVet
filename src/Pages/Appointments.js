@@ -7,6 +7,8 @@ import { useAuth } from '../Contexts/AuthContext'
 import {db} from "../firebase"
 import emailjs from 'emailjs-com';
 
+import { CalendarOutlined } from '@ant-design/icons';
+
 
 
 export default function Appointments() {
@@ -226,7 +228,7 @@ export default function Appointments() {
   return (
     <>
       <Navbars title="Appointments"></Navbars>
-      <h2 className="text-center mb-4">Schedule an Appointment</h2>
+      <h3 className="text-center mb-3 mt-3"><CalendarOutlined />Schedule an Appointment</h3>
       <Calendars click={onChange}></Calendars>
 
       <ModalCenter

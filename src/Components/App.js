@@ -14,6 +14,7 @@ import Medicines from "../Pages/Medicines";
 import Inventory from "../Pages/Inventory";
 import Reports from "../Pages/Reports";
 import Message from "../Pages/Message";
+import ScheduleList from "../Pages/Schedule";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <PrivateRoute exact path="/reports" component={Reports}/>
           <PrivateRoute exact path="/appointments" component={Appointments}/>
           <PrivateRoute exact path="/clients" component={Clients}/>
+          <PrivateRoute exact path="/schedule" component={ScheduleList}/>
           <PrivateRoute exact path="/message" component={Message}/>
           <Route path="/signup" component={Signup}></Route>
           <Route path="/login" component={Login}></Route>

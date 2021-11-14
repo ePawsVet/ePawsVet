@@ -118,6 +118,9 @@ export default function Navbars({title=""}) {
                             <ListGroup.Item action id="Reports" onClick={()=>{handleSidedbarClick("/reports")}}>
                                 <SiMicrosoftpowerpoint/> Reports
                             </ListGroup.Item> 
+                            <ListGroup.Item action id="Schedule List" onClick={()=>{handleSidedbarClick("/schedule")}}>
+                                <FaRegCalendarAlt/> Schedule List
+                            </ListGroup.Item>
                         </>
                         }
                         <ListGroup.Item action id="Appointments" onClick={()=>{handleSidedbarClick("/appointments")}}>
