@@ -3,7 +3,7 @@ import React, { useRef,useState,useEffect } from 'react';
 
 import Navbars from "../Components/Navbars";
 
-import { Button,Modal, Table, Tag, Space } from "antd";
+import { Button,Modal, Table, Tag, Space, notification } from "antd";
 import "antd/dist/antd.css";
 import { DeleteFilled, EditFilled} from '@ant-design/icons';
 import { db } from '../firebase';
@@ -72,6 +72,15 @@ const columns = [
 ];
 
 const expandable = { expandedRowRender: record => <p>{record.description}</p> };
+  //NOTIFICATION
+  const openNotification = placement => {
+    notification.success({
+      message: `Success!`,
+      description:
+        'Item has been successfully deleted.',
+      placement,
+    });
+  };
 
   //MEDS INFO
   const codeRef = useRef(null)
@@ -131,7 +140,7 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
     .doc(record.key)
     .delete()
     .then(() => {
-      alert("Record successfully deleted!");
+      openNotification('topRight')
     }).catch((error) => {
       alert("Error removing document: ", error);
     });

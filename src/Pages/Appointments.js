@@ -7,6 +7,7 @@ import { useAuth } from '../Contexts/AuthContext'
 import {db} from "../firebase"
 import emailjs from 'emailjs-com';
 
+import { notification } from "antd";
 import { CalendarOutlined } from '@ant-design/icons';
 
 
@@ -21,6 +22,25 @@ export default function Appointments() {
   const {createAppointment,currentUser} = useAuth()
   const [userInfo,setUserInfo] = useState(null)
   const [evts,setEvents] = useState([])
+
+  //NOTIFICATION 1
+  const openNotification1 = placement => {
+    notification.warning({
+      message: `Warning!`,
+      description:
+        'This date is already full. Please select another date.',
+      placement,
+    });
+  };
+  //NOTIFICATION 2
+  const openNotification2 = placement => {
+    notification.warning({
+      message: `Warning!`,
+      description:
+        'You can only request an appointment Two(2) Days from now.',
+      placement,
+    });
+  };
 
   useEffect(()=>{
     db
@@ -79,10 +99,12 @@ export default function Appointments() {
         userInfo.userType === "Client" ? setModalShow(true) : setAdminModalShow(true)
       }
       else{
-        alert("This date is already full. Please select another date.")
+        //alert("This date is already full. Please select another date.")
+        openNotification1()
       }
     }else{
-      alert("You can only request an appointment Two(2) Days from now.")
+      openNotification2()
+      //alert("You can only request an appointment Two(2) Days from now.")
     }
   }
   
