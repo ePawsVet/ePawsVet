@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { useAuth } from '../Contexts/AuthContext'
 import { GiHamburgerMenu,GiMedicinePills } from 'react-icons/gi';
 import { FiLogOut } from 'react-icons/fi';
-import { FaChartBar,FaRegCalendarAlt,FaUsers,FaUser,FaEnvelope,FaHome,FaBoxes } from 'react-icons/fa';
+import { FaChartBar,FaRegCalendarAlt,FaUsers,FaUser,FaEnvelope,FaHome,FaBoxes, FaRegCalendarCheck } from 'react-icons/fa';
 import { IoMdPaw } from 'react-icons/io';
 import { SiMicrosoftpowerpoint } from 'react-icons/si';
 import {db} from "../firebase"
@@ -119,7 +119,7 @@ export default function Navbars({title=""}) {
                                 <SiMicrosoftpowerpoint/> Reports
                             </ListGroup.Item> 
                             <ListGroup.Item action id="Schedule List" onClick={()=>{handleSidedbarClick("/schedule")}}>
-                                <FaRegCalendarAlt/> Schedule List
+                                <FaRegCalendarCheck/> Schedule List
                             </ListGroup.Item>
                         </>
                         }
