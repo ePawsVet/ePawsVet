@@ -121,7 +121,7 @@ const data = [
 ];
 
 const expandable = { expandedRowRender: record => <p>{record.description}</p> };
-
+const { TextArea } = Input;
 
 
   
@@ -154,7 +154,7 @@ export default function Medicines() {
         <Navbars title="Medicines"></Navbars>
 
         {/* ADD ITEM */}
-        <Button type="primary" onClick={showModal}>
+        <Button type="primary" className="inventory-add-item" onClick={showModal}>
           Add Item
         </Button>
         <Modal 
@@ -197,7 +197,7 @@ export default function Medicines() {
               <Input />
             </Form.Item>
             <Form.Item label="Description">
-              <Input />
+              <TextArea showCount maxLength={100}/>
             </Form.Item>
             <Form.Item label="Type">
               <Select>
