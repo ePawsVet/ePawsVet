@@ -42,9 +42,9 @@ export default function Calendars({click=null}){
     const handleDateClick = (e) => {
         click(e.dateStr)
     }
-    const handleEventClick = (e) => {
+    /*const handleEventClick = (e) => {
         console.log(e)
-    }
+    }*/
 
     const headerToolbar = {
       right: 'custom1 today,prevYear,prev,next,nextYear'

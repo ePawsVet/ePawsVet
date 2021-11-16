@@ -1,12 +1,78 @@
-import React from 'react'
+//import React from 'react'
+import React, { useState,useEffect } from 'react';
+
 import Navbars from "../Components/Navbars";
-import NotFound from './Not_found';
+
+import {  Table } from "antd";
+import "antd/dist/antd.css";
+import { db } from '../firebase';
+
 
 export default function Reports() {
+  const [meds,setMeds] = useState(null)
+const columns = [
+  {
+    title: 'Pet Owner',
+    dataIndex: 'name',
+    key: 'name',
+    render: text => <h6>{text}</h6>,
+  },
+  {
+    title: 'Pet Name',
+    dataIndex: 'pet',
+    key: 'pet',
+    render: text => <h6>{text}</h6>,
+  },
+  {
+    title: 'Reason of Visit',
+    dataIndex: 'reason',
+    key: 'reason',
+  },
+  {
+    title: 'Prescription',
+    dataIndex: 'presc',
+    key: 'presc',
+  },
+  {
+    title: 'Duration',
+    dataIndex: 'duration',
+    key: 'duration',
+  },
+];
+
+const expandable = { expandedRowRender: record => <p key={record.key}>{record.notes}</p> };
+
+  useEffect(()=>{
+    const subscribe =
+    db
+    .collection('Prescriptions')
+    .limit(100)
+    .onSnapshot(querySnapshot =>{
+      const data = querySnapshot.docs.map(doc =>({
+          ...doc.data(),
+          id:doc.id,
+      }));
+      var Prescs = []
+      data.forEach(pres=>{
+        Prescs.push({
+          code: pres.code,
+          name : pres.name,
+          pet : pres.pet,
+          presc : pres.presc,
+          notes : pres.notes,
+          reason : pres.reason,
+          duration : pres.duration+" "+pres.durationType,
+        })
+      })
+      setMeds(Prescs)
+    })
+    return subscribe
+  },[])
+
   return (
     <>
         <Navbars title="Reports"></Navbars>
-        <NotFound/>
+        <Table {...expandable} columns={columns} dataSource={meds} />
     </>
   )
 }

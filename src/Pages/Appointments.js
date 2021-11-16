@@ -18,9 +18,11 @@ export default function Appointments() {
   const [date, setDate] = useState(new Date());
   const [error,setError] = useState("")
   const dateRef = useRef()
+  const petRef = useRef()
   const reasonRef = useRef()
   const {createAppointment,currentUser} = useAuth()
   const [userInfo,setUserInfo] = useState(null)
+  const [petInfo,setPetInfo] = useState(null)
   const [evts,setEvents] = useState([])
 
   //NOTIFICATION 1
@@ -52,7 +54,20 @@ export default function Appointments() {
             setUserInfo(doc.data());
         });
     })
+
+    db
+    .collection("Pet_Info")
+    .where("ownerID", "==", currentUser.uid)
+    .get()
+    .then((querySnapshot) => {
+        const data = querySnapshot.docs.map(doc =>({
+            ...doc.data(),
+            id:doc.id,
+        }));
+        setPetInfo(data);
+    })
   },[currentUser])
+
 
   useEffect(()=>{
     const unsubscribe = 
@@ -69,7 +84,7 @@ export default function Appointments() {
     })
     return unsubscribe
   },[])
-
+  
   const getAddedDays = () =>{
     var someDate = new Date();
     var numberOfDaysToAdd = 2;
@@ -108,10 +123,6 @@ export default function Appointments() {
     }
   }
   
-  const getAppointmentsPerDay = () => {
-    setModalShow(true)
-    console.log(date)
-  }
   const addSchedule = async () =>{
     try{
       setModalShow(false)
@@ -123,7 +134,8 @@ export default function Appointments() {
         variables.span,
         variables.priority,
         currentUser.email,
-        userInfo.Name)
+        userInfo.Name,
+        petRef.current.value,)
     }catch(err){
         setError("Failed to create an account. " +err.message)
     }
@@ -142,6 +154,7 @@ export default function Appointments() {
         minsToAdd += parseInt(evt.span);
 
         var templateParams = {
+          pet_name: evt.petName,
           to_email: evt.email,
           to_name: evt.clientName,
           reason: evt.reason,
@@ -177,17 +190,27 @@ export default function Appointments() {
             <Form.Label>Date</Form.Label>
             <Form.Control ref={dateRef} type="text" disabled defaultValue={moment(date.toString()).format('L')} />
           </Form.Group>
+          <Form.Group controlId="Pet">
+              <Form.Label>Pet</Form.Label>
+              <select className="form-select" ref={petRef} id="pet" >
+                {
+                  petInfo ? petInfo.map((pet)=>
+                    <option key={pet.id} value={pet.PetName}>{pet.PetName}</option>
+                  ) : ""
+                }
+              </select>
+          </Form.Group>
           <Form.Group controlId="ReasonOfVisiting">
             <Form.Label>Reason of visiting</Form.Label>
             <select ref={reasonRef} className="form-control" name="cars" id="cars" form="carform">
               <option value="">-- Select Reason --</option>
-              <option value='{"rsn":"checkup","span":"30","priority":7}'>Pet Checkup (30mins)</option>
-              <option value='{"rsn":"grooming","span":"60","priority":6}'>Pet Grooming (1hr)</option>
-              <option value='{"rsn":"injury","span":"90","priority":2}'>Injury/wound (1hr 30mins)</option>     
-              <option value='{"rsn":"infection","span":"60","priority":3}'>Infection/viruses (1hr)</option>
-              <option value='{"rsn":"fever","span":"30","priority":4}'>Fever/cough (30mins)</option>
-              <option value='{"rsn":"vaccination","span":"30","priority":5}'>Vaccination (30mins)</option>
-              <option value='{"rsn":"surgery","span":"120","priority":1}'>Surgery (2hrs)</option>
+              <option value='{"rsn":"checkup","span":"30","priority":7}'>Pet Checkup</option>
+              <option value='{"rsn":"grooming","span":"60","priority":6}'>Pet Grooming</option>
+              <option value='{"rsn":"injury","span":"90","priority":2}'>Injury/wound</option>     
+              <option value='{"rsn":"infection","span":"60","priority":3}'>Infection/viruses</option>
+              <option value='{"rsn":"fever","span":"30","priority":4}'>Fever/cough</option>
+              <option value='{"rsn":"vaccination","span":"30","priority":5}'>Vaccination</option>
+              <option value='{"rsn":"surgery","span":"120","priority":1}'>Surgery</option>
             </select>
           </Form.Group>
 

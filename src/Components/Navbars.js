@@ -5,7 +5,6 @@ import { useAuth } from '../Contexts/AuthContext'
 import { GiHamburgerMenu,GiMedicinePills } from 'react-icons/gi';
 import { FiLogOut } from 'react-icons/fi';
 import { FaChartBar,FaRegCalendarAlt,FaUsers,FaUser,FaEnvelope,FaHome,FaBoxes, FaRegCalendarCheck } from 'react-icons/fa';
-import { IoMdPaw } from 'react-icons/io';
 import { SiMicrosoftpowerpoint } from 'react-icons/si';
 import {db} from "../firebase"
 
@@ -118,11 +117,11 @@ export default function Navbars({title=""}) {
                             <ListGroup.Item action id="Reports" onClick={()=>{handleSidedbarClick("/reports")}}>
                                 <SiMicrosoftpowerpoint/> Reports
                             </ListGroup.Item> 
-                            <ListGroup.Item action id="Schedule List" onClick={()=>{handleSidedbarClick("/schedule")}}>
-                                <FaRegCalendarCheck/> Schedule List
-                            </ListGroup.Item>
                         </>
                         }
+                        <ListGroup.Item action id="Schedule List" onClick={()=>{handleSidedbarClick("/schedule")}}>
+                            <FaRegCalendarCheck/> Schedule List
+                        </ListGroup.Item>
                         <ListGroup.Item action id="Appointments" onClick={()=>{handleSidedbarClick("/appointments")}}>
                             <FaRegCalendarAlt/> Appointments
                         </ListGroup.Item>

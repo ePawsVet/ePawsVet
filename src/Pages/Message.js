@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import emailjs from 'emailjs-com';
 import Navbars from "../Components/Navbars";
-import { Form,Button, Container, Alert, Card } from 'react-bootstrap'
+import { Form,Button, Container, Alert } from 'react-bootstrap'
 import { useAuth } from '../Contexts/AuthContext'
 import { FaPhoneAlt,FaEnvelope,FaMapMarked } from 'react-icons/fa';
 import {db} from "../firebase"
