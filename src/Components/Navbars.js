@@ -7,6 +7,7 @@ import { FiLogOut } from 'react-icons/fi';
 import { FaChartBar,FaRegCalendarAlt,FaUsers,FaUser,FaEnvelope,FaHome,FaBoxes, FaRegCalendarCheck } from 'react-icons/fa';
 import { SiMicrosoftpowerpoint } from 'react-icons/si';
 import {db} from "../firebase"
+import { VersionInfo } from './VersionInfo';
 
 
 
@@ -136,6 +137,7 @@ export default function Navbars({title=""}) {
                             </ListGroup.Item>
                         </>
                         }
+                        <VersionInfo></VersionInfo>
                     </ListGroup>
                     </>
                 }
