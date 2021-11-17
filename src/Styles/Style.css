@@ -826,3 +826,6 @@ button.w-90.text-center.mt-2.btn.btn-primary {
 form.login-form {
   padding: 15px;
 }
+.input-group-text{
+  height: 100%;
+}

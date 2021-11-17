@@ -3,7 +3,7 @@ import Navbars from "../Components/Navbars";
 import { Modal,Table,InputGroup,FormControl,Alert,Card,ListGroup,Button } from 'react-bootstrap'
 import {db} from "../firebase"
 import { TiContacts } from 'react-icons/ti';
-import { FaEnvelope,FaMapMarked,FaTransgender,FaBirthdayCake,FaDna,FaTrashAlt } from 'react-icons/fa';
+import { FaSearch,FaEnvelope,FaMapMarked,FaTransgender,FaBirthdayCake,FaDna,FaTrashAlt } from 'react-icons/fa';
 import { IoMdPaw } from 'react-icons/io';
 import { MdColorLens,MdPets }from 'react-icons/md';
 import { SiGooglecalendar }from 'react-icons/si';
@@ -72,17 +72,10 @@ export default function Clients() {
     setPetMessage("")
     setPetError("")
     var keyword = keywordRef.current.value;
-    await db
-    .collection("Owner_Info")
-    .where("Name", "==", keyword)
-    .get()
-    .then((querySnapshot) => {
-        const data = querySnapshot.docs.map(doc =>({
-            ...doc.data(),
-            id:doc.id,
-        }));
-        setFilteredUsers(data);
-    })
+    const tempFilteredUsers = owners.filter(owner => {
+      return owner.Name.toString().toLowerCase().includes(keyword.toString().toLowerCase());
+    });
+    setFilteredUsers(tempFilteredUsers);
   }
   const getUser = (info) =>{
     setUsers(info)
@@ -167,7 +160,6 @@ export default function Clients() {
       </Modal>
     );
   }
-  console.log("owners",owners)
   return (
       <>
         <Navbars title="Clients"></Navbars>
@@ -178,14 +170,13 @@ export default function Clients() {
                 <FormControl
                   placeholder="Client's name"
                   aria-label="Client's name"
-                  aria-describedby="seaech-client"
+                  aria-describedby="search-client"
                   ref={keywordRef}
+                  onChange={searchHandler} 
                 />
-                <Button 
-                  onClick={searchHandler} 
-                  id="search-client-btn">
-                  Search
-                </Button>
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1"><FaSearch/></span>
+                </div>
               </InputGroup>
               {keywordRef.current && keywordRef.current.value ? <h5>Search Results</h5> : <h5>Active Users</h5>}
               <ListGroup><br/>
