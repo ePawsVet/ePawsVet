@@ -38,75 +38,82 @@ export default function ScheduleList() {
     setIsModalVisible(true);
   };*/
 
-const columns = [
-  {
-    title: 'Date',
-    dataIndex: 'date',
-    key: 'date',
-    render: text => <h6>{text}</h6>,
-  },
-  {
-    title: 'Schedule',
-    dataIndex: 'sched',
-    key: 'sched',
-    render: text => <h6>{text}</h6>,
-  },
-  {
-    title: 'Owner Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <h6>{text}</h6>,
-  },
-  {
-    title: 'Pet Name',
-    dataIndex: 'petname',
-    key: 'petname',
-    render: text => <h6>{text}</h6>,
-  },
-  {
-    title: 'Reason',
-    dataIndex: 'reason',
-    key: 'reason',
-  },
-  {
-    title: 'Status',
-    key: 'status',
-    dataIndex: 'status',
-    render: tags => (
-      <>
-        {tags.map(tag => {
-          let color =  'green';
-          if (tag === 'Completed') {
-            color = 'blue';
-          }else if(tag === 'Pending'){
-            color = 'rgb(226, 125, 96)';
-          }else if(tag === 'Done'){
-            color = 'gray';
+
+  const columns = [
+    {
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date',
+      render: text => <h6>{text}</h6>,
+      sorter: (a, b) => (a.date > b.date ? 1:-1),
+    },
+    {
+      title: 'Schedule',
+      dataIndex: 'sched',
+      key: 'sched',
+      render: text => <h6>{text}</h6>,
+      sorter: (a, b) => (a.sched > b.sched ? 1:-1),
+    },
+    {
+      title: 'Owner Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: text => <h6>{text}</h6>,
+      sorter: (a, b) => (a.name > b.name ? 1:-1),
+    },
+    {
+      title: 'Pet Name',
+      dataIndex: 'petname',
+      key: 'petname',
+      render: text => <h6>{text}</h6>,
+      sorter: (a, b) => (a.petname > b.petname ? 1:-1),
+    },
+    {
+      title: 'Reason',
+      dataIndex: 'reason',
+      key: 'reason',
+      sorter: (a, b) => (a.reason > b.reason ? 1:-1),
+    },
+    {
+      title: 'Status',
+      key: 'status',
+      dataIndex: 'status',
+      sorter: (a, b) => (a.status > b.status ? 1:-1),
+      render: tags => (
+        <>
+          {tags.map(tag => {
+            let color =  'green';
+            if (tag === 'Completed') {
+              color = 'blue';
+            }else if(tag === 'Pending'){
+              color = 'rgb(226, 125, 96)';
+            }else if(tag === 'Done'){
+              color = 'gray';
+            }
+            
+            return (
+              <Tag color={color} key={tag}>
+                {tag.toUpperCase()}
+              </Tag>
+            );
+          })}
+        </>
+      ),
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text, record) => (
+        <Space size="middle">        
+          {
+            userInfo.userType==="Client" && record.status[0]==="Done" ? <Button onClick={()=>actionHandler(record)} type="primary" >View Prescriptions</Button> : userInfo.userType==="Client" ? "N/A" :
+            record.status[0]==="Done" ?  <CheckCircleTwoTone style={{ fontSize: '25px'}} twoToneColor="#52c41a" /> :
+            <Button onClick={()=>actionHandler(record)} type="primary" shape="round" icon={<EditFilled />} size="small">{record.status[0]==="Pending" ? "Approve":record.status[0]==="Completed" ? "Prescribe": "Complete"}</Button>
           }
-          
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (text, record) => (
-      <Space size="middle">        
-        {
-          userInfo.userType==="Client" && record.status[0]==="Done" ? <Button onClick={()=>actionHandler(record)} type="primary" >View Prescriptions</Button> : userInfo.userType==="Client" ? "N/A" :
-          record.status[0]==="Done" ?  <CheckCircleTwoTone style={{ fontSize: '25px'}} twoToneColor="#52c41a" /> :
-          <Button onClick={()=>actionHandler(record)} type="primary" shape="round" icon={<EditFilled />} size="small">{record.status[0]==="Pending" ? "Approve":record.status[0]==="Completed" ? "Prescribe": "Complete"}</Button>
-        }
-      </Space>
-    ),
-  },
-];
+        </Space>
+      ),
+    },
+  ];
 
   const handleOk = () => {
     var info = getData()

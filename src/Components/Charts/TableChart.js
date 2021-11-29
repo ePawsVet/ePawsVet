@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { Table } from 'react-bootstrap'
 import { db } from '../../firebase'
+import moment from 'moment'
 
-export default function TableChart() {
+export default function TableChart({from=null,to=null}) {
     const [evts,setEvents] = useState(null)
 
     useEffect(()=>{
         const unsubscribe = 
             db
             .collection('Appointments')
+            .where("Date",'>=', moment(from).format('L'))
+            .where("Date",'<=', moment(to).format('L'))
             .orderBy("Date","desc")
             .limit(10)
             .onSnapshot(querySnapshot =>{
@@ -19,7 +22,7 @@ export default function TableChart() {
             setEvents(data)
         })
         return unsubscribe
-      },[])
+      },[from,to])
   return (
     <>
         <h2 className="text-center">Recent Visits</h2>
@@ -41,7 +44,7 @@ export default function TableChart() {
                         <td>{evt.clientName}</td>
                         <td>{evt.reason}</td>
                     </tr>
-                ) : ""
+                ) : <tr><td colSpan="3">No Visits Yet</td></tr>
             }
             </tbody>
         </Table>

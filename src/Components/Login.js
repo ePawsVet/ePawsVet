@@ -20,7 +20,7 @@ export default function Login() {
             setError("")
             setLoading(true)
             await login(emailRef.current.value,passwordRef.current.value,userTypeRef1.current.checked ? userTypeRef1.current.value : userTypeRef2.current.value)
-            history.push("/")
+            userTypeRef1.current.checked ? history.push("/Appointments") :history.push("/")
         }catch(err){
             setError("Failed to sign in. "+err.message)
         }

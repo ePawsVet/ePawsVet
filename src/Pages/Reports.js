@@ -1,11 +1,10 @@
 //import React from 'react'
 import React, { useState,useEffect } from 'react';
-
 import Navbars from "../Components/Navbars";
-
 import {  Table } from "antd";
 import "antd/dist/antd.css";
 import { db } from '../firebase';
+import WeeklyReport from '../Components/WeeklyReport';
 
 
 export default function Reports() {
@@ -40,7 +39,7 @@ const columns = [
   },
 ];
 
-const expandable = { expandedRowRender: record => <p key={record.key}>{record.notes}</p> };
+const expandable = { expandedRowRender: record => <p key={record.code}>{record.notes}</p> };
 
   useEffect(()=>{
     const subscribe =
@@ -68,11 +67,13 @@ const expandable = { expandedRowRender: record => <p key={record.key}>{record.no
     })
     return subscribe
   },[])
-
   return (
     <>
         <Navbars title="Reports"></Navbars>
+        <h4>Prescriptions</h4>
         <Table {...expandable} columns={columns} dataSource={meds} />
+        <h4>Weekly Appointments Summary</h4>
+        <WeeklyReport></WeeklyReport>
     </>
   )
 }

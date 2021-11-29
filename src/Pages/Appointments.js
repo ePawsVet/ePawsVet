@@ -142,33 +142,43 @@ export default function Appointments() {
     
   }
   const generateSchedule = () =>{
-    var minsToAdd = 480; //8hrs from 12AM
+    var eventCounter=0;
     evts.forEach(evt=>{
       if(evt.Date === moment(date.toString()).format('L')){
-        var dtTime = moment(evt.Date).add(minsToAdd, 'minutes')
-        db.collection('Appointments').doc(evt.id)
-        .update({
-            "status":"Approved",
-            "sched": dtTime.format('hh:mm A') + " to "+moment(dtTime).add(evt.span, 'minutes').format('hh:mm A')
-          });
-        minsToAdd += parseInt(evt.span);
-
-        var templateParams = {
-          pet_name: evt.petName,
-          to_email: evt.email,
-          to_name: evt.clientName,
-          reason: evt.reason,
-          sched: evt.Date + " at " + dtTime.format('hh:mm A') + " to "+moment(dtTime).add(evt.span, 'minutes').format('hh:mm A')
-        };
-        
-        emailjs.send('scheduleEmail', 'schedule_template', templateParams,'user_q4V9lFfLOBoJCZa2j8NVZ')
-            .then(function(response) {
-            console.log('SUCCESS!', response.status, response.text);
-            }, function(error) {
-            console.log('FAILED...', error);
-            });
-        }
+        eventCounter++
+      }
     })
+    var minsToAdd = 480; //8hrs from 12AM
+    if(eventCounter>0){
+      evts.forEach(evt=>{
+        if(evt.Date === moment(date.toString()).format('L')){
+          var dtTime = moment(evt.Date).add(minsToAdd, 'minutes')
+          db.collection('Appointments').doc(evt.id)
+          .update({
+              "status":"Approved",
+              "sched": dtTime.format('hh:mm A') + " to "+moment(dtTime).add(evt.span, 'minutes').format('hh:mm A')
+            });
+          minsToAdd += parseInt(evt.span);
+
+          var templateParams = {
+            pet_name: evt.petName,
+            to_email: evt.email,
+            to_name: evt.clientName,
+            reason: evt.reason,
+            sched: evt.Date + " at " + dtTime.format('hh:mm A') + " to "+moment(dtTime).add(evt.span, 'minutes').format('hh:mm A')
+          };
+          
+          emailjs.send('scheduleEmail', 'schedule_template', templateParams,'user_q4V9lFfLOBoJCZa2j8NVZ')
+              .then(function(response) {
+              console.log('SUCCESS!', response.status, response.text);
+              }, function(error) {
+              console.log('FAILED...', error);
+              });
+          }
+      })
+    }else{
+      alert("There is no schedule fo this day!")
+    }
     setAdminModalShow(false)
   }
   const  ModalCenter = (props) =>{

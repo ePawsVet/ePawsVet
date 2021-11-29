@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Bar } from 'react-chartjs-2'
 import { db } from '../../firebase'
+import moment from 'moment'
 
-const BarChart = () => {
+const BarChart = ({from=null,to=null}) => {
   const [evts,setEvents] = useState(null)
 
 
@@ -10,6 +11,8 @@ const BarChart = () => {
       const unsubscribe = 
           db
           .collection('Appointments')
+          .where("Date",'>=', moment(from).format('L'))
+          .where("Date",'<=', moment(to).format('L'))
           .onSnapshot(querySnapshot =>{
           const data = querySnapshot.docs.map(doc =>({
               ...doc.data(),
@@ -30,7 +33,7 @@ const BarChart = () => {
           setEvents(lbls)
       })
       return unsubscribe
-    },[])
+    },[from,to])
 
   return (
     evts ?

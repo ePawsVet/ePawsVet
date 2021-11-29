@@ -40,6 +40,11 @@ const columns = [
     key: 'quantity',
   },
   {
+    title: 'Price',
+    dataIndex: 'price',
+    key: 'price',
+  },
+  {
     title: 'Status',
     key: 'status',
     dataIndex: 'status',
@@ -89,6 +94,7 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
   const descRef = useRef(null)
   const typeRef = useRef(null)
   const quantityRef = useRef(null)
+  const priceRef = useRef(null)
 
   //MODAL FORM
   const [meds,setMeds] = useState(null)
@@ -112,6 +118,7 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
         Description: info.description,
         Purpose: info.purpose,
         Quantity: info.qty,
+        Price: info.price,
         Type: info.type,
         Status: info.qty > 0 ? "In-Stock" : "Out of Stock"
       })
@@ -123,6 +130,7 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
         Description: info.description,
         Purpose: info.purpose,
         Quantity: info.qty,
+        Price: info.price,
         Type: info.type,
         Status: info.qty > 0 ? "In-Stock" : "Out of Stock"
       })
@@ -158,7 +166,8 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
       "purpose"  : purposeRef.current.value,
       "description"    : descRef.current.value,
       "type"       : typeRef.current.value,
-      "qty"     : quantityRef.current.value
+      "qty"     : quantityRef.current.value,
+      "price"     : priceRef.current.value,
     }
     return dt
 }
@@ -182,6 +191,7 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
           purpose: med.Purpose,
           type: med.Type,
           quantity: med.Quantity,
+          price: med.Price,
           status: [med.Status],
           description: med.Description
         })
@@ -237,6 +247,10 @@ const expandable = { expandedRowRender: record => <p>{record.description}</p> };
               <Form.Group id="Quantity">
                   <Form.Label>Quantity</Form.Label>
                   <Form.Control min={0} type="number" ref={quantityRef} required defaultValue={editData? editData.quantity : 0}/>
+              </Form.Group>
+              <Form.Group id="Price">
+                  <Form.Label>Price</Form.Label>
+                  <Form.Control min={0} type="number" ref={priceRef} required defaultValue={editData? editData.price : 0}/>
               </Form.Group>
           </Form>
         </Modal>
