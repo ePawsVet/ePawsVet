@@ -72,6 +72,37 @@ export default function ScheduleList() {
       title: 'Reason',
       dataIndex: 'reason',
       key: 'reason',
+      filters: [
+        {
+          text: 'Checkup',
+          value: 'checkup',
+        },
+        {
+          text: 'Grooming',
+          value: 'grooming',
+        },
+        {
+          text: 'Injury',
+          value: 'injury',
+        },
+        {
+          text: 'Infection',
+          value: 'infection',
+        },
+        {
+          text: 'Fever',
+          value: 'fever',
+        },
+        {
+          text: 'Vaccination',
+          value: 'vaccination',
+        },
+        {
+          text: 'Surgery',
+          value: 'surgery',
+        }
+      ],
+      onFilter: (value, record) => record.reason.indexOf(value) === 0,
       sorter: (a, b) => (a.reason > b.reason ? 1:-1),
     },
     {

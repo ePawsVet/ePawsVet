@@ -26,6 +26,37 @@ const columns = [
     title: 'Reason of Visit',
     dataIndex: 'reason',
     key: 'reason',
+    filters: [
+      {
+        text: 'Checkup',
+        value: 'checkup',
+      },
+      {
+        text: 'Grooming',
+        value: 'grooming',
+      },
+      {
+        text: 'Injury',
+        value: 'injury',
+      },
+      {
+        text: 'Infection',
+        value: 'infection',
+      },
+      {
+        text: 'Fever',
+        value: 'fever',
+      },
+      {
+        text: 'Vaccination',
+        value: 'vaccination',
+      },
+      {
+        text: 'Surgery',
+        value: 'surgery',
+      }
+    ],
+    onFilter: (value, record) => record.reason.indexOf(value) === 0,
   },
   {
     title: 'Prescription',
