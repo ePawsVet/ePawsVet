@@ -38,7 +38,7 @@ export default function ForgotPassword() {
             <div className="w-100 reset-password-container">
                 <Card>
                     <Card.Body>
-                        <h2 className="text-center mb-4">Password Reset</h2>
+                        <h3 className="text-center mb-4 forgot-password">Password Reset</h3>
                         {error && <Alert variant="danger">{error}</Alert>}
                         {message && <Alert variant="success">{message}</Alert>}
                         <Form onSubmit={SignupHandler}>

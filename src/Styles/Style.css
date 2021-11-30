@@ -397,7 +397,6 @@ a:hover{
 .second-section{
     width: 80%;
     /* height: 80%; */
-    margin-top:5%;
     margin-left:10%;
     margin-right:10%
 }   
@@ -408,7 +407,6 @@ a:hover{
     background-color: #fefefe;
 }
 .port-area{
-    background-color: #262626;
     color: #fff;
 }
 .service-area{
@@ -420,6 +418,7 @@ a:hover{
 }
 
 .about-section{
+    color: #333;
     background: url("https://www.ovrs.com/blog/wp-content/uploads/2019/09/OVRS-Vet-History-stock-image-Alamy.jpg") no-repeat left;
     background-size: 55%;
     background-color: #fdfdfd;
@@ -623,6 +622,7 @@ a:hover{
   .testimonial{
     background: #fff;
     padding: 30px;
+    height: 100%;
   }
   .testimonial img{
     width: 100px;
@@ -835,4 +835,22 @@ form.login-form {
     width: 100%;
     text-align: right;
     padding-right: 5px;
+}
+
+/* forgot password */
+.forgot-password {
+    background: #7cc1ac;
+    color: #fff;
+    padding: 10px;
+}
+.reset-password-container form {
+  padding: 15px;
+}
+
+/* report */
+h4.prescription-header {
+  padding: 30px 0px 0px 30px;
+}
+h4.weekly-header {
+  padding: 0px 0px 0px 30px;
 }
