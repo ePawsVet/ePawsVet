@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react'
 import Navbars from "../Components/Navbars";
 import { db } from "../firebase"
 import { useAuth } from '../Contexts/AuthContext'
-import { GoPlusSmall } from 'react-icons/go';
-import { Alert, Modal } from 'react-bootstrap';
+import { Alert, Modal, Form, Button } from 'react-bootstrap';
+import { GoPlusSmall, GoPlus } from 'react-icons/go';
 import { RiContactsBook2Fill } from 'react-icons/ri';
 import { FaTrashAlt, FaEnvelope, FaMapMarked, FaTransgender, FaBirthdayCake, FaDna } from 'react-icons/fa';
 import { IoMdPaw } from 'react-icons/io';
 import { MdColorLens, MdPets } from 'react-icons/md';
 import CreateNew from '../Components/CreateNew';
 import EditProfile from '../Components/EditProfile';
+import EditImage from '../Components/EditImage';
+import Loader from "react-loader-spinner";
 
 
 
@@ -20,36 +22,52 @@ const ClientProfile = () => {
     const [currentPet, setCurrentPet] = useState([])
     const [modalShow, setModalShow] = useState(false)
     const [editProfileModalShow, setEditProfileModalShow] = useState(false)
+    const [editImageShow, setEditImageShow] = useState(false)
+    const [petImageShow, setPetImageShow] = useState(false)
     const [modalTitle, setModalTitle] = useState("")
     const [petError, setPetError] = useState("")
     const [petMessage, setPetMessage] = useState("")
     const [doneEvts, setDoneEvents] = useState([])
     const [pendingEvts, setPendingEvents] = useState([])
+    const [imageURL, setImageURL] = useState("")
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-            db
-                .collection("Owner_Info")
-                .where("userID", "==", currentUser.uid)
-                .get()
-                .then((querySnapshot) => {
-                    const data = querySnapshot.docs.map(doc => ({
-                        ...doc.data(),
-                        id: doc.id,
-                    }));
-                    setUserInfo(data[0]);
-                })
-            db
-                .collection("Pet_Info")
-                .where("ownerID", "==", currentUser.uid)
-                .get()
-                .then((querySnapshot) => {
-                    const data = querySnapshot.docs.map(doc => ({
-                        ...doc.data(),
-                        id: doc.id,
-                    }));
-                    setPetInfo(data);
-                })
+        db
+            .collection("Owner_Info")
+            .where("userID", "==", currentUser.uid)
+            .get()
+            .then((querySnapshot) => {
+                const data = querySnapshot.docs.map(doc => ({
+                    ...doc.data(),
+                    id: doc.id,
+                }));
+                setUserInfo(data[0]);
+            })
+        db
+            .collection("Pet_Info")
+            .where("ownerID", "==", currentUser.uid)
+            .get()
+            .then((querySnapshot) => {
+                const data = querySnapshot.docs.map(doc => ({
+                    ...doc.data(),
+                    id: doc.id,
+                }));
+                setPetInfo(data);
+            })
+    }, [currentUser])
+    useEffect(() => {
+        db
+            .collection("Profile_Pictures")
+            .where("userID", "==", currentUser.uid)
+            .get()
+            .then((querySnapshot) => {
+                const data = querySnapshot.docs.map(doc => ({
+                    ...doc.data(),
+                    id: doc.id
+                }));
+                setImageURL(data);
+            })
     }, [currentUser])
 
     useEffect(() => {
@@ -97,7 +115,7 @@ const ClientProfile = () => {
                 }));
                 setPetInfo(data);
             })
-            setLoading(false)
+        setLoading(false)
     }
 
     const getUser = async (userID) => {
@@ -123,7 +141,28 @@ const ClientProfile = () => {
         setEditProfileModalShow(false)
         setCurrentPet([])
     }
-
+    const closeEditImageModal = () => {
+        setLoading(true)
+        setEditImageShow(false)
+        db
+            .collection("Profile_Pictures")
+            .where("userID", "==", currentUser.uid)
+            .get()
+            .then((querySnapshot) => {
+                const data = querySnapshot.docs.map(doc => ({
+                    ...doc.data(),
+                    id: doc.id
+                }));
+                setImageURL(data);
+            }).then(() => {
+                setLoading(false)
+            })
+    }
+    const closePetImageModal = () => {
+        setLoading(true)
+        setPetImageShow(false)
+        getPetsPerUser(userInfo.userID)
+    }
     const refreshPets = () => {
         setLoading(true)
         setModalShow(false)
@@ -148,6 +187,10 @@ const ClientProfile = () => {
         setCurrentPet(info)
         setModalShow(true)
     }
+    const editPetImage = (info) => {
+        setCurrentPet(info)
+        setPetImageShow(true)
+    }
 
     const deletePet = (info) => {
         setPetMessage("")
@@ -170,6 +213,9 @@ const ClientProfile = () => {
     }
     const editOwner = (info) => {
         setEditProfileModalShow(true)
+    }
+    const openUploader = () => {
+        setEditImageShow(true)
     }
     const AddPetModal = (props) => {
         return (
@@ -209,10 +255,61 @@ const ClientProfile = () => {
             </Modal>
         );
     }
+    const EditImageModal = (props) => {
+        return (
+            <Modal
+                {...props}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        Upload Image
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="create-new-container">
+                    <EditImage close={() => { closeEditImageModal() }} imageURL={imageURL[0]} editImage="Profile"></EditImage>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button onClick={closeEditImageModal}>Cancel</Button>
+                </Modal.Footer>
+            </Modal>
+        );
+    }
+    const EditPetImageModal = (props) => {
+        return (
+            <Modal
+                {...props}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        Upload Pet Image
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="create-new-container">
+                    <EditImage userInfo={userInfo} petInfo={currentPet} close={() => { closePetImageModal() }} imageURL={currentPet} editImage="Pet Image"></EditImage>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button onClick={closePetImageModal}>Cancel</Button>
+                </Modal.Footer>
+            </Modal>
+        );
+    }
     return (
         <>
             <Navbars title="Profile"></Navbars>
             <div className="client-profile profile-container">
+                {loading ?
+                    <Loader className="loading-spinner"
+                        type="Grid"
+                        color="#00BFFF"
+                        height={100}
+                        width={100}
+                    /> : null}
                 <header>
 
                     <div className="container">
@@ -221,7 +318,15 @@ const ClientProfile = () => {
 
                             <div className="profile-image">
 
-                                <img src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt="" />
+                                <img className="profile-pic" src={imageURL[0] ? imageURL[0].url : "https://d20iq7dmd9ruqy.cloudfront.net/images/locations%20staff/default-profile-with-dog.png"} alt="" />
+                                <div onClick={openUploader} className="add-image"><GoPlus /></div>
+                                <Form.Control
+                                    type="file"
+                                    required
+                                    name="uploader"
+                                    style={{ display: "none" }}
+                                    accept="image/png, image/gif, image/jpeg"
+                                />
 
                             </div>
 
@@ -267,21 +372,25 @@ const ClientProfile = () => {
                                 petInfo.map((info) =>
                                     <div className="gallery-item" key={info.id}>
 
-                                        <img src="https://images.unsplash.com/photo-1511765224389-37f0e77cf0eb?w=500&h=500&fit=crop" className="gallery-image" alt="" />
+                                        {
+                                            info.url ? <img key={info.id} src={info.url} className="gallery-image" alt="" /> : null
+                                        }
 
                                         <div className="gallery-item-info">
                                             <button onClick={() => deletePet(info)} className="btns pet-delete-btn"><FaTrashAlt></FaTrashAlt></button>
                                             <ul>
                                                 <li className="gallery-item-likes"><span className="visually-hidden">Pet Name:</span><IoMdPaw></IoMdPaw> {info.PetName}</li>
                                                 <li className="gallery-item-likes"><span className="visually-hidden">Pet Type:</span><FaDna></FaDna> {info.PetType}</li>
-                                                <li className="gallery-item-likes"><span className="visually-hidden">Pet Type:</span><FaTransgender></FaTransgender> {info.Gender}</li>
-                                                <li className="gallery-item-likes"><span className="visually-hidden">Pet Type:</span><FaBirthdayCake></FaBirthdayCake> {info.Birthday}</li>
-                                                <li className="gallery-item-likes"><span className="visually-hidden">Pet Type:</span><MdColorLens></MdColorLens> {info.Color}</li>
-                                                <li className="gallery-item-likes"><span className="visually-hidden">Pet Type:</span><FaDna></FaDna> {info.Breed}</li>
+                                                <li className="gallery-item-likes"><span className="visually-hidden">Pet Gender:</span><FaTransgender></FaTransgender> {info.Gender}</li>
+                                                <li className="gallery-item-likes"><span className="visually-hidden">Pet Birthday:</span><FaBirthdayCake></FaBirthdayCake> {info.Birthday}</li>
+                                                <li className="gallery-item-likes"><span className="visually-hidden">Pet Color:</span><MdColorLens></MdColorLens> {info.Color}</li>
+                                                <li className="gallery-item-likes"><span className="visually-hidden">Pet Breed:</span><FaDna></FaDna> {info.Breed}</li>
+
                                             </ul>
-
-                                            <button onClick={() => editPet(info)} className="btns pet-edit-btn">Edit Pet</button>
-
+                                            <ul className="pet-btn-container">
+                                                <button onClick={() => editPet(info)} className="btns pet-btn">Edit Pet</button>
+                                                <button onClick={() => editPetImage(info)} className="btns pet-btn">Add Image</button>
+                                            </ul>
                                         </div>
 
                                     </div>
@@ -303,6 +412,14 @@ const ClientProfile = () => {
             <EditProfileModal
                 show={editProfileModalShow}
                 onHide={closeEditProfileModal}
+            />
+            <EditImageModal
+                show={editImageShow}
+                onHide={closeEditImageModal}
+            />
+            <EditPetImageModal
+                show={petImageShow}
+                onHide={closePetImageModal}
             />
         </>
     )

@@ -172,8 +172,8 @@ export default function Clients() {
                   ref={keywordRef}
                   onChange={searchHandler} 
                 />
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="basic-addon1"><FaSearch/></span>
+                <div className="input-group-prepend">
+                  <span className="input-group-text" id="basic-addon1"><FaSearch/></span>
                 </div>
               </InputGroup>
               {keywordRef.current && keywordRef.current.value ? <h5>Search Results</h5> : <h5>Active Users</h5>}

@@ -182,8 +182,6 @@ export default function ScheduleList() {
     setPresc(null);
     setEditData(record)
     if(userInfo.userType==="Client"){
-      console.log(record)
-
       db
       .collection("Prescriptions")
       .where("code", "==", record.key)
@@ -304,7 +302,6 @@ useEffect(()=>{
     })
     return subscribe
   },[])
-  console.log(presc)
   return (
     <>
         

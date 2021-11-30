@@ -1,5 +1,4 @@
 import React from 'react'
-import { Carousel } from 'react-bootstrap'
 import { CalendarFilled, DatabaseFilled, SnippetsFilled} from '@ant-design/icons';
 
 import Footer from '../Components/Footer';

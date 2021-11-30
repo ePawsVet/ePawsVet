@@ -60,6 +60,7 @@ export function AuthProvider({ children }) {
             Age: info.PetInfo.Age,
             Color: info.PetInfo.Color,
             Spayed: info.PetInfo.Spayed,
+            url: "https://d20iq7dmd9ruqy.cloudfront.net/images/locations%20staff/default-profile-with-dog.png"
         })
     }
     async function updatePet(id,info,ownerID) {

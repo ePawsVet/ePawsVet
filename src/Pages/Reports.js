@@ -101,9 +101,9 @@ const expandable = { expandedRowRender: record => <p key={record.code}>{record.n
   return (
     <>
         <Navbars title="Reports"></Navbars>
-        <h4 class="prescription-header">Prescriptions</h4>
+        <h4 className="prescription-header">Prescriptions</h4>
         <Table {...expandable} columns={columns} dataSource={meds} />
-        <h4 class="weekly-header">Weekly Appointments Summary</h4>
+        <h4 className="weekly-header">Weekly Appointments Summary</h4>
         <WeeklyReport></WeeklyReport>
     </>
   )

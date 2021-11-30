@@ -91,8 +91,20 @@
 }
 .loading-spinner{
     z-index: 9999;
+    position: absolute;
+    width: 95%;
+    height: 95%;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
 }
-
+.loading-spinner svg{
+  position: absolute;
+  top: 40%;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
 .message-send-btn{
     float: right;
 }
@@ -930,9 +942,39 @@ img {
   align-items: center;
   margin-right: 3rem;
 }
+#profile-image{
+  min-width: 500px;
+  min-height: 500px;
+  height: 500px;
+  width: 500px;
+  border-radius: 50%;
+  border: 3px solid;
+  margin: auto;
+}
+.image-upload-form{
 
+}
+.add-image:hover{
+  background-color: gray;
+  opacity: 30%;
+}
+.add-image{
+  position: absolute;
+  width: 7.7rem;
+  height: 7.7rem;
+  border-radius: 50%;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 7.7rem;
+  opacity: 0;
+  font-size: 50px;
+}
 .profile-image img {
   border-radius: 50%;
+  width: 7.7rem;
+  height: 7.7rem;
+  min-width: 7.7rem;
+  min-height: 7.7rem;
 }
 
 .profile-user-settings,
@@ -960,16 +1002,20 @@ img {
   padding: 0 2.4rem;
   margin-left: 2rem;
 }
-.pet-edit-btn {
+.pet-btn {
   font-size: 1.4rem;
   line-height: 1.8;
   border: 0.1rem solid #dbdbdb;
   border-radius: 0.3rem;
   padding: 0 2.4rem;
-  margin-left: 2rem;
+  margin-right: 20px;
+}
+
+.pet-btn-container {
   position: absolute;
   bottom:   10px;
 }
+
 .pet-delete-btn {
   font-size: 1.4rem;
   line-height: 1.8;
