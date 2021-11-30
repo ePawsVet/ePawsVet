@@ -618,8 +618,8 @@ label {
 
 /* custom */
 img.img-responsive {
-    width: 100%;
-    height: 300px;
+    width: 100% !important;
+    height: 300px !important;
 }
 
 /* navbar */
@@ -628,4 +628,8 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark {
 }
 .nav-logout{
     float: right !important;
+}
+
+.container {
+    max-width: fit-content !important;
 }
