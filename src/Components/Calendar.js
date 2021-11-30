@@ -20,6 +20,8 @@ export default function Calendars({click=null}){
       const unsubscribe = 
           db
           .collection('Appointments')
+          .where("status","!=","Cancelled")
+          .orderBy("status")
           .orderBy("priority")
           .orderBy("time")
           .onSnapshot(querySnapshot =>{

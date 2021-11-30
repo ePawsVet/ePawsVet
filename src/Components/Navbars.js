@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { useAuth } from '../Contexts/AuthContext'
 import { GiHamburgerMenu,GiMedicinePills } from 'react-icons/gi';
 import { FiLogOut } from 'react-icons/fi';
-import { FaChartBar,FaRegCalendarAlt,FaUsers,FaUser,FaEnvelope,FaHome,FaBoxes, FaRegCalendarCheck } from 'react-icons/fa';
+import { FaChartBar,FaRegCalendarAlt,FaUsers,FaUser,FaEnvelope,FaHome,/*FaBoxes,*/ FaRegCalendarCheck } from 'react-icons/fa';
 import { SiMicrosoftpowerpoint } from 'react-icons/si';
 import {db} from "../firebase"
 import { VersionInfo } from './VersionInfo';
@@ -112,9 +112,9 @@ export default function Navbars({title=""}) {
                             <ListGroup.Item action id="Medicines" onClick={()=>{handleSidedbarClick("/medicines")}}>
                                 <GiMedicinePills/> Medicines
                             </ListGroup.Item>
-                            <ListGroup.Item action id="Inventory" onClick={()=>{handleSidedbarClick("/inventory")}}>
+                            {/* <ListGroup.Item action id="Inventory" onClick={()=>{handleSidedbarClick("/inventory")}}>
                                 <FaBoxes/> Inventory
-                            </ListGroup.Item>
+                            </ListGroup.Item> */}
                             <ListGroup.Item action id="Reports" onClick={()=>{handleSidedbarClick("/reports")}}>
                                 <SiMicrosoftpowerpoint/> Reports
                             </ListGroup.Item> 

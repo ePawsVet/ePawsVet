@@ -89,6 +89,8 @@ export default function ScheduleList() {
               color = 'rgb(226, 125, 96)';
             }else if(tag === 'Done'){
               color = 'gray';
+            }else if(tag === 'Cancelled'){
+              color = 'red';
             }
             
             return (
@@ -106,9 +108,9 @@ export default function ScheduleList() {
       render: (text, record) => (
         <Space size="middle">        
           {
-            userInfo.userType==="Client" && record.status[0]==="Done" ? <Button onClick={()=>actionHandler(record)} type="primary" >View Prescriptions</Button> : userInfo.userType==="Client" ? "N/A" :
+            userInfo.userType==="Client" && record.status[0]==="Done" ? <Button onClick={()=>actionHandler(record)} type="primary" >View Prescriptions</Button> : userInfo.userType==="Client" ? record.status[0]==="Cancelled"? "N/A": <Button onClick={()=>cancelSched(record)} type="primary" >Cancel</Button> :
             record.status[0]==="Done" ?  <CheckCircleTwoTone style={{ fontSize: '25px'}} twoToneColor="#52c41a" /> :
-            <Button onClick={()=>actionHandler(record)} type="primary" shape="round" icon={<EditFilled />} size="small">{record.status[0]==="Pending" ? "Approve":record.status[0]==="Completed" ? "Prescribe": "Complete"}</Button>
+            record.status[0]==="Cancelled"? "N/A":<Button onClick={()=>actionHandler(record)} type="primary" shape="round" icon={<EditFilled />} size="small">{record.status[0]==="Pending" ? "Approve":record.status[0]==="Completed" ? "Prescribe": "Complete"}</Button>
           }
         </Space>
       ),
@@ -135,6 +137,15 @@ export default function ScheduleList() {
     setIsModalVisible(false);
     document.getElementById("Med-form").reset();
   };
+
+  const cancelSched = (record) => {
+    db.collection('Appointments').doc(record.key)
+      .update({
+        "status":"Cancelled"
+      });
+    alert("Appointment Cancelled")
+  };
+
 
   const actionHandler = (record) =>{
     setPresc(null);

@@ -6,15 +6,16 @@ import Login from "./Login";
 import PrivateRoute from "./PrivateRoute";
 import ForgotPassword from "./ForgotPassword";
 import Dashboard from "../Pages/Dashboard"
-import Profile from "../Pages/Profile"
+//import Profile from "../Pages/Profile"
 import Clients from "../Pages/Clients"
 import Appointments from "../Pages/Appointments"
 import Home from "../Pages/Home";
 import Medicines from "../Pages/Medicines";
-import Inventory from "../Pages/Inventory";
+//import Inventory from "../Pages/Inventory";
 import Reports from "../Pages/Reports";
 import Message from "../Pages/Message";
 import ScheduleList from "../Pages/Schedule";
+import ClientProfile from "../Pages/ClientProfile";
 
 function App() {
   return (
@@ -23,9 +24,9 @@ function App() {
         <Switch>
           <PrivateRoute exact path="/" component={Home}/>
           <PrivateRoute exact path="/dashboard" component={Dashboard}/>
-          <PrivateRoute exact path="/profile" component={Profile}/>
+          <PrivateRoute exact path="/profile" component={ClientProfile}/>
           <PrivateRoute exact path="/medicines" component={Medicines}/>
-          <PrivateRoute exact path="/inventory" component={Inventory}/>
+          {/* <PrivateRoute exact path="/inventory" component={Inventory}/> */}
           <PrivateRoute exact path="/reports" component={Reports}/>
           <PrivateRoute exact path="/appointments" component={Appointments}/>
           <PrivateRoute exact path="/clients" component={Clients}/>

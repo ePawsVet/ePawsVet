@@ -50,17 +50,10 @@ export default function CreateNew({click,petInfo=[],userInfo=[]}) {
             var Neutered = document.getElementsByName('neutered');
             
             PetType.forEach(ele => {
-                if(petInfo.PetType !== "Cat" && petInfo.PetType !== "Dog"){
-                    document.getElementById("other-type").style.display = "block"
-                    petTypeOthersRef.current.value = petInfo.PetType
+                if(ele.value === petInfo.PetType){
                     ele.checked =true
-                }else{
-                    document.getElementById("other-type").style.display = "none"
-                    if(ele.value === petInfo.PetType){
-                        ele.checked =true
-                    }
+                    setPetType(ele.value)
                 }
-                setPetType(ele.value)
             })
             Gender.forEach(ele => {
                 if(ele.value === petInfo.Gender){
