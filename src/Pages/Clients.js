@@ -91,9 +91,7 @@ export default function Clients() {
     setFilteredUsers([])
     setUsers([])
   }
-  const editOwner =(info)=>{
-    //setModalShow(true)
-  }
+  
   const deleteOwner =(info)=>{
     setOwnerMessage("")
     setOwnerError("")
@@ -218,7 +216,6 @@ export default function Clients() {
                   <thead>
                     <tr>
                       <th colSpan="1">
-                        <Button className="client-card-buttons w-40" onClick={()=>editOwner(users)} variant="warning"><RiPencilFill/> Edit Client</Button>
                         <Button className="client-card-buttons w-40" onClick={()=>deleteOwner(users)} variant="danger"><FaTrashAlt/> Delete Client</Button>
                       </th>
                       <th colSpan="2">{users.Name}</th>

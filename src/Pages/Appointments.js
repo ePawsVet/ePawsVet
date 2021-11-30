@@ -73,6 +73,8 @@ export default function Appointments() {
     const unsubscribe = 
         db
         .collection('Appointments')
+        .where("status","!=","Cancelled")
+        .orderBy("status")
         .orderBy("priority")
         .orderBy("time")
         .onSnapshot(querySnapshot =>{
@@ -81,6 +83,7 @@ export default function Appointments() {
             id:doc.id,
         }));
         setEvents(data)
+        console.log(data)
     })
     return unsubscribe
   },[])

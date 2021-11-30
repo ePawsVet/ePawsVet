@@ -76,6 +76,16 @@ export function AuthProvider({ children }) {
             ownerID : ownerID
         })
     }
+    async function updateClient(info,id) {
+        db.collection('Owner_Info').doc(id).set({
+            Name: info.Name,
+            ContactNo: info.ContactNo,
+            Address: info.Address,
+            Email: info.Email,
+            userID: info.userID,
+            userType: info.userType
+        })
+    }
     async function createAppointment(clientID,Date,reason,span,priority,email,clientName,petName) {
         db.collection('Appointments').add({
             Date : Date,
@@ -176,6 +186,7 @@ export function AuthProvider({ children }) {
         createPet,
         createUser,
         updatePet,
+        updateClient,
         createAppointment
     }
 
