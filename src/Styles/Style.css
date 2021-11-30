@@ -879,8 +879,8 @@ img {
   display: block;
 }
 
-.container {
-  max-width: 70rem;
+.client-profile .container {
+  max-width: 70rem !important;
   margin: 0 auto;
   padding: 0 2rem;
 }
@@ -1251,3 +1251,6 @@ Remove or comment-out the code block below to see how the browser will fall-back
       }
   }
 /*}*/
+.formGridFrequency{
+  padding-left: 30px;
+}

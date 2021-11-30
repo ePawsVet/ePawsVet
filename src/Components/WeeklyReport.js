@@ -5,6 +5,7 @@ import "antd/dist/antd.css";
 import { db } from '../firebase';
 import moment from 'moment';
 import $ from 'jquery'
+import { Form,Col } from 'react-bootstrap'
 
 
 export default function WeeklyReport() {
@@ -46,13 +47,13 @@ export default function WeeklyReport() {
   }
   const getCurrentMonthDays = () => {
     const startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
-    const endOfMonth   = moment().endOf('month').date()
+    const endOfMonth = moment().endOf('month').date()
 
     const days = [];
-    for (let i = 0; i <= endOfMonth-1; i++) {
+    for (let i = 0; i <= endOfMonth - 1; i++) {
       days.push(moment(startOfMonth).add(i, 'days').format('L'));
     }
-    console.log("month",days)
+    console.log("month", days)
     return days;
   }
   useEffect(() => {
@@ -69,7 +70,7 @@ export default function WeeklyReport() {
           var scheds = []
           let dates = moment().format('L')
           data.forEach(sched => {
-            if (dates===sched.Date) {
+            if (dates === sched.Date) {
               scheds.push({
                 clientID: sched.clientID,
                 clientName: sched.clientName,
@@ -91,7 +92,7 @@ export default function WeeklyReport() {
     if (frequency === "daily") {
       let dates = moment().format('L')
       meds.forEach(sched => {
-        if (dates===sched.Date) {
+        if (dates === sched.Date) {
           scheds.push({
             clientID: sched.clientID,
             clientName: sched.clientName,
@@ -136,11 +137,14 @@ export default function WeeklyReport() {
   }
   return (
     <>
-      <select onChange={() => refreshTable()} className="frequency form-select">
-        <option value="daily">Daily</option>
-        <option value="weekly">Weekly</option>
-        <option value="monthly">Monthly</option>
-      </select>
+      <Form.Group as={Col} controlId="formGridFrequency" className="formGridFrequency">
+        <Form.Label>Filter by</Form.Label>
+        <select onChange={() => refreshTable()} className="frequency form-select">
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+        </select>
+      </Form.Group>
       <Table columns={columns} dataSource={filteredData} />
     </>
   )
