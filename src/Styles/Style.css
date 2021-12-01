@@ -956,7 +956,8 @@ img {
 }
 .add-image:hover{
   background-color: gray;
-  opacity: 30%;
+  opacity: 30% !important;
+  cursor: pointer;
 }
 .add-image{
   position: absolute;
