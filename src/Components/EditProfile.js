@@ -19,7 +19,7 @@ export default function EditProfile({userInfo=null,click=null}) {
             "ContactNo": contactRef.current.value,
             "Email": emailRef.current.value,
             "userID" : currentUser.uid,
-            "userType": "Client"
+            "userType": userInfo.userType
         }
         try {
             updateClient(info, userInfo.id)

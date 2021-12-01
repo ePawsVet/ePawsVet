@@ -5,13 +5,14 @@ import { useAuth } from '../Contexts/AuthContext'
 import { Alert, Modal, Form, Button } from 'react-bootstrap';
 import { GoPlusSmall, GoPlus } from 'react-icons/go';
 import { RiContactsBook2Fill } from 'react-icons/ri';
-import { FaTrashAlt, FaEnvelope, FaMapMarked, FaTransgender, FaBirthdayCake, FaDna } from 'react-icons/fa';
+import { FaTrashAlt, FaEnvelope, FaMapMarked, FaTransgender, FaBirthdayCake, FaDna,FaUser } from 'react-icons/fa';
 import { IoMdPaw } from 'react-icons/io';
 import { MdColorLens, MdPets } from 'react-icons/md';
 import CreateNew from '../Components/CreateNew';
 import EditProfile from '../Components/EditProfile';
 import EditImage from '../Components/EditImage';
 import Loader from "react-loader-spinner";
+import SignupVet from '../Components/SignupVet';
 
 
 
@@ -24,6 +25,7 @@ const ClientProfile = () => {
     const [editProfileModalShow, setEditProfileModalShow] = useState(false)
     const [editImageShow, setEditImageShow] = useState(false)
     const [petImageShow, setPetImageShow] = useState(false)
+    const [vetModalShow, setVetModalShow] = useState(false)
     const [modalTitle, setModalTitle] = useState("")
     const [petError, setPetError] = useState("")
     const [petMessage, setPetMessage] = useState("")
@@ -31,6 +33,9 @@ const ClientProfile = () => {
     const [pendingEvts, setPendingEvents] = useState([])
     const [imageURL, setImageURL] = useState("")
     const [loading, setLoading] = useState(false)
+    const [clients, setClients] = useState(null)
+    const [pets, setPets] = useState(null)
+    const [appointments, setAppointments] = useState(null)
 
     useEffect(() => {
         db
@@ -54,6 +59,38 @@ const ClientProfile = () => {
                     id: doc.id,
                 }));
                 setPetInfo(data);
+            })
+        db
+            .collection("Owner_Info")
+            .where("userType", "==", "Client")
+            .get()
+            .then((querySnapshot) => {
+                const data = querySnapshot.docs.map(doc => ({
+                    ...doc.data(),
+                    id: doc.id,
+                }));
+                setClients(data);
+            })
+        db
+            .collection("Pet_Info")
+            .get()
+            .then((querySnapshot) => {
+                const data = querySnapshot.docs.map(doc => ({
+                    ...doc.data(),
+                    id: doc.id,
+                }));
+                setPets(data);
+                setPetInfo(data);
+            })
+        db
+            .collection("Appointments")
+            .get()
+            .then((querySnapshot) => {
+                const data = querySnapshot.docs.map(doc => ({
+                    ...doc.data(),
+                    id: doc.id,
+                }));
+                setAppointments(data);
             })
     }, [currentUser])
     useEffect(() => {
@@ -163,6 +200,9 @@ const ClientProfile = () => {
         setPetImageShow(false)
         getPetsPerUser(userInfo.userID)
     }
+    const closeVetModal = () => {
+        setVetModalShow(false)
+    }
     const refreshPets = () => {
         setLoading(true)
         setModalShow(false)
@@ -180,6 +220,10 @@ const ClientProfile = () => {
         setCurrentPet([])
         setModalTitle("Enroll New Pet")
         setModalShow(true)
+    }
+
+    const createVet = () => {
+        setVetModalShow(true)
     }
 
     const editPet = (info) => {
@@ -272,7 +316,7 @@ const ClientProfile = () => {
                     <EditImage close={() => { closeEditImageModal() }} imageURL={imageURL[0]} editImage="Profile"></EditImage>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={()=>{setPetImageShow(false)}}>Cancel</Button>
+                    <Button onClick={() => { setPetImageShow(false) }}>Cancel</Button>
                 </Modal.Footer>
             </Modal>
         );
@@ -294,8 +338,27 @@ const ClientProfile = () => {
                     <EditImage userInfo={userInfo} petInfo={currentPet} close={() => { closePetImageModal() }} imageURL={currentPet} editImage="Pet Image"></EditImage>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={()=>{setPetImageShow(false)}}>Cancel</Button>
+                    <Button onClick={() => { setPetImageShow(false) }}>Cancel</Button>
                 </Modal.Footer>
+            </Modal>
+        );
+    }
+    const CreateVetModal = (props) => {
+        return (
+            <Modal
+                {...props}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        Create New Veterinarian
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="create-new-container">
+                    <SignupVet close={() => { setVetModalShow(false) }}></SignupVet>
+                </Modal.Body>
             </Modal>
         );
     }
@@ -335,18 +398,30 @@ const ClientProfile = () => {
                                 <h1 className="profile-user-name">{userInfo ? userInfo.Name : ""}</h1>
 
                                 <button onClick={() => editOwner(userInfo)} className="btns profile-edit-btn">Edit Profile</button>
-
-                                <button onClick={createPet} className="btns profile-settings-btn" aria-label="profile settings"><MdPets /><GoPlusSmall /> Add Pet</button>
-
+                                {userInfo ? userInfo.userType === "Client" ?
+                                    <button onClick={createPet} className="btns profile-settings-btn" aria-label="profile settings"><MdPets /><GoPlusSmall /> Add Pet</button>
+                                    : <button onClick={createVet} className="btns profile-settings-btn" aria-label="profile settings"><FaUser /><GoPlusSmall /> Add Vet</button> : ""
+                                }
                             </div>
 
                             <div className="profile-stats">
-
-                                <ul>
-                                    <li><span className="profile-stat-count">{petInfo ? petInfo.length : 0}</span> Pets</li>
-                                    <li><span className="profile-stat-count">{doneEvts ? doneEvts.length : 0}</span> Visits</li>
-                                    <li><span className="profile-stat-count">{pendingEvts ? pendingEvts.length : 0}</span> Pending Appointments</li>
-                                </ul>
+                                {userInfo ? userInfo.userType === "Client" ?
+                                    <ul>
+                                        <li><span className="profile-stat-count">{petInfo ? petInfo.length : 0}</span> Pets</li>
+                                        <li><span className="profile-stat-count">{doneEvts ? doneEvts.length : 0}</span> Visits</li>
+                                        <li><span className="profile-stat-count">{pendingEvts ? pendingEvts.length : 0}</span> Pending Appointments</li>
+                                    </ul> :
+                                    <ul>
+                                        <li><span className="profile-stat-count">{clients ? clients.length : 0}</span> Clients</li>
+                                        <li><span className="profile-stat-count">{pets ? pets.length : 0}</span> Enrolled Pets</li>
+                                        <li><span className="profile-stat-count">{appointments ? appointments.length : 0}</span> Total Appointments</li>
+                                    </ul> :
+                                    <ul>
+                                        <li><span className="profile-stat-count">0</span> Pets</li>
+                                        <li><span className="profile-stat-count">0</span> Visits</li>
+                                        <li><span className="profile-stat-count">0</span> Pending Appointments</li>
+                                    </ul>
+                                }
 
                             </div>
 
@@ -377,7 +452,9 @@ const ClientProfile = () => {
                                         }
 
                                         <div className="gallery-item-info">
-                                            <button onClick={() => deletePet(info)} className="btns pet-delete-btn"><FaTrashAlt></FaTrashAlt></button>
+                                            {userInfo ? userInfo.userType === "Client" ?
+                                                <button onClick={() => deletePet(info)} className="btns pet-delete-btn"><FaTrashAlt></FaTrashAlt></button> : "" : ""
+                                            }
                                             <ul>
                                                 <li className="gallery-item-likes"><span className="visually-hidden">Pet Name:</span><IoMdPaw></IoMdPaw> {info.PetName}</li>
                                                 <li className="gallery-item-likes"><span className="visually-hidden">Pet Type:</span><FaDna></FaDna> {info.PetType}</li>
@@ -387,10 +464,12 @@ const ClientProfile = () => {
                                                 <li className="gallery-item-likes"><span className="visually-hidden">Pet Breed:</span><FaDna></FaDna> {info.Breed}</li>
 
                                             </ul>
-                                            <ul className="pet-btn-container">
-                                                <button onClick={() => editPet(info)} className="btns pet-btn">Edit Pet</button>
-                                                <button onClick={() => editPetImage(info)} className="btns pet-btn">Add Image</button>
-                                            </ul>
+                                            {userInfo ? userInfo.userType === "Client" ?
+                                                <ul className="pet-btn-container">
+                                                    <button onClick={() => editPet(info)} className="btns pet-btn">Edit Pet</button>
+                                                    <button onClick={() => editPetImage(info)} className="btns pet-btn">Add Image</button>
+                                                </ul> : "" : ""
+                                            }
                                         </div>
 
                                     </div>
@@ -420,6 +499,10 @@ const ClientProfile = () => {
             <EditPetImageModal
                 show={petImageShow}
                 onHide={closePetImageModal}
+            />
+            <CreateVetModal
+                show={vetModalShow}
+                onHide={closeVetModal}
             />
         </>
     )

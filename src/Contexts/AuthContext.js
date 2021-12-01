@@ -65,7 +65,7 @@ export function AuthProvider({ children }) {
     }
     async function updatePet(id,info,ownerID) {
         info = await info
-        db.collection('Pet_Info').doc(id).set({
+        db.collection('Pet_Info').doc(id).update({
             Age : info.PetInfo.Age,
             Birthday : info.PetInfo.Birthday,
             Breed : info.PetInfo.Breed,
@@ -78,7 +78,7 @@ export function AuthProvider({ children }) {
         })
     }
     async function updateClient(info,id) {
-        db.collection('Owner_Info').doc(id).set({
+        db.collection('Owner_Info').doc(id).update({
             Name: info.Name,
             ContactNo: info.ContactNo,
             Address: info.Address,
