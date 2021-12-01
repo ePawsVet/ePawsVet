@@ -88,7 +88,7 @@ const expandable = { expandedRowRender: record => <p key={record.code}>{record.n
           code: pres.code,
           name : pres.name,
           pet : pres.pet,
-          presc : pres.presc,
+          presc : "",//pres.presc,
           notes : pres.notes,
           reason : pres.reason,
           duration : pres.duration+" "+pres.durationType,
