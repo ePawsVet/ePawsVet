@@ -4,7 +4,7 @@ import { useAuth } from '../Contexts/AuthContext'
 import Loader from "react-loader-spinner";
 import { FaUser } from 'react-icons/fa';
 
-export default function SignupVet({close=null}) {
+export default function SignupVet({ close = null }) {
     //OWNER INFO
     const ownerRef = useRef()
     const addressRef = useRef()
@@ -13,10 +13,11 @@ export default function SignupVet({close=null}) {
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
 
-    const { signupVet,logout } = useAuth()
+    const { signupVet, logout } = useAuth()
     const [error, setError] = useState("")
     const [ownerError, setOwnerError] = useState("")
     const [loading, setLoading] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
 
     async function SignupHandler(e) {
         e.preventDefault()
@@ -84,11 +85,14 @@ export default function SignupVet({close=null}) {
                     </Form.Group>
                     <Form.Group id="owner-password" className="required">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" ref={passwordRef} required />
+                        <Form.Control type={showPassword ? "text" : "password"} ref={passwordRef} required />
                     </Form.Group>
                     <Form.Group id="password-confirm" className="required">
                         <Form.Label>Confirm Password</Form.Label>
-                        <Form.Control type="password" ref={passwordConfirmRef} required />
+                        <Form.Control type={showPassword ? "text" : "password"} ref={passwordConfirmRef} required />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="showPassword">
+                        <Form.Check onChange={e => setShowPassword(e.target.checked)} type="checkbox" label="Show Passwords" />
                     </Form.Group>
                 </div>
                 <Button disabled={loading} className="w-90 text-center mt-2" type="submit">
