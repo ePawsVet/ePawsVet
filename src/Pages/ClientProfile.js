@@ -272,7 +272,7 @@ const ClientProfile = () => {
                     <EditImage close={() => { closeEditImageModal() }} imageURL={imageURL[0]} editImage="Profile"></EditImage>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={closeEditImageModal}>Cancel</Button>
+                    <Button onClick={()=>{setPetImageShow(false)}}>Cancel</Button>
                 </Modal.Footer>
             </Modal>
         );
@@ -294,7 +294,7 @@ const ClientProfile = () => {
                     <EditImage userInfo={userInfo} petInfo={currentPet} close={() => { closePetImageModal() }} imageURL={currentPet} editImage="Pet Image"></EditImage>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={closePetImageModal}>Cancel</Button>
+                    <Button onClick={()=>{setPetImageShow(false)}}>Cancel</Button>
                 </Modal.Footer>
             </Modal>
         );
