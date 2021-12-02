@@ -87,7 +87,7 @@ export function AuthProvider({ children }) {
             userType: info.userType
         })
     }
-    async function createAppointment(clientID,Date,reason,span,priority,email,clientName,petName) {
+    async function createAppointment(clientID,Date,reason,span,priority,email,clientName,ContactNo,Address,petName) {
         db.collection('Appointments').add({
             Date : Date,
             time : moment().format("hh:mm A"),
@@ -99,7 +99,9 @@ export function AuthProvider({ children }) {
             clientName : clientName,
             status: "Pending",
             sched: "Time will be emailed",
-            petName:petName
+            petName:petName,
+            contactNo:ContactNo,
+            address:Address,
         })
     }
 

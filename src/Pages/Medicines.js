@@ -8,6 +8,7 @@ import "antd/dist/antd.css";
 import { DeleteFilled, EditFilled } from '@ant-design/icons';
 import { db } from '../firebase';
 import { Form } from "react-bootstrap"
+import WeeklyReport from '../Components/WeeklyReport';
 
 export default function Medicines() {
 
@@ -257,6 +258,7 @@ export default function Medicines() {
 
       {/* TABLE */}
       <Table {...expandable} columns={columns} dataSource={meds} />
+      <WeeklyReport page="Medicines"/>
 
     </>
   )

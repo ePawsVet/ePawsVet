@@ -138,6 +138,8 @@ export default function Appointments() {
         variables.priority,
         currentUser.email,
         userInfo.Name,
+        userInfo.ContactNo,
+        userInfo.Address,
         petRef.current.value,)
     }catch(err){
         setError("Failed to create an account. " +err.message)

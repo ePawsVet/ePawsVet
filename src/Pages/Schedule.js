@@ -9,6 +9,7 @@ import { Form, InputGroup } from "react-bootstrap"
 import { useAuth } from '../Contexts/AuthContext'
 import makeAnimated from 'react-select/animated';
 import Select from 'react-select'
+import moment from 'moment';
 
 export default function ScheduleList() {
 
@@ -32,6 +33,7 @@ export default function ScheduleList() {
   const [userInfo, setUserInfo] = useState(null)
   const [cond, setCond] = useState("==")
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const [prescriptedMedicines, setPrescriptedMedicines] = useState([]);
 
   //MODAL FUNCTIONS
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -146,6 +148,7 @@ export default function ScheduleList() {
   ];
 
   const handleOk = () => {
+
     var info = getData()
     db.collection('Prescriptions').add({
       code: info.code,
@@ -157,6 +160,27 @@ export default function ScheduleList() {
       duration: info.duration,
       durationType: info.durationType,
     })
+    if (prescriptedMedicines.length > 0) {
+      prescriptedMedicines.forEach(precription => {
+        db.collection('Prescribed_Meds').add({
+          code: info.code,
+          productID: precription.code,
+          productName: precription.value,
+          costPrice: precription.price,
+          stock: precription.quantity,
+          quantitySold: 1,
+          stockAvailable: precription.quantity - 1,
+          category: precription.type,
+          date : moment().format('L')
+        })
+
+        db.collection('Meds').doc(precription.id)
+          .update({
+            "Quantity": precription.quantity - 1
+          });
+      })
+    }
+
     db.collection('Appointments').doc(info.code)
       .update({
         "status": "Done"
@@ -287,6 +311,12 @@ export default function ScheduleList() {
             Medicines.push({
               value: med.Item_Name,
               label: med.Item_Name,
+              id: med.id,
+              code: med.Item_Code,
+              price: med.Price,
+              purpose: med.Purpose,
+              quantity: med.Quantity,
+              type: med.Type,
             })
           })
           setMeds(Medicines)
@@ -297,6 +327,7 @@ export default function ScheduleList() {
 
   const handleChange = (options) => {
     var prescript = "";
+    setPrescriptedMedicines(options)
     options.forEach(selectedOption => {
       prescript += selectedOption.value + ", "
     })

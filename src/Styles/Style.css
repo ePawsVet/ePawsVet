@@ -1302,3 +1302,11 @@ Remove or comment-out the code block below to see how the browser will fall-back
 .formGridFrequency{
   padding-left: 30px;
 }
+.export-btn{
+  display: none;
+}
+.report-table-header{
+  background-color: #d1e7dd;
+  color: #0f5132;
+  font-weight: 700;
+}

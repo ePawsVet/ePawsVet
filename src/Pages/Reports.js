@@ -88,7 +88,7 @@ const expandable = { expandedRowRender: record => <p key={record.code}>{record.n
           code: pres.code,
           name : pres.name,
           pet : pres.pet,
-          presc : "",//pres.presc,
+          presc : pres.presc,
           notes : pres.notes,
           reason : pres.reason,
           duration : pres.duration+" "+pres.durationType,
@@ -104,7 +104,7 @@ const expandable = { expandedRowRender: record => <p key={record.code}>{record.n
         <h4 className="prescription-header">Prescriptions</h4>
         <Table {...expandable} columns={columns} dataSource={meds} />
         <h4 className="weekly-header"> Appointments Summary</h4>
-        <WeeklyReport></WeeklyReport>
+        <WeeklyReport page="Reports"></WeeklyReport>
     </>
   )
 }
