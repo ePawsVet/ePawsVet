@@ -44,9 +44,9 @@ export default function Calendars({click=null}){
     const handleDateClick = (e) => {
         click(e.dateStr)
     }
-    /*const handleEventClick = (e) => {
-        console.log(e)
-    }*/
+    const handleEventClick = (info) => {
+      click(info.event._instance.range.start)
+    }
 
     const headerToolbar = {
       right: 'custom1 today,prevYear,prev,next,nextYear'
@@ -70,7 +70,7 @@ export default function Calendars({click=null}){
         headerToolbar ={headerToolbar}
         customButtons = {scheduleList}
         
-        //eventClick={handleEventClick}
+        eventClick={handleEventClick}
         dateClick={handleDateClick}
       />
     )
