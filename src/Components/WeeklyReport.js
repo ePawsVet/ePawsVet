@@ -76,10 +76,9 @@ export default function WeeklyReport({ page = "" }) {
       .join(' ');
   }
 
-  const setData = (dates, fetchedData) => {
+  const setData = (dates, fetchedData=[]) => {
     var scheds = []
     fetchedData = meds.length > 0 ? meds : fetchedData;
-    console.log(fetchedData)
     dates.sort(function (a, b) {
       return new Date(a) - new Date(b)
     });
