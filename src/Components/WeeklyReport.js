@@ -76,7 +76,7 @@ export default function WeeklyReport({ page = "" }) {
       .join(' ');
   }
 
-  const setData = (dates, fetchedData=[]) => {
+  const setData = (dates, fetchedData = []) => {
     var scheds = []
     fetchedData = meds.length > 0 ? meds : fetchedData;
     dates.sort(function (a, b) {
@@ -126,12 +126,15 @@ export default function WeeklyReport({ page = "" }) {
         })
 
       var mins = 0;
+      var minutes = 0;
       var hours = 0;
       scheds.forEach(data => {
         mins += parseInt(data.duration.replace("mins", ""))
       })
-      hours = mins / 60;
-      setHrs(hours)
+      hours = Math.floor(mins / 60);
+      minutes = mins % 60;
+      console.log(minutes)
+      setHrs(hours + (hours > 1 ? " hours " : " hour ") + (minutes > 0 ? minutes > 1 ? ("and " + minutes + " minutes") : ("and " + minutes + " minute") : ""))
       setFilteredData(scheds)
     }
     else if (page === "Medicines") {
@@ -236,7 +239,7 @@ export default function WeeklyReport({ page = "" }) {
                   </tr>
                   <tr>
                     <td style={{ textAlign: "center" }} colSpan={2}>Total Hours Work:</td>
-                    <td colSpan={1}>{hrs} Hours</td>
+                    <td colSpan={1}>{hrs}</td>
                     <td colSpan={6} rowSpan={10}></td>
                   </tr>
                   <tr>
