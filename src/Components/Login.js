@@ -1,9 +1,11 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState,useEffect } from 'react'
 import { Form, Button, Card, Alert, Container } from "react-bootstrap"
 import { useAuth } from '../Contexts/AuthContext'
 import { Link, useHistory } from 'react-router-dom'
 import Loader from "react-loader-spinner";
-
+import {
+    storage
+} from '../firebase';
 export default function Login() {
     const userTypeRef1 = useRef()
     const userTypeRef2 = useRef()
@@ -14,6 +16,20 @@ export default function Login() {
     const [loading, setLoading] = useState(false)
     const history = useHistory();
     const [showPassword, setShowPassword] = useState(false)
+    const [iconURL, setIconURL] = useState([])
+
+    useEffect(() => {
+        const filenames = ['veterinarian.png','pet-owner.png'];
+        filenames.forEach(filename=>{
+            storage
+            .ref(`/icons/login-icons/${filename}`)
+            .getDownloadURL()
+            .then(url => {
+                setIconURL(iconURL => [...iconURL,url]);
+            });
+        })
+        
+    }, [])
 
     async function LoginHandler(e) {
         e.preventDefault()
@@ -71,12 +87,12 @@ export default function Login() {
                             <Form.Group className="text-center mb-4" id="userType" >
                                 <label id="usertype-vet" className="usertype-container">
                                     <Form.Check ref={userTypeRef1} value="Vet_Info" required onClick={() => userTypeHandler("usertype-vet")} name="userType" type="radio" aria-label="Veterinarian" />
-                                    <img className="usertype-img" alt="I am a Veterinarian" src="https://cdn2.iconfinder.com/data/icons/professions-vivid-vol-2/256/Veterinarian_Male-512.png"></img>
+                                    <img className="usertype-img" alt="I am a Veterinarian" src={iconURL?iconURL[0]:"https://cdn2.iconfinder.com/data/icons/professions-vivid-vol-2/256/Veterinarian_Male-512.png"}></img>
                                     <div>Veterinarian</div>
                                 </label>
                                 <label id="usertype-owner" className="usertype-container">
                                     <Form.Check ref={userTypeRef2} value="Owner_Info" defaultChecked required onClick={() => userTypeHandler("usertype-owner")} name="userType" type="radio" aria-label="Pet Owner" />
-                                    <img className="usertype-img" alt="I am a Pet Owner" src="https://i.pinimg.com/originals/1d/86/de/1d86de1fd9ec27ea3693255f77333ad1.png"></img>
+                                    <img className="usertype-img" alt="I am a Pet Owner" src={iconURL?iconURL[1]:"https://i.pinimg.com/originals/1d/86/de/1d86de1fd9ec27ea3693255f77333ad1.png"}></img>
                                     <div>Pet Owner</div>
                                 </label>
                             </Form.Group>

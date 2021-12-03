@@ -83,7 +83,6 @@ export default function Appointments() {
             id:doc.id,
         }));
         setEvents(data)
-        console.log(data)
     })
     return unsubscribe
   },[])

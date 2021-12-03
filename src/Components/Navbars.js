@@ -6,7 +6,7 @@ import { GiHamburgerMenu, GiMedicinePills } from 'react-icons/gi';
 import { FiLogOut } from 'react-icons/fi';
 import { FaChartBar, FaRegCalendarAlt, FaUsers, FaUser, FaEnvelope, FaHome,/*FaBoxes,*/ FaRegCalendarCheck } from 'react-icons/fa';
 import { SiMicrosoftpowerpoint } from 'react-icons/si';
-import { db } from "../firebase"
+import { db, storage } from "../firebase"
 import { VersionInfo } from './VersionInfo';
 
 
@@ -22,6 +22,19 @@ export default function Navbars({ title = "" }) {
 
     const [imageURL, setImageURL] = useState("")
 
+    useEffect(() => {
+        const filenames = ['user-placeholder.png'];
+        filenames.forEach(filename => {
+            storage
+                .ref(`/icons/placeholders/${filename}`)
+                .getDownloadURL()
+                .then(url => {
+                    setImageURL({"url": url });
+                });
+        })
+
+    }, [])
+    console.log(imageURL)
     useEffect(() => {
         var element = document.getElementById(title)
         element.className += element.classList.contains("active") ? "" : " active"

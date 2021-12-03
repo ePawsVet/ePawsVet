@@ -5,7 +5,7 @@ import { useAuth } from '../Contexts/AuthContext'
 import { Alert, Modal, Form, Button } from 'react-bootstrap';
 import { GoPlusSmall, GoPlus } from 'react-icons/go';
 import { RiContactsBook2Fill } from 'react-icons/ri';
-import { FaTrashAlt, FaEnvelope, FaMapMarked, FaTransgender, FaBirthdayCake, FaDna,FaUser } from 'react-icons/fa';
+import { FaTrashAlt, FaEnvelope, FaMapMarked, FaTransgender, FaBirthdayCake, FaDna, FaUser } from 'react-icons/fa';
 import { IoMdPaw } from 'react-icons/io';
 import { MdColorLens, MdPets } from 'react-icons/md';
 import CreateNew from '../Components/CreateNew';
@@ -60,39 +60,45 @@ const ClientProfile = () => {
                 }));
                 setPetInfo(data);
             })
-        db
-            .collection("Owner_Info")
-            .where("userType", "==", "Client")
-            .get()
-            .then((querySnapshot) => {
-                const data = querySnapshot.docs.map(doc => ({
-                    ...doc.data(),
-                    id: doc.id,
-                }));
-                setClients(data);
-            })
-        db
-            .collection("Pet_Info")
-            .get()
-            .then((querySnapshot) => {
-                const data = querySnapshot.docs.map(doc => ({
-                    ...doc.data(),
-                    id: doc.id,
-                }));
-                setPets(data);
-                setPetInfo(data);
-            })
-        db
-            .collection("Appointments")
-            .get()
-            .then((querySnapshot) => {
-                const data = querySnapshot.docs.map(doc => ({
-                    ...doc.data(),
-                    id: doc.id,
-                }));
-                setAppointments(data);
-            })
     }, [currentUser])
+
+    useEffect(() => {
+        if (userInfo)
+            if (userInfo.userType === "Admin") {
+                db
+                    .collection("Owner_Info")
+                    .where("userType", "==", "Client")
+                    .get()
+                    .then((querySnapshot) => {
+                        const data = querySnapshot.docs.map(doc => ({
+                            ...doc.data(),
+                            id: doc.id,
+                        }));
+                        setClients(data);
+                    })
+                db
+                    .collection("Pet_Info")
+                    .get()
+                    .then((querySnapshot) => {
+                        const data = querySnapshot.docs.map(doc => ({
+                            ...doc.data(),
+                            id: doc.id,
+                        }));
+                        setPets(data);
+                        setPetInfo(data);
+                    })
+                db
+                    .collection("Appointments")
+                    .get()
+                    .then((querySnapshot) => {
+                        const data = querySnapshot.docs.map(doc => ({
+                            ...doc.data(),
+                            id: doc.id,
+                        }));
+                        setAppointments(data);
+                    })
+            }
+    }, [userInfo])
     useEffect(() => {
         db
             .collection("Profile_Pictures")
@@ -448,7 +454,7 @@ const ClientProfile = () => {
                                     <div className="gallery-item" key={info.id}>
 
                                         {
-                                            info.url ? <img key={info.id} src={info.url} className="gallery-image" alt="" /> : null
+                                            info.url ? <img key={info.id} src={info.url} className="gallery-image" alt={info.PetType} /> : null
                                         }
 
                                         <div className="gallery-item-info">
