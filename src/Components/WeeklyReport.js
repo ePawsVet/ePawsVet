@@ -96,6 +96,7 @@ export default function WeeklyReport({ page = "" }) {
             address: sched.address,
             petName: sched.petName,
             reason: sched.reason,
+            status: sched.status,
           })
         }
       })
@@ -174,10 +175,10 @@ export default function WeeklyReport({ page = "" }) {
       <div className="ant-table-wrapper">
         <Table striped bordered hover id="data-table">
           <thead>
-            <tr><td colSpan={8} style={{ textAlign: "Left", fontSize: "2rem", borderBottom: "none" }}>{page === "Reports" ? "EPAWS VETERINARY CLINIC" : "MEDICINE AND ESSENTIAL ITEMS " + ($(".frequency").val() ? $(".frequency").val().toUpperCase() : "") + " REPORT"}</td></tr>
-            <tr><td colSpan={8} style={{ textAlign: "Left" }}>{page === "Reports" ? $(".frequency").val() + " Appointment Schedule" : "EPAWS VETERINARY CLINIC"}</td></tr>
-            <tr><td colSpan={8} style={{ textAlign: "Left" }}>Location : San Pablo City</td></tr>
-            <tr><td colSpan={8} style={{ textAlign: "Left" }}>Date : {dateList.length > 0 ? dateList[0] + " to " + dateList[dateList.length - 1] : ""} </td></tr>
+            <tr><td colSpan={9} style={{ textAlign: "Left", fontSize: "2rem", borderBottom: "none" }}>{page === "Reports" ? "EPAWS VETERINARY CLINIC" : "MEDICINE AND ESSENTIAL ITEMS " + ($(".frequency").val() ? $(".frequency").val().toUpperCase() : "") + " REPORT"}</td></tr>
+            <tr><td colSpan={9} style={{ textAlign: "Left" }}>{page === "Reports" ? $(".frequency").val() + " Appointment Schedule" : "EPAWS VETERINARY CLINIC"}</td></tr>
+            <tr><td colSpan={9} style={{ textAlign: "Left" }}>Location : San Pablo City</td></tr>
+            <tr><td colSpan={9} style={{ textAlign: "Left" }}>Date : {dateList.length > 0 ? dateList[0] + " to " + dateList[dateList.length - 1] : ""} </td></tr>
             <br />
           </thead>
           {
@@ -193,6 +194,7 @@ export default function WeeklyReport({ page = "" }) {
                     <th>Address</th>
                     <th>Pet Name</th>
                     <th>Reason</th>
+                    <th>Status</th>
                   </tr>
                   {filteredData && filteredData.length > 0 ?
                     filteredData.map((value, index) =>
@@ -205,9 +207,10 @@ export default function WeeklyReport({ page = "" }) {
                         <td>{value.address}</td>
                         <td>{value.petName}</td>
                         <td>{value.reason}</td>
+                        <td>{value.status}</td>
                       </tr>
                     ) : <tr>
-                      <td colSpan={8} style={{ textAlign: "center" }}>
+                      <td colSpan={9} style={{ textAlign: "center" }}>
                         <div class="ant-empty ant-empty-normal">
                           <div class="ant-empty-image">
                             <svg class="ant-empty-img-simple" width="64" height="41" viewBox="0 0 64 41" xmlns="http://www.w3.org/2000/svg">
@@ -229,12 +232,12 @@ export default function WeeklyReport({ page = "" }) {
                   }
 
                   <tr>
-                    <td colSpan={8}></td>
+                    <td colSpan={9}></td>
                   </tr>
                   <tr>
                     <td style={{ textAlign: "center" }} colSpan={2}>Total Hours Work:</td>
                     <td colSpan={1}>{hrs} Hours</td>
-                    <td colSpan={5} rowSpan={10}></td>
+                    <td colSpan={6} rowSpan={10}></td>
                   </tr>
                   <tr>
                     <td colSpan={3}></td>
@@ -249,7 +252,7 @@ export default function WeeklyReport({ page = "" }) {
                         <td colSpan={1}>{evts[key]}</td>
                       </tr>
                     ) : <tr>
-                      <td colSpan={8} style={{ textAlign: "center" }}>
+                      <td colSpan={9} style={{ textAlign: "center" }}>
                         <div class="ant-empty ant-empty-normal">
                           <div class="ant-empty-image">
                             <svg class="ant-empty-img-simple" width="64" height="41" viewBox="0 0 64 41" xmlns="http://www.w3.org/2000/svg">
