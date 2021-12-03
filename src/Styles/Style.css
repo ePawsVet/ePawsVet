@@ -1310,3 +1310,9 @@ Remove or comment-out the code block below to see how the browser will fall-back
   color: #0f5132;
   font-weight: 700;
 }
+
+.warning-msg {
+  color: #ff2115;
+  text-align: end;
+  margin-right: 30px;
+}

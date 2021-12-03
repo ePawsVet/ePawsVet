@@ -288,6 +288,11 @@ export default function Appointments() {
     <>
       <Navbars title="Appointments"></Navbars>
       <h3 className="text-center mb-3 mt-3"><CalendarOutlined />Schedule an Appointment</h3>
+      <div className="warning-msg">
+        <ul>
+          <li>You can only request an appointment Two(2) Days from now.</li>
+        </ul>
+      </div>
       <Calendars click={onChange}></Calendars>
 
       <ModalCenter
