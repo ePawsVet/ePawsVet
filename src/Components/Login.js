@@ -19,6 +19,7 @@ export default function Login() {
     const [iconURL, setIconURL] = useState([])
 
     useEffect(() => {
+        setIconURL([])
         const filenames = ['veterinarian.png','pet-owner.png'];
         filenames.forEach(filename=>{
             storage

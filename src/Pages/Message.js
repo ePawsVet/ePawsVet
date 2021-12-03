@@ -38,7 +38,6 @@ export default function Message() {
             console.log("Error getting documents: ", error);
         });
     },[currentUser])
-    console.log(userInfo)
     return (
         <>
         <Navbars title="Message"></Navbars>

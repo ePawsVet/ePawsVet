@@ -110,7 +110,6 @@ export default function Medicines() {
   };
 
   const handleOk = (type) => {
-    console.log(type)
     var info = getData()
     if (type === "Add") {
       db.collection('Meds').add({

@@ -29,12 +29,11 @@ export default function Navbars({ title = "" }) {
                 .ref(`/icons/placeholders/${filename}`)
                 .getDownloadURL()
                 .then(url => {
-                    setImageURL({"url": url });
+                    setImageURL({ "url": url });
                 });
         })
 
     }, [])
-    console.log(imageURL)
     useEffect(() => {
         var element = document.getElementById(title)
         element.className += element.classList.contains("active") ? "" : " active"

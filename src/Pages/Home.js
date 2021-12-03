@@ -120,7 +120,7 @@ export default function Home() {
               <div className="name"></div>
 
               <p>
-              ⦁	Provide computerized pet and pet owner information, health record, and receipt.
+              ⦁	Provide computerized pet and pet owner information, health record, and report.
               </p>
             </div>
           </div>

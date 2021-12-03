@@ -107,7 +107,6 @@ export default function Signup() {
         setPetError("")
         var bday = new Date(document.getElementById("pet-birthday").value);
         var today = new Date()
-        console.log(bday)
         if (bday > today) {
             setPetError("Date of Birth cannot be in the future")
             document.getElementById("pet-birthday").value = moment().format("YYYY-MM-DD")
