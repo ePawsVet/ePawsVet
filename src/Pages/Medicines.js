@@ -14,15 +14,15 @@ export default function Medicines() {
 
   const columns = [
     {
-      title: 'Item Name',
-      dataIndex: 'name',
-      key: 'name',
-      render: text => <h6>{text}</h6>,
-    },
-    {
       title: 'Item Code',
       dataIndex: 'code',
       key: 'code',
+      render: text => <h6>{text}</h6>,
+    },
+    {
+      title: 'Item Name',
+      dataIndex: 'name',
+      key: 'name',
       render: text => <h6>{text}</h6>,
     },
     {

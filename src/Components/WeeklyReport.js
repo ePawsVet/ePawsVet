@@ -77,6 +77,8 @@ export default function WeeklyReport({ page = "" }) {
   }
 
   const setData = (dates, fetchedData = []) => {
+    var status = $(".status").val()
+    console.log(status)
     var scheds = []
     fetchedData = meds.length > 0 ? meds : fetchedData;
     dates.sort(function (a, b) {
@@ -86,7 +88,10 @@ export default function WeeklyReport({ page = "" }) {
 
     if (page === "Reports") {
       fetchedData.forEach(sched => {
-        if (dates.includes(sched.Date)) {
+        if (
+          dates.includes(sched.Date) && 
+            ((status.toLowerCase() !== "All" && sched.status.toLowerCase() === status.toLowerCase()) || $(".status").val()==="All")
+        ) {
           scheds.push({
             date: sched.Date,
             sched: sched.sched,
@@ -133,9 +138,9 @@ export default function WeeklyReport({ page = "" }) {
       })
       hours = Math.floor(mins / 60);
       minutes = mins % 60;
-      console.log(minutes)
       setHrs(hours + (hours > 1 ? " hours " : " hour ") + (minutes > 0 ? minutes > 1 ? ("and " + minutes + " minutes") : ("and " + minutes + " minute") : ""))
       setFilteredData(scheds)
+      console.log(scheds)
     }
     else if (page === "Medicines") {
       fetchedData.forEach((sched) => {
@@ -165,12 +170,21 @@ export default function WeeklyReport({ page = "" }) {
     <>
       <Form.Group as={Col} controlId="formGridFrequency" className="formGridFrequency">
         <Form.Label>Filter by</Form.Label>
+        {page === "Reports" ? <Form.Label style={{marginLeft:"185px"}}>Status</Form.Label> : null}
         <InputGroup className="mb-3">
           <select onChange={() => refreshTable()} className="frequency form-select">
             <option value="Daily">Daily</option>
             <option value="Weekly">Weekly</option>
             <option value="Monthly">Monthly</option>
           </select>
+          {page === "Reports" ?
+          <select onChange={() => refreshTable()} className="status form-select">
+            <option value="All">All</option>
+            <option value="Approved">Approved</option>
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
+          </select>
+          : null}
           <Button onClick={() => { $(".export-btn").click() }} disabled={filteredData.length > 0 ? false : true}> Export to Excel</Button>
           <ExportToExcel className="btn btn-primary export-btn" table="data-table" filename={$(".frequency").val() + "_Report"} sheet="Sheet" buttonText="Export to excel" />
         </InputGroup>
@@ -282,9 +296,9 @@ export default function WeeklyReport({ page = "" }) {
                 <tbody>
                   <tr className="report-table-header">
                     <th>Date</th>
-                    <th>Product ID</th>
-                    <th>Product Name</th>
-                    <th>Category</th>
+                    <th>Item Code</th>
+                    <th>Item Name</th>
+                    <th>Type</th>
                     <th>Stock</th>
                     <th>Quantity Sold</th>
                     <th>Stock Available</th>
