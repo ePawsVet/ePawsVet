@@ -13,6 +13,8 @@ import EditProfile from '../Components/EditProfile';
 import EditImage from '../Components/EditImage';
 import Loader from "react-loader-spinner";
 import SignupVet from '../Components/SignupVet';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -27,8 +29,6 @@ const ClientProfile = () => {
     const [petImageShow, setPetImageShow] = useState(false)
     const [vetModalShow, setVetModalShow] = useState(false)
     const [modalTitle, setModalTitle] = useState("")
-    const [petError, setPetError] = useState("")
-    const [petMessage, setPetMessage] = useState("")
     const [doneEvts, setDoneEvents] = useState([])
     const [pendingEvts, setPendingEvents] = useState([])
     const [imageURL, setImageURL] = useState("")
@@ -243,24 +243,18 @@ const ClientProfile = () => {
     }
 
     const deletePet = (info) => {
-        setPetMessage("")
-        setPetError("")
         db
             .collection("Pet_Info")
             .doc(info.id)
             .delete()
             .then(() => {
-                setPetMessage("Document successfully deleted!");
+                toast.success("Pet has been successfully deleted!");
                 getPetsPerUser(info.ownerID)
             }).catch((error) => {
-                setPetError("Error removing document: ", error);
+                toast.error("Error removing document: ", error);
             });
     }
 
-    const deleteMessage = () => {
-        setPetMessage("");
-        setPetError("");
-    }
     const editOwner = (info) => {
         setEditProfileModalShow(true)
     }
@@ -371,6 +365,7 @@ const ClientProfile = () => {
     return (
         <>
             <Navbars title="Profile"></Navbars>
+            <ToastContainer theme="colored"/>
             <div className="client-profile profile-container">
                 {loading ?
                     <Loader className="loading-spinner"
@@ -445,9 +440,6 @@ const ClientProfile = () => {
                 </header>
                 <main>
                     <div className="container">
-                        {petError && <Alert variant="danger">{petError}<span onClick={deleteMessage} className="deleteMessage"><FaTrashAlt ></FaTrashAlt></span></Alert>}
-                        {petMessage && <Alert variant="success">{petMessage}<span onClick={deleteMessage} className="deleteMessage"><FaTrashAlt></FaTrashAlt></span></Alert>}
-
                         <div className="gallery">
                             {petInfo && petInfo.length > 0 ?
                                 petInfo.map((info) =>

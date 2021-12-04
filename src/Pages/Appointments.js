@@ -6,9 +6,9 @@ import moment from 'moment';
 import { useAuth } from '../Contexts/AuthContext'
 import {db} from "../firebase"
 import emailjs from 'emailjs-com';
-
-import { notification } from "antd";
 import { CalendarOutlined } from '@ant-design/icons';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -24,25 +24,6 @@ export default function Appointments() {
   const [userInfo,setUserInfo] = useState(null)
   const [petInfo,setPetInfo] = useState(null)
   const [evts,setEvents] = useState([])
-
-  //NOTIFICATION 1
-  const openNotification1 = placement => {
-    notification.warning({
-      message: `Warning!`,
-      description:
-        'This date is already full. Please select another date.',
-      placement,
-    });
-  };
-  //NOTIFICATION 2
-  const openNotification2 = placement => {
-    notification.warning({
-      message: `Warning!`,
-      description:
-        'You can only request an appointment Two(2) Days from now.',
-      placement,
-    });
-  };
 
   useEffect(()=>{
     db
@@ -116,12 +97,10 @@ export default function Appointments() {
         userInfo.userType === "Client" ? setModalShow(true) : setAdminModalShow(true)
       }
       else{
-        //alert("This date is already full. Please select another date.")
-        openNotification1()
+        toast.warning("This date is already full. Please select another date.")
       }
     }else{
-      openNotification2()
-      //alert("You can only request an appointment Two(2) Days from now.")
+      toast.warning("You can only request an appointment Two(2) Days from now.")
     }
   }
   
@@ -181,7 +160,7 @@ export default function Appointments() {
           }
       })
     }else{
-      alert("There is no schedule fo this day!")
+      toast.warning("There is no schedule fo this day!")
     }
     setAdminModalShow(false)
   }
@@ -303,6 +282,7 @@ export default function Appointments() {
         show={adminModalShow}
         onHide={() => setAdminModalShow(false)}
       />
+      <ToastContainer theme="colored"/>
     </>
   )
 }

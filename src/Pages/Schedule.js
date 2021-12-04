@@ -10,6 +10,8 @@ import { useAuth } from '../Contexts/AuthContext'
 import makeAnimated from 'react-select/animated';
 import Select from 'react-select'
 import moment from 'moment';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ScheduleList() {
 
@@ -171,7 +173,7 @@ export default function ScheduleList() {
           quantitySold: 1,
           stockAvailable: precription.quantity - 1,
           category: precription.type,
-          date : moment().format('L')
+          date: moment().format('L')
         })
 
         db.collection('Meds').doc(precription.id)
@@ -185,7 +187,7 @@ export default function ScheduleList() {
       .update({
         "status": "Done"
       });
-    alert("Status changed to Done")
+    toast.success("Task has been Done")
     setIsModalVisible(false);
     document.getElementById("Med-form").reset();
   };
@@ -195,7 +197,7 @@ export default function ScheduleList() {
       .update({
         "status": "Cancelled"
       });
-    alert("Appointment Cancelled")
+    toast.warning("Task has been Cancelled")
   };
 
 
@@ -221,14 +223,14 @@ export default function ScheduleList() {
           .update({
             "status": "Approved"
           });
-        alert("Status changed to Approved")
+        toast.success("Task has been Approved")
       }
       else if (record.status[0] === "Approved") {
         db.collection('Appointments').doc(record.key)
           .update({
             "status": "Completed"
           });
-        alert("Status changed to Completed")
+        toast.success("Task has been Completed")
       }
       else {
         setIsModalVisible(true);
@@ -338,7 +340,7 @@ export default function ScheduleList() {
     <>
 
       <Navbars title="Schedule List"></Navbars>
-
+      <ToastContainer theme="colored"/>
       <Modal
         title="Prescription"
         visible={isModalVisible}

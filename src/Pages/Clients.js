@@ -10,6 +10,8 @@ import { SiGooglecalendar }from 'react-icons/si';
 import { RiScissorsCutFill,RiPencilFill }from 'react-icons/ri';
 import moment from 'moment';
 import CreateNew from '../Components/CreateNew';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Clients() {
   const keywordRef = useRef()
@@ -17,10 +19,6 @@ export default function Clients() {
   const [filteredUsers,setFilteredUsers] = useState([]);
   const [petInfo,setPetInfo] = useState([])
   const [currentPet,setCurrentPet] = useState([])
-  const [petError,setPetError] = useState("")
-  const [petMessage,setPetMessage] = useState("")
-  const [ownerError,setOwnerError] = useState("")
-  const [ownerMessage,setOwnerMessage] = useState("")
   const [modalTitle,setModalTitle] = useState("")
   const [owners,setOwners] = useState([]);
   const [modalShow, setModalShow] = useState(false);
@@ -67,10 +65,6 @@ export default function Clients() {
   const searchHandler = async () => {
     setUsers([])
     setPetInfo([])
-    setOwnerMessage("")
-    setOwnerError("")
-    setPetMessage("")
-    setPetError("")
     var keyword = keywordRef.current.value;
     const tempFilteredUsers = owners.filter(owner => {
       return owner.Name.toString().toLowerCase().includes(keyword.toString().toLowerCase());
@@ -81,10 +75,6 @@ export default function Clients() {
     setUsers(info)
     getPetsPerUser(info.userID)
     
-    setOwnerMessage("")
-    setOwnerError("")
-    setPetMessage("")
-    setPetError("")
   }
   const clearSearch = () => {
     keywordRef.current.value = ""
@@ -93,18 +83,16 @@ export default function Clients() {
   }
   
   const deleteOwner =(info)=>{
-    setOwnerMessage("")
-    setOwnerError("")
     db
     .collection("Owner_Info")
     .doc(info.id)
     .delete()
     .then(() => {
-      setOwnerMessage("Document successfully deleted!");
+      toast.success("Client successfully deleted!");
       setUsers([])
       //searchHandler()
     }).catch((error) => {
-      setOwnerError("Error removing document: ", error);
+      toast.error("Error removing document: ", error);
     });
 
     var pets_query = db.collection('Pet_Info').where("ownerID", "==", info.userID);
@@ -126,17 +114,15 @@ export default function Clients() {
     setModalShow(true)
   }
   const deletePet =(info)=>{
-    setPetMessage("")
-    setPetError("")
     db
     .collection("Pet_Info")
     .doc(info.id)
     .delete()
     .then(() => {
-      setPetMessage("Document successfully deleted!");
+      toast.success("Document successfully deleted!");
       getPetsPerUser(info.ownerID)
     }).catch((error) => {
-      setPetError("Error removing document: ", error);
+      toast.error("Error removing document: ", error);
     });
   }
   function MyVerticallyCenteredModal(props) {
@@ -161,6 +147,7 @@ export default function Clients() {
   return (
       <>
         <Navbars title="Clients"></Navbars>
+        <ToastContainer theme="colored"/>
         <div className="row">
           <div className="col-lg-4 col-md-12 clients-search-container">
             <Card style={{ maxHeight:"50vh",minHeight:"50vh",padding:"10px" }}>
@@ -210,8 +197,6 @@ export default function Clients() {
             (
               <div className="account-profile-name client-profile-owner" >
                 <Alert variant="success"><h1>Owner Info</h1></Alert>
-                {ownerError && <Alert variant="danger">{ownerError}</Alert>}
-                {ownerMessage && <Alert variant="success">{ownerMessage}</Alert>}
                 <Table striped bordered hover>
                   <thead>
                     <tr>
@@ -241,8 +226,6 @@ export default function Clients() {
                 </Table>
                 <br/>
                 <Alert variant="success"><h1>Pet/s Info</h1></Alert>
-                {petError && <Alert variant="danger">{petError}</Alert>}
-                {petMessage && <Alert variant="success">{petMessage}</Alert>}
                 <div className="client-profile-pets">
                 { petInfo && petInfo.length > 0 ?
                   petInfo.map((info)=>
