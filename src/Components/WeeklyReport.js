@@ -78,7 +78,6 @@ export default function WeeklyReport({ page = "" }) {
 
   const setData = (dates, fetchedData = []) => {
     var status = $(".status").val()
-    console.log(status)
     var scheds = []
     fetchedData = meds.length > 0 ? meds : fetchedData;
     dates.sort(function (a, b) {
@@ -140,7 +139,6 @@ export default function WeeklyReport({ page = "" }) {
       minutes = mins % 60;
       setHrs(hours + (hours > 1 ? " hours " : " hour ") + (minutes > 0 ? minutes > 1 ? ("and " + minutes + " minutes") : ("and " + minutes + " minute") : ""))
       setFilteredData(scheds)
-      console.log(scheds)
     }
     else if (page === "Medicines") {
       fetchedData.forEach((sched) => {
