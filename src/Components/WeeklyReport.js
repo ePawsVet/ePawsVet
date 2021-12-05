@@ -80,6 +80,9 @@ export default function WeeklyReport({ page = "" }) {
   const setData = (dates, fetchedData = []) => {
     var status = $(".status").val()
     var scheds = []
+    setEvents([])
+    setStatuses([])
+
     fetchedData = meds.length > 0 ? meds : fetchedData;
     dates.sort(function (a, b) {
       return new Date(a) - new Date(b)
@@ -131,9 +134,14 @@ export default function WeeklyReport({ page = "" }) {
             'Completed': 0,
             'Cancelled': 0,
           }
-          data.forEach(evt => {
-            lbls[evt.reason]++
-            stts[evt.status]++
+          data.forEach(sched => {
+            if (
+              dates.includes(sched.Date) &&
+              ((status.toLowerCase() !== "All" && sched.status.toLowerCase() === status.toLowerCase()) || $(".status").val() === "All")
+            ) {
+              lbls[sched.reason]++
+              stts[sched.status]++
+            }
           });
           setEvents(lbls)
           setStatuses(stts)
