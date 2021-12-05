@@ -180,7 +180,9 @@ export default function WeeklyReport({ page = "" }) {
             <option value="All">All</option>
             <option value="Approved">Approved</option>
             <option value="Pending">Pending</option>
+            <option value="For Prescription">For Prescription</option>
             <option value="Completed">Completed</option>
+            <option value="Cancelled">Cancelled</option>
           </select>
           : null}
           <Button onClick={() => { $(".export-btn").click() }} disabled={filteredData.length > 0 ? false : true}> Export to Excel</Button>

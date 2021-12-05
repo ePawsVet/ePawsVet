@@ -115,11 +115,11 @@ export default function ScheduleList() {
         <>
           {tags.map(tag => {
             let color = 'green';
-            if (tag === 'Completed') {
+            if (tag === 'For Prescription') {
               color = 'blue';
             } else if (tag === 'Pending') {
               color = 'rgb(226, 125, 96)';
-            } else if (tag === 'Done') {
+            } else if (tag === 'Completed') {
               color = 'gray';
             } else if (tag === 'Cancelled') {
               color = 'red';
@@ -140,9 +140,9 @@ export default function ScheduleList() {
       render: (text, record) => (
         <Space size="middle">
           {
-            userInfo.userType === "Client" && record.status[0] === "Done" ? <Button onClick={() => actionHandler(record)} type="primary" >View Prescriptions</Button> : userInfo.userType === "Client" ? record.status[0] === "Cancelled" ? "N/A" : <Button onClick={() => cancelSched(record)} type="primary" >Cancel</Button> :
-              record.status[0] === "Done" ? <CheckCircleTwoTone style={{ fontSize: '25px' }} twoToneColor="#52c41a" /> :
-                record.status[0] === "Cancelled" ? "N/A" : <Button onClick={() => actionHandler(record)} type="primary" shape="round" icon={<EditFilled />} size="small">{record.status[0] === "Pending" ? "Approve" : record.status[0] === "Completed" ? "Prescribe" : "Complete"}</Button>
+            userInfo.userType === "Client" && record.status[0] === "Completed" ? <Button onClick={() => actionHandler(record)} type="primary" >View Prescriptions</Button> : userInfo.userType === "Client" ? record.status[0] === "Cancelled" ? "N/A" : <Button onClick={() => cancelSched(record)} type="primary" >Cancel</Button> :
+              record.status[0] === "Completed" ? <CheckCircleTwoTone style={{ fontSize: '25px' }} twoToneColor="#52c41a" /> :
+                record.status[0] === "Cancelled" ? "N/A" : <Button onClick={() => actionHandler(record)} type="primary" shape="round" icon={<EditFilled />} size="small">{record.status[0] === "Pending" ? "Approve" : record.status[0] === "For Prescription" ? "Prescribe" : "Done"}</Button>
           }
         </Space>
       ),
@@ -185,9 +185,9 @@ export default function ScheduleList() {
 
     db.collection('Appointments').doc(info.code)
       .update({
-        "status": "Done"
+        "status": "Completed"
       });
-    toast.success("Task has been Done")
+    toast.success("Task has been Completed")
     setIsModalVisible(false);
     document.getElementById("Med-form").reset();
   };
@@ -228,9 +228,9 @@ export default function ScheduleList() {
       else if (record.status[0] === "Approved") {
         db.collection('Appointments').doc(record.key)
           .update({
-            "status": "Completed"
+            "status": "For Prescription"
           });
-        toast.success("Task has been Completed")
+        toast.success("Task is ready for Prescription")
       }
       else {
         setIsModalVisible(true);
