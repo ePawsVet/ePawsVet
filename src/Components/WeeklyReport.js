@@ -182,7 +182,6 @@ export default function WeeklyReport({ page = "" }) {
       setFilteredData(scheds)
     }
   }
-  console.log(statuses)
   return (
     <>
       <Form.Group as={Col} controlId="formGridFrequency" className="formGridFrequency">
