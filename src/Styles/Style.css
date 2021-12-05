@@ -1318,3 +1318,9 @@ Remove or comment-out the code block below to see how the browser will fall-back
   text-align: end;
   margin-right: 30px;
 }
+.grid-item {
+  border: 1px solid lightgray;
+  padding: 7.5px;
+  width: 25%;
+  text-align: center;
+}

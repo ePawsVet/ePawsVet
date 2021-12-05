@@ -12,6 +12,7 @@ export default function WeeklyReport({ page = "" }) {
   const [filteredData, setFilteredData] = useState([])
   const [dateList, setDateList] = useState([moment().format('L')])
   const [evts, setEvents] = useState([])
+  const [statuses, setStatuses] = useState([])
   const [hrs, setHrs] = useState(0)
 
   const getCurrentWeekDays = () => {
@@ -88,8 +89,8 @@ export default function WeeklyReport({ page = "" }) {
     if (page === "Reports") {
       fetchedData.forEach(sched => {
         if (
-          dates.includes(sched.Date) && 
-            ((status.toLowerCase() !== "All" && sched.status.toLowerCase() === status.toLowerCase()) || $(".status").val()==="All")
+          dates.includes(sched.Date) &&
+          ((status.toLowerCase() !== "All" && sched.status.toLowerCase() === status.toLowerCase()) || $(".status").val() === "All")
         ) {
           scheds.push({
             date: sched.Date,
@@ -123,10 +124,19 @@ export default function WeeklyReport({ page = "" }) {
             'grooming': 0,
             'surgery': 0
           }
+          var stts = {
+            'Pending': 0,
+            'Approved': 0,
+            'For Prescription': 0,
+            'Completed': 0,
+            'Cancelled': 0,
+          }
           data.forEach(evt => {
             lbls[evt.reason]++
+            stts[evt.status]++
           });
           setEvents(lbls)
+          setStatuses(stts)
         })
 
       var mins = 0;
@@ -164,11 +174,12 @@ export default function WeeklyReport({ page = "" }) {
       setFilteredData(scheds)
     }
   }
+  console.log(statuses)
   return (
     <>
       <Form.Group as={Col} controlId="formGridFrequency" className="formGridFrequency">
         <Form.Label>Filter by</Form.Label>
-        {page === "Reports" ? <Form.Label style={{marginLeft:"185px"}}>Status</Form.Label> : null}
+        {page === "Reports" ? <Form.Label style={{ marginLeft: "185px" }}>Status</Form.Label> : null}
         <InputGroup className="mb-3">
           <select onChange={() => refreshTable()} className="frequency form-select">
             <option value="Daily">Daily</option>
@@ -176,15 +187,15 @@ export default function WeeklyReport({ page = "" }) {
             <option value="Monthly">Monthly</option>
           </select>
           {page === "Reports" ?
-          <select onChange={() => refreshTable()} className="status form-select">
-            <option value="All">All</option>
-            <option value="Approved">Approved</option>
-            <option value="Pending">Pending</option>
-            <option value="For Prescription">For Prescription</option>
-            <option value="Completed">Completed</option>
-            <option value="Cancelled">Cancelled</option>
-          </select>
-          : null}
+            <select onChange={() => refreshTable()} className="status form-select">
+              <option value="All">All</option>
+              <option value="Approved">Approved</option>
+              <option value="Pending">Pending</option>
+              <option value="For Prescription">For Prescription</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+            : null}
           <Button onClick={() => { $(".export-btn").click() }} disabled={filteredData.length > 0 ? false : true}> Export to Excel</Button>
           <ExportToExcel className="btn btn-primary export-btn" table="data-table" filename={$(".frequency").val() + "_Report"} sheet="Sheet" buttonText="Export to excel" />
         </InputGroup>
@@ -254,13 +265,23 @@ export default function WeeklyReport({ page = "" }) {
                   <tr>
                     <td style={{ textAlign: "center" }} colSpan={2}>Total Hours Work:</td>
                     <td colSpan={1}>{hrs}</td>
-                    <td colSpan={6} rowSpan={10}></td>
                   </tr>
                   <tr>
-                    <td colSpan={3}></td>
+                    <td colSpan={10}></td>
                   </tr>
                   <tr>
                     <td style={{ textAlign: "center" }} colSpan={3}>Number Of Reason Per Category</td>
+                    <td colSpan={6} rowSpan={8}>
+                      <div className="status-count-container">
+                        <div class="grid-item">Count per Status</div>
+                        {statuses ?
+                          Object.keys(statuses).map((key, index) =>
+                            <div key={index} class="grid-item">{titleCase(key) + " : " + statuses[key]}</div>
+                          )
+                          : <></>
+                        }
+                      </div>
+                    </td>
                   </tr >
                   {evts ?
                     Object.keys(evts).map((key, index) =>
