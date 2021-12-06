@@ -10,7 +10,7 @@ import Dashboard from "../Pages/Dashboard"
 import Clients from "../Pages/Clients"
 import Appointments from "../Pages/Appointments"
 import Home from "../Pages/Home";
-import Medicines from "../Pages/Medicines";
+import Inventory from "../Pages/Medicines";
 //import Inventory from "../Pages/Inventory";
 import Reports from "../Pages/Reports";
 import Message from "../Pages/Message";
@@ -25,7 +25,7 @@ function App() {
           <PrivateRoute exact path="/" component={Home}/>
           <PrivateRoute exact path="/dashboard" component={Dashboard}/>
           <PrivateRoute exact path="/profile" component={ClientProfile}/>
-          <PrivateRoute exact path="/medicines" component={Medicines}/>
+          <PrivateRoute exact path="/inventory" component={Inventory}/>
           {/* <PrivateRoute exact path="/inventory" component={Inventory}/> */}
           <PrivateRoute exact path="/reports" component={Reports}/>
           <PrivateRoute exact path="/appointments" component={Appointments}/>

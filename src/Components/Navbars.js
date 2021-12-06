@@ -148,8 +148,8 @@ export default function Navbars({ title = "" }) {
                                             <ListGroup.Item action id="Clients" onClick={() => { handleSidedbarClick("/clients") }}>
                                                 <FaUsers /> Clients
                                             </ListGroup.Item>
-                                            <ListGroup.Item action id="Medicines" onClick={() => { handleSidedbarClick("/medicines") }}>
-                                                <GiMedicinePills /> Medicines
+                                            <ListGroup.Item action id="Medicines" onClick={() => { handleSidedbarClick("/inventory") }}>
+                                                <GiMedicinePills /> Inventory
                                             </ListGroup.Item>
                                             {/* <ListGroup.Item action id="Inventory" onClick={()=>{handleSidedbarClick("/inventory")}}>
                                 <FaBoxes/> Inventory
