@@ -76,6 +76,7 @@ export default function Appointments() {
           const data = querySnapshot.docs.map(doc => ({
             ...doc.data()
           }));
+          setApprovedDates([])
           data.forEach(dt=>{
             setApprovedDates(approvedDates => [...approvedDates,dt.approvedDate])
           })
