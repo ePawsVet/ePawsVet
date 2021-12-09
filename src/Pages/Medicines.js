@@ -10,7 +10,7 @@ import { db } from '../firebase';
 import { Form } from "react-bootstrap"
 import WeeklyReport from '../Components/WeeklyReport';
 
-export default function Medicines() {
+export default function Inventory() {
 
   const columns = [
     {
