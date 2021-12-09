@@ -1,10 +1,10 @@
-import React, { useState,useRef,useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Navbars from "../Components/Navbars";
 import Calendars from '../Components/Calendar';
-import { Alert,Modal,Button,Form,Table } from 'react-bootstrap'
+import { Alert, Modal, Button, Form, Table } from 'react-bootstrap'
 import moment from 'moment';
 import { useAuth } from '../Contexts/AuthContext'
-import {db} from "../firebase"
+import { db } from "../firebase"
 import emailjs from 'emailjs-com';
 import { CalendarOutlined } from '@ant-design/icons';
 import { ToastContainer, toast } from 'react-toastify';
@@ -16,59 +16,73 @@ export default function Appointments() {
   const [modalShow, setModalShow] = useState(false);
   const [adminModalShow, setAdminModalShow] = useState(false);
   const [date, setDate] = useState(new Date());
-  const [error,setError] = useState("")
+  const [approvedDates, setApprovedDates] = useState([]);
+  const [error, setError] = useState("")
   const dateRef = useRef()
   const petRef = useRef()
   const reasonRef = useRef()
-  const {createAppointment,currentUser} = useAuth()
-  const [userInfo,setUserInfo] = useState(null)
-  const [petInfo,setPetInfo] = useState(null)
-  const [evts,setEvents] = useState([])
+  const { createAppointment, currentUser } = useAuth()
+  const [userInfo, setUserInfo] = useState(null)
+  const [petInfo, setPetInfo] = useState(null)
+  const [evts, setEvents] = useState([])
 
-  useEffect(()=>{
+  useEffect(() => {
     db
-    .collection("Owner_Info")
-    .where("userID", "==", currentUser.uid)
-    .get()
-    .then((querySnapshot) => {
+      .collection("Owner_Info")
+      .where("userID", "==", currentUser.uid)
+      .get()
+      .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-            setUserInfo(doc.data());
+          setUserInfo(doc.data());
         });
-    })
+      })
 
     db
-    .collection("Pet_Info")
-    .where("ownerID", "==", currentUser.uid)
-    .get()
-    .then((querySnapshot) => {
-        const data = querySnapshot.docs.map(doc =>({
-            ...doc.data(),
-            id:doc.id,
+      .collection("Pet_Info")
+      .where("ownerID", "==", currentUser.uid)
+      .get()
+      .then((querySnapshot) => {
+        const data = querySnapshot.docs.map(doc => ({
+          ...doc.data(),
+          id: doc.id,
         }));
         setPetInfo(data);
-    })
-  },[currentUser])
+      })
+  }, [currentUser])
 
 
-  useEffect(()=>{
-    const unsubscribe = 
-        db
+  useEffect(() => {
+    const unsubscribe =
+      db
         .collection('Appointments')
-        .where("status","!=","Cancelled")
+        .where("status", "!=", "Cancelled")
         .orderBy("status")
         .orderBy("priority")
         .orderBy("time")
-        .onSnapshot(querySnapshot =>{
-        const data = querySnapshot.docs.map(doc =>({
+        .onSnapshot(querySnapshot => {
+          const data = querySnapshot.docs.map(doc => ({
             ...doc.data(),
-            id:doc.id,
-        }));
-        setEvents(data)
-    })
+            id: doc.id,
+          }));
+          setEvents(data)
+        })
     return unsubscribe
-  },[])
-  
-  const getAddedDays = () =>{
+  }, [])
+
+  useEffect(() => {
+      db
+        .collection('Approved_Dates')
+        .onSnapshot(querySnapshot => {
+          const data = querySnapshot.docs.map(doc => ({
+            ...doc.data()
+          }));
+          data.forEach(dt=>{
+            setApprovedDates(approvedDates => [...approvedDates,dt.approvedDate])
+          })
+        })
+  }, [])
+
+  const getAddedDays = () => {
     var someDate = new Date();
     var numberOfDaysToAdd = 2;
     someDate.setDate(someDate.getDate() + numberOfDaysToAdd)
@@ -80,32 +94,39 @@ export default function Appointments() {
     return someFormattedDate
   }
 
-  const onChange = (newDate) => {
+  const onDateClick = (newDate) => {
     var tot = 0;
     var evtDate = moment(newDate).format("L")
-    evts.forEach(evt=>{
-      if(evt.Date === evtDate){
+    var dateError = ""
+    evts.forEach(evt => {
+      if (evt.Date === evtDate) {
         tot += parseInt(evt.span)
       }
+      if (approvedDates.includes(evtDate)) {
+        dateError = "This date has already been processed. Please select another date.";
+      }
     })
-    
     var d1 = new Date(getAddedDays())
     var d2 = new Date(newDate);
-    if(d2 >= d1 || userInfo.userType === "Admin"){
-      if(tot < 480){
-        setDate(newDate)
-        userInfo.userType === "Client" ? setModalShow(true) : setAdminModalShow(true)
+    if (dateError.length > 0) {
+      toast.warning(dateError)
+    } else {
+      if (d2 >= d1 || userInfo.userType === "Admin") {
+        if (tot <= 480) {
+          setDate(newDate)
+          userInfo.userType === "Client" ? setModalShow(true) : setAdminModalShow(true)
+        }
+        else {
+          toast.warning("This date is already full. Please select another date.")
+        }
+      } else {
+        toast.warning("You can only request an appointment Two(2) Days from now.")
       }
-      else{
-        toast.warning("This date is already full. Please select another date.")
-      }
-    }else{
-      toast.warning("You can only request an appointment Two(2) Days from now.")
     }
   }
-  
-  const addSchedule = async () =>{
-    try{
+
+  const addSchedule = async () => {
+    try {
       setModalShow(false)
       var variables = JSON.parse(reasonRef.current.value)
       await createAppointment(
@@ -118,30 +139,34 @@ export default function Appointments() {
         userInfo.Name,
         userInfo.ContactNo,
         userInfo.Address,
-        petRef.current.value,)
-    }catch(err){
-        setError("Failed to create an account. " +err.message)
+        petRef.current.value)
+    } catch (err) {
+      setError("Failed to create an appointment. " + err.message)
     }
-    
+
   }
-  const generateSchedule = () =>{
-    var eventCounter=0;
-    evts.forEach(evt=>{
-      if(evt.Date === moment(date.toString()).format('L')){
+  const generateSchedule = () => {
+    var eventCounter = 0;
+    evts.forEach(evt => {
+      if (evt.Date === moment(date.toString()).format('L')) {
         eventCounter++
       }
     })
     var minsToAdd = 480; //8hrs from 12AM
-    if(eventCounter>0){
-      evts.forEach(evt=>{
-        if(evt.Date === moment(date.toString()).format('L')){
+    if (eventCounter > 0) {
+      evts.forEach(evt => {
+        if (evt.Date === moment(date.toString()).format('L')) {
           var dtTime = moment(evt.Date).add(minsToAdd, 'minutes')
           db.collection('Appointments').doc(evt.id)
-          .update({
-              "status":"Approved",
-              "sched": dtTime.format('hh:mm A') + " to "+moment(dtTime).add(evt.span, 'minutes').format('hh:mm A')
+            .update({
+              "status": "Approved",
+              "sched": dtTime.format('hh:mm A') + " to " + moment(dtTime).add(evt.span, 'minutes').format('hh:mm A')
             });
           minsToAdd += parseInt(evt.span);
+
+          db.collection('Approved_Dates').add({
+            approvedDate: evt.Date
+          })
 
           var templateParams = {
             pet_name: evt.petName,
@@ -150,21 +175,21 @@ export default function Appointments() {
             reason: evt.reason,
             sched: evt.Date + " at " + dtTime.format('hh:mm A') + " to "+moment(dtTime).add(evt.span, 'minutes').format('hh:mm A')
           };
-          
+
           emailjs.send('scheduleEmail', 'schedule_template', templateParams,'user_q4V9lFfLOBoJCZa2j8NVZ')
               .then(function(response) {
               console.log('SUCCESS!', response.status, response.text);
               }, function(error) {
               console.log('FAILED...', error);
               });
-          }
+        }
       })
-    }else{
-      toast.warning("There is no schedule fo this day!")
+    } else {
+      toast.warning("There is no schedule for this day!")
     }
     setAdminModalShow(false)
   }
-  const  ModalCenter = (props) =>{
+  const ModalCenter = (props) => {
     return (
       <Modal
         {...props}
@@ -184,14 +209,14 @@ export default function Appointments() {
             <Form.Control ref={dateRef} type="text" disabled defaultValue={moment(date.toString()).format('L')} />
           </Form.Group>
           <Form.Group controlId="Pet">
-              <Form.Label>Pet</Form.Label>
-              <select className="form-select" ref={petRef} id="pet" >
-                {
-                  petInfo ? petInfo.map((pet)=>
-                    <option key={pet.id} value={pet.PetName}>{pet.PetName}</option>
-                  ) : ""
-                }
-              </select>
+            <Form.Label>Pet</Form.Label>
+            <select className="form-select" ref={petRef} id="pet" >
+              {
+                petInfo ? petInfo.map((pet) =>
+                  <option key={pet.id} value={pet.PetName}>{pet.PetName}</option>
+                ) : ""
+              }
+            </select>
           </Form.Group>
           <Form.Group controlId="ReasonOfVisiting">
             <Form.Label>Reason of visiting</Form.Label>
@@ -199,7 +224,7 @@ export default function Appointments() {
               <option value="">-- Select Reason --</option>
               <option value='{"rsn":"checkup","span":"30","priority":7}'>Pet Checkup</option>
               <option value='{"rsn":"grooming","span":"60","priority":6}'>Pet Grooming</option>
-              <option value='{"rsn":"injury","span":"90","priority":2}'>Injury/wound</option>     
+              <option value='{"rsn":"injury","span":"90","priority":2}'>Injury/wound</option>
               <option value='{"rsn":"infection","span":"60","priority":3}'>Infection/viruses</option>
               <option value='{"rsn":"fever","span":"30","priority":4}'>Fever/cough</option>
               <option value='{"rsn":"vaccination","span":"30","priority":5}'>Vaccination</option>
@@ -215,7 +240,7 @@ export default function Appointments() {
       </Modal>
     );
   }
-  const AdminModal = (props) =>{
+  const AdminModal = (props) => {
     return (
       <Modal
         {...props}
@@ -229,31 +254,31 @@ export default function Appointments() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Requestor</th>
-            <th>Appointment</th>
-            <th>Time Requested</th>
-            <th>Duration</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            evts && evts.length > 0 ?
-            evts.map((evt)=>
-                evt.Date === moment(date.toString()).format('L') ?
-                <tr key={evt.id}>
-                <td>{evt.clientName}</td>
-                  <td>{evt.reason}</td>
-                  <td>{evt.time}</td>
-                  <td>{evt.span} mins</td>
-                  <td>{evt.status}</td>
-                </tr> : null
-            ) : ""
-          }
-          </tbody>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Requestor</th>
+                <th>Appointment</th>
+                <th>Time Requested</th>
+                <th>Duration</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                evts && evts.length > 0 ?
+                  evts.map((evt) =>
+                    evt.Date === moment(date.toString()).format('L') ?
+                      <tr key={evt.id}>
+                        <td>{evt.clientName}</td>
+                        <td>{evt.reason}</td>
+                        <td>{evt.time}</td>
+                        <td>{evt.span} mins</td>
+                        <td>{evt.status}</td>
+                      </tr> : null
+                  ) : ""
+              }
+            </tbody>
           </Table>
         </Modal.Body>
         <Modal.Footer>
@@ -272,7 +297,7 @@ export default function Appointments() {
           <li>You can only request an appointment Two(2) Days from now.</li>
         </ul>
       </div>
-      <Calendars click={onChange}></Calendars>
+      <Calendars click={onDateClick}></Calendars>
 
       <ModalCenter
         show={modalShow}
@@ -282,7 +307,7 @@ export default function Appointments() {
         show={adminModalShow}
         onHide={() => setAdminModalShow(false)}
       />
-      <ToastContainer theme="colored"/>
+      <ToastContainer theme="colored" />
     </>
   )
 }
