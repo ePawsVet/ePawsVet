@@ -8,6 +8,7 @@ import { FaChartBar, FaRegCalendarAlt, FaUsers, FaUser, FaEnvelope, FaHome,/*FaB
 import { SiMicrosoftpowerpoint } from 'react-icons/si';
 import { db, storage } from "../firebase"
 import { VersionInfo } from './VersionInfo';
+import Notifications from './Notifications'
 
 
 
@@ -194,6 +195,9 @@ export default function Navbars({ title = "" }) {
                     </Nav>
                     <Nav className="me-auto nav">
                         <Navbar.Brand>E-Paws Veterinary</Navbar.Brand>
+                    </Nav>
+                    <Nav className="nav-notif">
+                        <Notifications/>
                     </Nav>
                     <Nav className="nav-logout" >
                         <Nav.Link className="navbar-logout" onClick={handleLogout}><FiLogOut /> Logout</Nav.Link>

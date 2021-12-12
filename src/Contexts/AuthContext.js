@@ -101,9 +101,9 @@ export function AuthProvider({ children }) {
             userType: info.userType
         })
     }
-    async function createAppointment(clientID, Date, reason, span, priority, email, clientName, ContactNo, Address, petName) {
+    async function createAppointment(clientID, date, reason, span, priority, email, clientName, ContactNo, Address, petName) {
         db.collection('Appointments').add({
-            Date: Date,
+            Date: date,
             time: moment().format("hh:mm A"),
             reason: reason,
             span: span,
@@ -116,6 +116,16 @@ export function AuthProvider({ children }) {
             petName: petName,
             contactNo: ContactNo,
             address: Address,
+        })
+
+
+        db.collection('Notifications').add({
+            date: date,
+            dateCreated: (new Date()).toString(),
+            forUser: "Admin",
+            isRead: false,
+            message: clientName + " set an appointment on " + moment(date).format('MMMM Do YYYY'),
+            title: "Appointment notification",
         })
     }
 

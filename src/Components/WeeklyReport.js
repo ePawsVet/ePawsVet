@@ -52,7 +52,7 @@ export default function WeeklyReport({ page = "" }) {
           setData(dates, data)
         })
     return subscribe
-  }, [])
+  }, [page])
 
   const refreshTable = () => {
     var frequency = $(".frequency").val()

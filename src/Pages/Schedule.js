@@ -24,7 +24,7 @@ export default function ScheduleList() {
   const notesRef = useRef(null)
   const durationRef = useRef(null)
   const durationTypeRef = useRef(null)
-
+  const suggestedDateRef = useRef(null)
 
   //MODAL FORM
   const [scheds, setSched] = useState(null)
@@ -39,6 +39,7 @@ export default function ScheduleList() {
 
   //MODAL FUNCTIONS
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const columns = [
     {
@@ -141,14 +142,27 @@ export default function ScheduleList() {
         <Space size="middle">
           {
             userInfo.userType === "Client" && record.status[0] === "Completed" ? <Button onClick={() => actionHandler(record)} type="primary" >View Prescriptions</Button> : userInfo.userType === "Client" ? record.status[0] === "Cancelled" ? "N/A" : <Button onClick={() => cancelSched(record)} type="primary" >Cancel</Button> :
-              record.status[0] === "Completed" ? <CheckCircleTwoTone style={{ fontSize: '25px' }} twoToneColor="#52c41a" /> :
+              record.status[0] === "Completed" ? <> <CheckCircleTwoTone style={{ fontSize: '25px' }} twoToneColor="#52c41a" /><Button onClick={() => actionHandler(record)} type="primary" >Suggest Visit</Button> </> :
                 record.status[0] === "Cancelled" ? "N/A" : <Button onClick={() => actionHandler(record)} type="primary" shape="round" icon={<EditFilled />} size="small">{record.status[0] === "Pending" ? "Approve" : record.status[0] === "For Prescription" ? "Prescribe" : "Done"}</Button>
           }
         </Space>
       ),
     },
   ];
-
+  const saveSuggestion = () => {
+    var info = getSuggestions()
+    db.collection('Notifications').add({
+      date: info.date,
+      dateCreated: (new Date()).toString(),
+      forUser: info.code,
+      isRead: false,
+      message: "You have been suggested to make an appointment on " + moment(info.date).format('MMMM Do YYYY'),
+      title: "Appointment suggestion",
+    })
+    toast.success("Suggestion saved")
+    setModalOpen(false);
+    document.getElementById("Suggestion-form").reset();
+  }
   const handleOk = () => {
 
     var info = getData()
@@ -187,6 +201,7 @@ export default function ScheduleList() {
       .update({
         "status": "Completed"
       });
+
     toast.success("Task has been Completed")
     setIsModalVisible(false);
     document.getElementById("Med-form").reset();
@@ -197,6 +212,16 @@ export default function ScheduleList() {
       .update({
         "status": "Cancelled"
       });
+
+    db.collection('Notifications').add({
+      date: record.date,
+      dateCreated: (new Date()).toString(),
+      forUser: "Admin",
+      isRead: false,
+      message: record.name + " cancelled their appointment on " + moment(record.date).format('MMMM Do YYYY'),
+      title: "Appointment cancelled",
+    })
+
     toast.warning("Task has been Cancelled")
   };
 
@@ -223,6 +248,16 @@ export default function ScheduleList() {
           .update({
             "status": "Approved"
           });
+
+          db.collection('Notifications').add({
+            date: record.date,
+            dateCreated: (new Date()).toString(),
+            forUser: record.client,
+            isRead: false,
+            message: "Your appointment on " + moment(record.date).format('MMMM Do YYYY')+" has been Approved",
+            title: "Appointment approved",
+          })
+      
         toast.success("Task has been Approved")
       }
       else if (record.status[0] === "Approved") {
@@ -232,6 +267,9 @@ export default function ScheduleList() {
           });
         toast.success("Task is ready for Prescription")
       }
+      else if (record.status[0] === "Completed") {
+        setModalOpen(true);
+      }
       else {
         setIsModalVisible(true);
       }
@@ -240,6 +278,9 @@ export default function ScheduleList() {
 
   const handleCancel = () => {
     setIsModalVisible(false);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
   };
 
   const getData = () => {
@@ -253,6 +294,14 @@ export default function ScheduleList() {
       "notes": notesRef.current.value,
       "duration": durationRef.current.value,
       "durationType": durationTypeRef.current.value
+    }
+    return dt
+  }
+  const getSuggestions = () => {
+    var dt =
+    {
+      "code": codeRef.current.value,
+      "date": suggestedDateRef.current.value,
     }
     return dt
   }
@@ -285,6 +334,7 @@ export default function ScheduleList() {
           data.forEach(scheds => {
             Schedules.push({
               key: scheds.id,
+              client: scheds.clientID,
               sched: scheds.sched,
               date: scheds.Date,
               name: scheds.clientName,
@@ -340,7 +390,7 @@ export default function ScheduleList() {
     <>
 
       <Navbars title="Schedule List"></Navbars>
-      <ToastContainer theme="colored"/>
+      <ToastContainer theme="colored" />
       <Modal
         title="Prescription"
         visible={isModalVisible}
@@ -397,6 +447,35 @@ export default function ScheduleList() {
                 <option selected={presc && presc[0].durationType === "Month" ? true : false} value="Month">Month/s</option>
               </select>
             </InputGroup>
+          </Form.Group>
+        </Form>
+      </Modal>
+
+      <Modal
+        title="Suggest visit"
+        visible={modalOpen}
+        onCancel={closeModal}
+        footer={[
+          <Button type="primary" onClick={closeModal}>Cancel</Button>,
+          <Button key="submit" type="primary" onClick={saveSuggestion} >Save</Button>
+        ]}
+      >
+        <Form id="Suggestion-form">
+          <Form.Group id="OwnerCode" className="d-none">
+            <Form.Label>Owner Code</Form.Label>
+            <Form.Control type="text" ref={codeRef} required defaultValue={editData ? editData.client : ""} disabled />
+          </Form.Group>
+          <Form.Group id="Name">
+            <Form.Label>Owner</Form.Label>
+            <Form.Control type="text" required defaultValue={editData ? editData.name : ""} disabled />
+          </Form.Group>
+          <Form.Group id="pet">
+            <Form.Label>Pet Name</Form.Label>
+            <Form.Control type="text" required defaultValue={editData ? editData.petname : ""} disabled />
+          </Form.Group>
+          <Form.Group id="date">
+            <Form.Label>Suggested Date</Form.Label>
+            <Form.Control type="date" ref={suggestedDateRef} required />
           </Form.Group>
         </Form>
       </Modal>

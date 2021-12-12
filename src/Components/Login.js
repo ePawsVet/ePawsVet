@@ -1,11 +1,9 @@
-import React, { useRef, useState,useEffect } from 'react'
+import React, { useRef, useState } from 'react'
 import { Form, Button, Card, Alert, Container } from "react-bootstrap"
 import { useAuth } from '../Contexts/AuthContext'
 import { Link, useHistory } from 'react-router-dom'
 import Loader from "react-loader-spinner";
-import {
-    storage
-} from '../firebase';
+
 export default function Login() {
     const userTypeRef1 = useRef()
     const userTypeRef2 = useRef()
@@ -16,21 +14,6 @@ export default function Login() {
     const [loading, setLoading] = useState(false)
     const history = useHistory();
     const [showPassword, setShowPassword] = useState(false)
-    const [iconURL, setIconURL] = useState([])
-
-    useEffect(() => {
-        setIconURL([])
-        const filenames = ['veterinarian.png','pet-owner.png'];
-        filenames.forEach(filename=>{
-            storage
-            .ref(`/icons/login-icons/${filename}`)
-            .getDownloadURL()
-            .then(url => {
-                setIconURL(iconURL => [...iconURL,url]);
-            });
-        })
-        
-    }, [])
 
     async function LoginHandler(e) {
         e.preventDefault()
