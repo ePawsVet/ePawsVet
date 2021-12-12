@@ -1373,6 +1373,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
   position: absolute;
   overflow: auto;
   max-height: 295px;
+  min-height: 295px;
   z-index: 10;
 
 }
@@ -1429,7 +1430,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
   margin-bottom: 0px !important;
 }
 .notif-markall{
-  margin-left: 35px !important;
+  margin-left: 20px !important;
   color: blue;
 
 }
@@ -1443,4 +1444,5 @@ Remove or comment-out the code block below to see how the browser will fall-back
 .notif-empty {
   font-size: 15px;
   padding: 10px;
+  margin-top: 75px;
 }
