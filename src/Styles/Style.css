@@ -1362,7 +1362,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
   color: black;
   width: 280px;
   position: absolute;
-  right: 135px;
+  right: 0;
   overflow: auto;
   border-radius: 5px;
   max-height: 311px;
