@@ -159,7 +159,7 @@ const Notifications = () => {
                 </div>
                 <div style={{ display: showNotificatons === true ? 'block' : "none" }} className='notif-data-container'>
                     <div className="notif-header">
-                        <h5 className="notif-header-info"><strong>Notifications</strong></h5>
+                        <h5 className="notif-header-info">Notifications</h5>
                         <span className="notif-header-info notif-markall" onClick={markAllasRead}>Mark all as Read</span>
                     </div>
                     <div className="notif-body">
