@@ -1340,16 +1340,20 @@ Remove or comment-out the code block below to see how the browser will fall-back
   font-size: 25px;
   cursor: pointer;
   float: right !important;
+  right: 130px;
+  position: absolute;
+  top: 10px;
 }
 .notif-count{
   background-color: red;
   border-radius: 50%;
+  border: 1px solid white;
   width: 18px;
   height: 18px;
   font-size: 10px;
   text-align: center;
   padding: 1px;
-  top: 28px;
+  top: 10px;
   margin-left: 13px;
   position: absolute;
 }
