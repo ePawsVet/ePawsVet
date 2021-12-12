@@ -1365,6 +1365,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
   right: 0;
   border-radius: 5px;
   z-index: 10;
+  margin-top: 20px;
 }
 .notif-body{
   background-color: #e27d60;
@@ -1420,7 +1421,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
   position: sticky;
   top: 0;
   border-bottom: 1px solid;
-  background-color: white;
+  background-color: #d1e7dd;
 }
 .notif-header-info{
   font-size: 15px;
@@ -1445,4 +1446,18 @@ Remove or comment-out the code block below to see how the browser will fall-back
   font-size: 15px;
   padding: 10px;
   margin-top: 75px;
+}
+
+.notif-data-container:after {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 0;
+  z-index: 1;
+  border-style: solid;
+  border-width: 0 0 18px 18px;
+  border-color: transparent transparent  #d1e7dd transparent;
+  top: -18px;
+  left: 91%;
+  margin-left: -9px;
 }
