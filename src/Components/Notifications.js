@@ -71,7 +71,7 @@ const Notifications = () => {
                     setDataSource(data);
                 })
         return unsubscribe
-    }, [currentUser,userInfo])
+    }, [dataSource])
 
     const notifHandler = () => {
         setShowNotificatons(!showNotificatons)
@@ -160,7 +160,7 @@ const Notifications = () => {
                 <div style={{ display: showNotificatons === true ? 'block' : "none" }} className='notif-data-container'>
                     <div className="notif-header">
                         <h5 className="notif-header-info"><strong>Notifications</strong></h5>
-                        <a className="notif-header-info notif-markall" onClick={markAllasRead}>Mark all as Read</a>
+                        <span className="notif-header-info notif-markall" onClick={markAllasRead}>Mark all as Read</span>
                     </div>
                     {dataSource.length > 0 ?
                         dataSource.map((value, index) =>

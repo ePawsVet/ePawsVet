@@ -1414,14 +1414,14 @@ Remove or comment-out the code block below to see how the browser will fall-back
   background-color: white;
 }
 .notif-header-info{
-  font-size: 12px;
+  font-size: 15px;
   display: inline-block;
   margin-left: 9px;
   margin-top: 0px !important;
   margin-bottom: 0px !important;
 }
 .notif-markall{
-  margin-left: 30px !important;
+  margin-left: 25px !important;
   color: blue;
 
 }
