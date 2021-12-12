@@ -1363,10 +1363,18 @@ Remove or comment-out the code block below to see how the browser will fall-back
   width: 280px;
   position: absolute;
   right: 0;
-  overflow: auto;
   border-radius: 5px;
-  max-height: 311px;
   z-index: 10;
+}
+.notif-body{
+  background-color: #e27d60;
+  color: black;
+  width: 280px;
+  position: absolute;
+  overflow: auto;
+  max-height: 295px;
+  z-index: 10;
+
 }
 .notif-message {
     text-overflow: ellipsis;
@@ -1388,20 +1396,20 @@ Remove or comment-out the code block below to see how the browser will fall-back
   background-color: #ececec;
 }
 
-.notif-data-container::-webkit-scrollbar-track
+.notif-body::-webkit-scrollbar-track
 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 	background-color: #F5F5F5;
   border-radius: 5px;
 }
 
-.notif-data-container::-webkit-scrollbar
+.notif-body::-webkit-scrollbar
 {
 	width: 10px;
 	background-color: #F5F5F5;
 }
 
-.notif-data-container::-webkit-scrollbar-thumb
+.notif-body::-webkit-scrollbar-thumb
 {
 	background-color: #7cc1ac;
 	border: 2px solid #bdbcbc;
@@ -1421,7 +1429,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
   margin-bottom: 0px !important;
 }
 .notif-markall{
-  margin-left: 25px !important;
+  margin-left: 35px !important;
   color: blue;
 
 }

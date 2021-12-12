@@ -162,15 +162,17 @@ const Notifications = () => {
                         <h5 className="notif-header-info"><strong>Notifications</strong></h5>
                         <span className="notif-header-info notif-markall" onClick={markAllasRead}>Mark all as Read</span>
                     </div>
-                    {dataSource.length > 0 ?
-                        dataSource.map((value, index) =>
-                            <div onClick={() => NotificationModal(value, 'notif-info-' + index)} key={index} className={'notif-info notif-info-' + index + (value.isRead === false ? ' notif-info-unread' : ' notif-info-read')}>
-                                <h5 className='notif-message notif'><strong>{value.title}</strong></h5>
-                                <div className='notif-message notif'>{value.message}</div>
-                                <span className='notif-text notif'>{getDiff(value.dateCreated)}</span>
-                            </div>
-                        ) : <div className='notif-empty'>No notifications</div>
-                    }
+                    <div className="notif-body">
+                        {dataSource.length > 0 ?
+                            dataSource.map((value, index) =>
+                                <div onClick={() => NotificationModal(value, 'notif-info-' + index)} key={index} className={'notif-info notif-info-' + index + (value.isRead === false ? ' notif-info-unread' : ' notif-info-read')}>
+                                    <h5 className='notif-message notif'><strong>{value.title}</strong></h5>
+                                    <div className='notif-message notif'>{value.message}</div>
+                                    <span className='notif-text notif'>{getDiff(value.dateCreated)}</span>
+                                </div>
+                            ) : <div className='notif-empty'>No notifications</div>
+                        }
+                    </div>
                 </div>
             </div>
 
