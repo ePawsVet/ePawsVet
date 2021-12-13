@@ -26,6 +26,7 @@ const Notifications = () => {
             function handleClickOutside(event) {
                 if (ref.current && !ref.current.contains(event.target)) {
                     setShowNotificatons(false)
+                    refreshNotif()
                 }
             }
 
@@ -74,6 +75,7 @@ const Notifications = () => {
 
     const notifHandler = () => {
         setShowNotificatons(!showNotificatons)
+        refreshNotif()
     }
     const NotificationModal = (data, classNm) => {
         setModalData(data)
@@ -109,10 +111,29 @@ const Notifications = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     {userInfo && userInfo.userType === "Admin" ? <Button onClick={goToNotif}>Go</Button> : null}
-                    <Button onClick={() => setOpenModal(false)}>Close</Button>
+                    <Button onClick={closeNotifModal}>Close</Button>
                 </Modal.Footer>
             </Modal>
         );
+    }
+    const closeNotifModal = () => {
+        setOpenModal(false)
+        refreshNotif()
+    }
+    const refreshNotif = () => {
+        if (userInfo) {
+            db
+                .collection("Notifications")
+                .where("forUser", "==", userInfo ? userInfo.userType === "Admin" ? "Admin" : currentUser.uid : currentUser.uid)
+                .get()
+                .then((querySnapshot) => {
+                    const data = querySnapshot.docs.map(doc => ({
+                        ...doc.data(),
+                        id: doc.id,
+                    }));
+                    setDataSource(data);
+                })
+        }
     }
     const markAllasRead = () => {
         if (dataSource.length > 0)
@@ -165,7 +186,7 @@ const Notifications = () => {
                         {dataSource.length > 0 ?
                             dataSource.map((value, index) =>
                                 <div onClick={() => NotificationModal(value, 'notif-info-' + index)} key={index} className={'notif-info notif-info-' + index + (value.isRead === false ? ' notif-info-unread' : ' notif-info-read')}>
-                                    <CalendarIcons date={value.dateCreated}/>
+                                    <CalendarIcons date={value.dateCreated} />
                                     <div className='notif-message notif'><strong>{value.title}</strong></div>
                                     <div className='notif-message notif'>{value.message}</div>
                                     <div className='notif-text'>{getDiff(value.dateCreated)}</div>
@@ -189,7 +210,7 @@ const Notifications = () => {
 
             <NotificationsInfo
                 show={openModal}
-                onHide={() => setOpenModal(false)}
+                onHide={closeNotifModal}
             />
         </>
     )
