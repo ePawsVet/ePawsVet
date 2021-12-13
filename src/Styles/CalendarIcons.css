@@ -1,0 +1,28 @@
+
+.date-icon-container {
+    width: 37px;
+    height: 37px;
+    border-radius: 5px;
+    font-size: 9px;
+    text-align: center;
+    margin-top: 4px;
+    position: absolute;
+  }
+  .date-icon-header{
+    height: 35%;
+    background-color: rgb(13, 164, 114);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  
+  }
+  .date-icon-body{
+    height: 30%;
+    background-color: rgb(250, 250, 250);
+  }
+  .date-icon-footer{
+    height: 35%;
+    background-color: rgb(13, 164, 114);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  
+  }

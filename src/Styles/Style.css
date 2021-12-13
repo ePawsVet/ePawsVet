@@ -1388,7 +1388,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
   background-color: #e27d60;
 }
 .notif-info{
-  padding: 2px;
+  padding: 7px;
   border-bottom: 1px solid;
 }
 .notif-info-unread{
@@ -1436,8 +1436,9 @@ Remove or comment-out the code block below to see how the browser will fall-back
 
 }
 .notif{
-  margin-left: 9px;
+  margin-left: 42px;
 }
+
 .notif-text{
   font-size: 10px;
   color: #6e6a6a;
