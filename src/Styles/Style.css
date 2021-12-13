@@ -1358,7 +1358,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
   position: absolute;
 }
 .notif-data-container{
-  background-color: #e27d60;
+  background-color: #ececec;
   color: black;
   width: 280px;
   position: absolute;
