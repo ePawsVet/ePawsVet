@@ -370,7 +370,7 @@ export default function WeeklyReport({ page = "" }) {
                   </tr>
                   <tr>
                     <td colSpan={7} style={{ textAlign: "right" }}>TOTAL</td>
-                    <td colSpan={1}>Php.{hrs}</td>
+                    <td colSpan={1}>Php {hrs.toFixed(2)}</td>
                   </tr>
                 </tbody>
               </>
