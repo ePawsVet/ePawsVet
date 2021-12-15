@@ -136,7 +136,7 @@ const Notifications = () => {
                         id: doc.id,
                     }));
                     var sortedData = data.sort(function (a, b) {
-                        return new Date(a.dateCreated) - new Date(b.dateCreated)
+                        return new Date(b.dateCreated) - new Date(a.dateCreated)
                     });
                     setDataSource(sortedData);
                 })
