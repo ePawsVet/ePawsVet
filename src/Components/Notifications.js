@@ -68,7 +68,11 @@ const Notifications = () => {
                         ...doc.data(),
                         id: doc.id,
                     }));
-                    setDataSource(data);
+
+                    var sortedData = data.sort(function (a, b) {
+                        return new Date(a.dateCreated) - new Date(b.dateCreated)
+                    });
+                    setDataSource(sortedData);
                 })
         return unsubscribe
     }, [currentUser, userInfo])
@@ -131,7 +135,10 @@ const Notifications = () => {
                         ...doc.data(),
                         id: doc.id,
                     }));
-                    setDataSource(data);
+                    var sortedData = data.sort(function (a, b) {
+                        return new Date(a.dateCreated) - new Date(b.dateCreated)
+                    });
+                    setDataSource(sortedData);
                 })
         }
     }
