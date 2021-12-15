@@ -193,11 +193,11 @@ export default function Navbars({ title = "" }) {
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
                     </Nav>
-                    <Nav className="me-auto nav">
+                    <Nav className={"me-auto nav nav-title-" + title}>
                         <Navbar.Brand>E-Paws Veterinary</Navbar.Brand>
                     </Nav>
                     <Nav className="nav-notif">
-                        <Notifications/>
+                        <Notifications />
                     </Nav>
                     <Nav className="nav-logout" >
                         <Nav.Link className="navbar-logout" onClick={handleLogout}><FiLogOut /> Logout</Nav.Link>

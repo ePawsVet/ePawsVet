@@ -633,3 +633,6 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark {
 .container {
     max-width: fit-content !important;
 }
+.nav-title-Home {
+  margin-left: 33% !important;
+}
