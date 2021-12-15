@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Navbar, Nav, ListGroup, Image } from 'react-bootstrap'
+import { Navbar, Nav, ListGroup, Image, Dropdown } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 import { useAuth } from '../Contexts/AuthContext'
 import { GiHamburgerMenu, GiMedicinePills } from 'react-icons/gi';
@@ -199,9 +199,14 @@ export default function Navbars({ title = "" }) {
                     <Nav className="nav-notif">
                         <Notifications />
                     </Nav>
-                    <Nav className="nav-logout" >
-                        <Nav.Link className="navbar-logout" onClick={handleLogout}><FiLogOut /> Logout</Nav.Link>
-                    </Nav>
+                    <Dropdown className="nav-logout">
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Nav.Link className="navbar-logout" onClick={handleLogout}><FiLogOut /> Logout</Nav.Link>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </Navbar.Collapse>
             </Navbar>
 
