@@ -622,8 +622,9 @@ img.img-responsive {
     height: 300px !important;
 }
 
+
 /* navbar */
-nav.navbar.navbar-expand-lg.navbar-dark.bg-dark {
+/* nav.navbar.navbar-expand-lg.navbar-dark.bg-dark {
     margin-bottom: 0px;
 }
 .nav-logout{
@@ -635,4 +636,18 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark {
 }
 .nav-title-Home {
   margin-left: 33% !important;
+} */
+
+/* Images */
+.portfolio-items{
+  display: contents;
+}
+.portfolio-item {
+  margin: 1px !important;
+}
+#row {
+  display: flex !important;
+}
+.section-title{
+  margin: auto !important;
 }

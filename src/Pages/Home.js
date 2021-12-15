@@ -20,7 +20,7 @@ export default function Home() {
   return (
     <>
 
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    {/* <link rel="stylesheet" type="text/css" href="css/bootstrap.css" /> */}
     
     <Navbars title="Home"></Navbars>
     <Header data={landingPageData.Header}/>
