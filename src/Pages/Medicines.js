@@ -71,7 +71,7 @@ export default function Inventory() {
       render: (text, record) => (
         <Space size="middle">
           <Button onClick={() => editHandler(record)} type="primary" shape="round" icon={<EditFilled />} size="small">Edit</Button>
-          <Button onClick={() => deleteHandler(record)} type="primary" shape="round" icon={<DeleteFilled />} size="small">Delete</Button>
+          <Button onClick={() => deletePrompt(record)} type="primary" shape="round" icon={<DeleteFilled />} size="small">Delete</Button>
         </Space>
       ),
     },
@@ -142,6 +142,12 @@ export default function Inventory() {
     setEditData(record)
     setIsModalVisible(true);
   }
+  const [toBeDeleted, setToBeDeleted] = useState([])
+  const deletePrompt = (info) => {
+    setToBeDeleted(info)
+    setConfirmModalShow(true)
+  }
+
   const deleteHandler = (record) => {
     db
       .collection("Meds")
@@ -152,6 +158,27 @@ export default function Inventory() {
       }).catch((error) => {
         alert("Error removing document: ", error);
       });
+      setConfirmModalShow(false)
+  }
+  const [confirmModalShow, setConfirmModalShow] = useState(false);
+  const ConfirmModal = (props) => {
+    return (
+
+      <Modal
+        title="Confirm Delete"
+        visible={confirmModalShow}
+        onCancel={() => setConfirmModalShow(false)}
+        footer={[
+          <Button onClick={() => deleteHandler(toBeDeleted)}>Yes</Button>,
+          <Button onClick={props.onHide}>Cancel</Button>
+        ]}
+      >
+        <p>
+          Are you sure you want to delete this record?
+        </p>
+
+      </Modal>
+    );
   }
 
   const handleCancel = () => {
@@ -257,8 +284,11 @@ export default function Inventory() {
 
       {/* TABLE */}
       <Table {...expandable} columns={columns} dataSource={meds} />
-      <WeeklyReport page="Medicines"/>
-
+      <WeeklyReport page="Medicines" />
+      <ConfirmModal
+        show={confirmModalShow}
+        onHide={() => setConfirmModalShow(false)}
+      />
     </>
   )
 }
