@@ -242,6 +242,11 @@ const ClientProfile = () => {
         setPetImageShow(true)
     }
 
+    const [toBeDeleted, setToBeDeleted] = useState([])
+    const deletePrompt = (info) => {
+        setToBeDeleted(info)
+        setConfirmModalShow(true)
+    }
     const deletePet = (info) => {
         db
             .collection("Pet_Info")
@@ -253,6 +258,7 @@ const ClientProfile = () => {
             }).catch((error) => {
                 toast.error("Error removing document: ", error);
             });
+        setConfirmModalShow(false)
     }
 
     const editOwner = (info) => {
@@ -260,6 +266,34 @@ const ClientProfile = () => {
     }
     const openUploader = () => {
         setEditImageShow(true)
+    }
+
+
+    const [confirmModalShow, setConfirmModalShow] = useState(false);
+    const ConfirmModal = (props) => {
+        return (
+            <Modal
+                {...props}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        Confirm Delete
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>
+                        Are you sure you want to delete this record?
+                    </p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button onClick={() => deletePet(toBeDeleted)}>Yes</Button>
+                    <Button onClick={props.onHide}>Cancel</Button>
+                </Modal.Footer>
+            </Modal>
+        );
     }
     const AddPetModal = (props) => {
         return (
@@ -365,7 +399,7 @@ const ClientProfile = () => {
     return (
         <>
             <Navbars title="Profile"></Navbars>
-            <ToastContainer theme="colored"/>
+            <ToastContainer theme="colored" />
             <div className="client-profile profile-container">
                 {loading ?
                     <Loader className="loading-spinner"
@@ -451,7 +485,7 @@ const ClientProfile = () => {
 
                                         <div className="gallery-item-info">
                                             {userInfo ? userInfo.userType === "Client" ?
-                                                <button onClick={() => deletePet(info)} className="btns pet-delete-btn"><FaTrashAlt></FaTrashAlt></button> : "" : ""
+                                                <button onClick={() => deletePrompt(info)} className="btns pet-delete-btn"><FaTrashAlt></FaTrashAlt></button> : "" : ""
                                             }
                                             <ul>
                                                 <li className="gallery-item-likes"><span className="visually-hidden">Pet Name:</span><IoMdPaw></IoMdPaw> {info.PetName}</li>
@@ -501,6 +535,10 @@ const ClientProfile = () => {
             <CreateVetModal
                 show={vetModalShow}
                 onHide={closeVetModal}
+            />
+            <ConfirmModal
+                show={confirmModalShow}
+                onHide={() => setConfirmModalShow(false)}
             />
         </>
     )
