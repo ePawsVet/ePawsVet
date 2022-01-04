@@ -68,7 +68,7 @@ export default function SignupVet({ close = null }) {
                     <h3 className="text-center mb-4"><FaUser className="owner-icon" />Vet Info</h3>
                     {ownerError && <Alert variant="danger">{ownerError}</Alert>}
                     <Form.Group id="owner-name" className="required">
-                        <Form.Label>Name of Veterinarian</Form.Label>
+                        <Form.Label>Name of Admin</Form.Label>
                         <Form.Control type="text" required ref={ownerRef} />
                     </Form.Group>
                     <Form.Group id="owner-address" className="required">
@@ -96,7 +96,7 @@ export default function SignupVet({ close = null }) {
                     </Form.Group>
                 </div>
                 <Button disabled={loading} className="w-90 text-center mt-2" type="submit">
-                    Create Vet
+                    Create Admin
                 </Button>
             </Form>
         </>

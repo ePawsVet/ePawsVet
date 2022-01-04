@@ -387,7 +387,7 @@ const ClientProfile = () => {
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
-                        Create New Veterinarian
+                        Create New Admin
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="create-new-container">
@@ -435,7 +435,7 @@ const ClientProfile = () => {
                                 <button onClick={() => editOwner(userInfo)} className="btns profile-edit-btn">Edit Profile</button>
                                 {userInfo ? userInfo.userType === "Client" ?
                                     <button onClick={createPet} className="btns profile-settings-btn" aria-label="profile settings"><MdPets /><GoPlusSmall /> Add Pet</button>
-                                    : <button onClick={createVet} className="btns profile-settings-btn" aria-label="profile settings"><FaUser /><GoPlusSmall /> Add Vet</button> : ""
+                                    : <button onClick={createVet} className="btns profile-settings-btn" aria-label="profile settings"><FaUser /><GoPlusSmall /> Add Admin</button> : ""
                                 }
                             </div>
 
