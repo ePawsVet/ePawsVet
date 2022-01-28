@@ -65,7 +65,7 @@ export default function SignupVet({ close = null }) {
             {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={SignupHandler}>
                 <div className="row">
-                    <h3 className="text-center mb-4"><FaUser className="owner-icon" />Vet Info</h3>
+                    <h3 className="text-center mb-4"><FaUser className="owner-icon" />Admin Info</h3>
                     {ownerError && <Alert variant="danger">{ownerError}</Alert>}
                     <Form.Group id="owner-name" className="required">
                         <Form.Label>Name of Admin</Form.Label>

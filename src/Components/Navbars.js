@@ -194,7 +194,7 @@ export default function Navbars({ title = "" }) {
                     <Nav className="me-auto">
                     </Nav>
                     <Nav className={"me-auto nav nav-title-" + title}>
-                        <Navbar.Brand>E-Paws Veterinary</Navbar.Brand>
+                        <Navbar.Brand>ePaws Veterinary</Navbar.Brand>
                     </Nav>
                     <Nav className="nav-notif">
                         <Notifications />
