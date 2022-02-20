@@ -9,6 +9,7 @@ import emailjs from 'emailjs-com';
 import { CalendarOutlined } from '@ant-design/icons';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import createSorted from '../Components/Algorithm';
 
 
 
@@ -56,9 +57,9 @@ export default function Appointments() {
       db
         .collection('Appointments')
         .where("status", "!=", "Cancelled")
-        .orderBy("status")
-        .orderBy("priority")
-        .orderBy("time")
+        // .orderBy("status")
+        // .orderBy("priority")
+        // .orderBy("time")
         .onSnapshot(querySnapshot => {
           const data = querySnapshot.docs.map(doc => ({
             ...doc.data(),
@@ -70,17 +71,17 @@ export default function Appointments() {
   }, [])
 
   useEffect(() => {
-      db
-        .collection('Approved_Dates')
-        .onSnapshot(querySnapshot => {
-          const data = querySnapshot.docs.map(doc => ({
-            ...doc.data()
-          }));
-          setApprovedDates([])
-          data.forEach(dt=>{
-            setApprovedDates(approvedDates => [...approvedDates,dt.approvedDate])
-          })
+    db
+      .collection('Approved_Dates')
+      .onSnapshot(querySnapshot => {
+        const data = querySnapshot.docs.map(doc => ({
+          ...doc.data()
+        }));
+        setApprovedDates([])
+        data.forEach(dt => {
+          setApprovedDates(approvedDates => [...approvedDates, dt.approvedDate])
         })
+      })
   }, [])
 
   const getAddedDays = () => {
@@ -174,15 +175,15 @@ export default function Appointments() {
             to_email: evt.email,
             to_name: evt.clientName,
             reason: evt.reason,
-            sched: evt.Date + " at " + dtTime.format('hh:mm A') + " to "+moment(dtTime).add(evt.span, 'minutes').format('hh:mm A')
+            sched: evt.Date + " at " + dtTime.format('hh:mm A') + " to " + moment(dtTime).add(evt.span, 'minutes').format('hh:mm A')
           };
 
-          emailjs.send('scheduleEmail', 'schedule_template', templateParams,'user_q4V9lFfLOBoJCZa2j8NVZ')
-              .then(function(response) {
+          emailjs.send('scheduleEmail', 'schedule_template', templateParams, 'user_q4V9lFfLOBoJCZa2j8NVZ')
+            .then(function (response) {
               console.log('SUCCESS!', response.status, response.text);
-              }, function(error) {
+            }, function (error) {
               console.log('FAILED...', error);
-              });
+            });
         }
       })
     } else {
@@ -289,6 +290,8 @@ export default function Appointments() {
       </Modal>
     );
   }
+
+  console.log(createSorted(evts, evts.length));
   return (
     <>
       <Navbars title="Appointments"></Navbars>

@@ -194,6 +194,17 @@ export default function ScheduleList() {
           .update({
             "Quantity": precription.quantity - 1
           });
+
+        if (precription.quantity - 1 < 11) {
+          db.collection('Notifications').add({
+            date: moment().format('L'),
+            dateCreated: (new Date()).toString(),
+            forUser: "Admin",
+            isRead: false,
+            message: "As of " + moment().format('L') + " the item " + precription.value + " has only " + (precription.quantity - 1) + " stocks remaining.",
+            title: "Appointment notification",
+          })
+        }
       })
     }
 
@@ -249,15 +260,15 @@ export default function ScheduleList() {
             "status": "Approved"
           });
 
-          db.collection('Notifications').add({
-            date: record.date,
-            dateCreated: (new Date()).toString(),
-            forUser: record.client,
-            isRead: false,
-            message: "Your appointment on " + moment(record.date).format('MMMM Do YYYY')+" has been Approved",
-            title: "Appointment approved",
-          })
-      
+        db.collection('Notifications').add({
+          date: record.date,
+          dateCreated: (new Date()).toString(),
+          forUser: record.client,
+          isRead: false,
+          message: "Your appointment on " + moment(record.date).format('MMMM Do YYYY') + " has been Approved",
+          title: "Appointment approved",
+        })
+
         toast.success("Task has been Approved")
       }
       else if (record.status[0] === "Approved") {
