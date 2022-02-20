@@ -498,7 +498,7 @@ const ClientProfile = () => {
                                             </ul>
                                             {userInfo ? userInfo.userType === "Client" ?
                                                 <ul className="pet-btn-container">
-                                                    <button onClick={() => editPet(info)} className="btns pet-btn">Edit Pet</button>
+                                                    <button onClick={() => editPet(info)} className="btns pet-btn">Edit Pets Profile</button>
                                                     <button onClick={() => editPetImage(info)} className="btns pet-btn">Add Image</button>
                                                 </ul> : "" : ""
                                             }

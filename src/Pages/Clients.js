@@ -275,7 +275,7 @@ export default function Clients() {
                           <thead>
                             <tr>
                               <th colSpan="1">
-                                <Button className="client-card-buttons w-40" onClick={() => editPet(info)} variant="warning"><RiPencilFill /> Edit Pet</Button>
+                                <Button className="client-card-buttons w-40" onClick={() => editPet(info)} variant="warning"><RiPencilFill /> Edit Pets Profile</Button>
                                 <Button className="client-card-buttons w-40" onClick={() => deletePrompt(info,"pet")} variant="danger"><FaTrashAlt /> Delete Pet</Button>
                               </th>
                               <th colSpan="2">{info.PetName}</th>
