@@ -202,7 +202,7 @@ export default function ScheduleList() {
             forUser: "Admin",
             isRead: false,
             message: "As of " + moment().format('L') + " the item " + precription.value + " has only " + (precription.quantity - 1) + " stocks remaining.",
-            title: "Appointment notification",
+            title: "Stock notification",
           })
         }
       })
